@@ -8,20 +8,20 @@ export default function Navbar() {
 
   return (
     <nav className="border-b border-zinc-800 bg-zinc-950">
-      <div className="mx-auto flex h-16 max-w-5xl items-center justify-between px-6">
+      <div className="flex h-16 items-center justify-between px-6">
         <Link href="/" className="text-lg font-semibold tracking-tight text-white">
           DocxFlow
         </Link>
         <div className="flex items-center gap-8">
           <Link
-            href="/"
+            href="/docs"
             className={`text-sm font-medium transition-colors ${
-              pathname === "/"
+              pathname === "/docs"
                 ? "text-white"
                 : "text-zinc-400 hover:text-zinc-200"
             }`}
           >
-            Convert
+            Docs
           </Link>
           <Link
             href="/pricing"
@@ -32,6 +32,22 @@ export default function Navbar() {
             }`}
           >
             Pricing
+          </Link>
+          <Link
+            href="/convert"
+            className={`text-sm font-medium transition-colors ${
+              pathname === "/convert"
+                ? "text-white"
+                : "text-zinc-400 hover:text-zinc-200"
+            }`}
+          >
+            Try It
+          </Link>
+          <Link
+            href="/signin"
+            className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+          >
+            Sign In
           </Link>
         </div>
       </div>

@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DocxFlow — DOCX to PDF Converter",
-  description: "Upload .doc and .docx files and convert them to PDF instantly.",
+  title: "DocxFlow — Document Conversion API",
+  description: "Convert DOCX files to PDF with a single API call. Built for developers.",
 };
 
 export default function RootLayout({

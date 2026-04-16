@@ -1,223 +1,117 @@
-"use client";
-
-import { useState, useRef, useCallback } from "react";
-
-type ConvertState = "idle" | "converting" | "done";
+import Link from "next/link";
 
 export default function Home() {
-  const [file, setFile] = useState<File | null>(null);
-  const [dragActive, setDragActive] = useState(false);
-  const [convertState, setConvertState] = useState<ConvertState>("idle");
-  const [progress, setProgress] = useState(0);
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  function handleDrag(e: React.DragEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true);
-    } else if (e.type === "dragleave") {
-      setDragActive(false);
-    }
-  }
-
-  function handleDrop(e: React.DragEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    const dropped = e.dataTransfer.files?.[0];
-    if (dropped && isDocFile(dropped.name)) {
-      setFile(dropped);
-    }
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const selected = e.target.files?.[0];
-    console.log("Selected file:", selected);
-    if (selected && isDocFile(selected.name)) {
-      setFile(selected);
-      setConvertState("idle");
-      setProgress(0);
-    }
-  }
-
-  function isDocFile(name: string) {
-    return /\.(doc|docx)$/i.test(name);
-  }
-
-  function formatSize(bytes: number) {
-    if (bytes < 1024) return bytes + " B";
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-  }
-
-  function removeFile() {
-    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    setDownloadUrl(null);
-    setFile(null);
-    setConvertState("idle");
-    setProgress(0);
-    if (inputRef.current) inputRef.current.value = "";
-  }
-
-  const handleConvert = useCallback(() => {
-    if (!file || convertState === "converting") return;
-
-    setConvertState("converting");
-    setProgress(0);
-
-    // Simulate progress — replace with real API upload later
-    let current = 0;
-    const interval = setInterval(() => {
-      current += Math.random() * 15 + 5;
-      if (current >= 100) {
-        current = 100;
-        clearInterval(interval);
-        setProgress(100);
-        setConvertState("done");
-
-        // Prepare download URL (stub until API is wired up)
-        const url = URL.createObjectURL(file);
-        setDownloadUrl(url);
-      } else {
-        setProgress(Math.round(current));
-      }
-    }, 200);
-  }, [file, convertState]);
-
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-20">
-      <div className="w-full max-w-xl text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-white">
-          Convert DOCX to PDF
-        </h1>
-        <p className="mt-3 text-zinc-400">
-          Upload a <span className="text-zinc-300">.doc</span> or{" "}
-          <span className="text-zinc-300">.docx</span> file and convert it to
-          PDF instantly.
-        </p>
-
-        <div
-          onDragEnter={handleDrag}
-          onDragOver={handleDrag}
-          onDragLeave={handleDrag}
-          onDrop={handleDrop}
-          onClick={() => inputRef.current?.click()}
-          className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-16 transition-colors ${
-            dragActive
-              ? "border-zinc-400 bg-zinc-800/60"
-              : "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/40"
-          }`}
-        >
-          <svg
-            className="mb-4 h-10 w-10 text-zinc-500"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"
-            />
-          </svg>
-          <p className="text-sm text-zinc-400">
-            <span className="font-medium text-zinc-200">Click to upload</span>{" "}
-            or drag and drop
-          </p>
-          <p className="mt-1 text-xs text-zinc-500">.doc or .docx files only</p>
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".doc,.docx"
-            className="hidden"
-            onChange={handleChange}
-          />
+    <div className="flex flex-1 flex-col">
+      {/* Hero */}
+      <section className="flex flex-col items-center px-6 pt-20 pb-16 text-center">
+        <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs font-medium text-zinc-400">
+          DOCX &rarr; PDF &middot; REST API
         </div>
-
-        {file && (
-          <div className="mt-6 flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-4">
-            <div className="flex items-center gap-3 text-left">
-              <svg
-                className="h-8 w-8 shrink-0 text-zinc-500"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              <div>
-                <p className="text-sm font-medium text-zinc-200 truncate max-w-[260px]">
-                  {file.name}
-                </p>
-                <p className="text-xs text-zinc-500">{formatSize(file.size)}</p>
-              </div>
-            </div>
-            <button
-              onClick={removeFile}
-              className="ml-4 text-zinc-500 hover:text-zinc-300 transition-colors"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        )}
-
-        <button
-          disabled={!file || convertState === "converting"}
-          onClick={handleConvert}
-          className={`relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
-            !file
-              ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-              : convertState === "converting"
-                ? "bg-zinc-800 text-white"
-                : convertState === "done"
-                  ? "bg-zinc-800 text-zinc-400"
-                  : "bg-white text-zinc-900 hover:bg-zinc-200"
-          }`}
-        >
-          {/* progress fill layer */}
-          {convertState === "converting" && (
-            <span
-              className="absolute inset-y-0 left-0 bg-zinc-600 transition-[width] duration-200 ease-linear"
-              style={{ width: `${progress}%` }}
-            />
-          )}
-
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            {convertState === "converting" && (
-              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-              </svg>
-            )}
-            {convertState === "idle" && "Convert to PDF"}
-            {convertState === "converting" && `Converting… ${progress}%`}
-            {convertState === "done" && "Conversion Complete"}
-          </span>
-        </button>
-
-        {convertState === "done" && downloadUrl && file && (
-          <a
-            href={downloadUrl}
-            download={file.name.replace(/\.(docx?)$/i, ".pdf")}
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500/20 px-6 py-3.5 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-500/40 transition-colors hover:bg-emerald-500/30 active:bg-emerald-500/40"
+        <h1 className="mt-6 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+          Document conversion API for developers
+        </h1>
+        <p className="mt-4 max-w-xl text-lg text-zinc-400">
+          Convert DOCX files to PDF with a single API call. Built for
+          automation, pipelines, and app integrations.
+        </p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/docs"
+            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
           >
-            <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
-            </svg>
-            Download File
-          </a>
-        )}
-      </div>
+            Read the Docs
+          </Link>
+          <Link
+            href="/convert"
+            className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+          >
+            Try it Online
+          </Link>
+        </div>
+      </section>
+
+      {/* Quick Start snippet */}
+      <section className="mx-auto w-full max-w-3xl px-6 py-12">
+        <h2 className="text-center text-sm font-semibold uppercase tracking-wider text-zinc-500">
+          Quick Start
+        </h2>
+        <div className="mt-6 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+          <div className="flex items-center gap-2 border-b border-zinc-800 px-4 py-2.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+            <span className="h-2.5 w-2.5 rounded-full bg-zinc-700" />
+            <span className="ml-3 text-xs text-zinc-500">cURL</span>
+          </div>
+          <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
+            <code>{`curl -X POST https://api.docxflow.dev/v1/convert \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -F "file=@document.docx" \\
+  -o output.pdf`}</code>
+          </pre>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="mx-auto w-full max-w-4xl px-6 py-16">
+        <div className="grid gap-8 sm:grid-cols-3">
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
+              </svg>
+            </div>
+            <h3 className="mt-4 text-sm font-semibold text-white">Fast Conversion</h3>
+            <p className="mt-2 text-sm text-zinc-400">
+              Sub-second conversions for most documents. No cold starts.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <h3 className="mt-4 text-sm font-semibold text-white">Secure</h3>
+            <p className="mt-2 text-sm text-zinc-400">
+              Files are encrypted in transit and deleted immediately after conversion.
+            </p>
+          </div>
+          <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+              </svg>
+            </div>
+            <h3 className="mt-4 text-sm font-semibold text-white">Simple Integration</h3>
+            <p className="mt-2 text-sm text-zinc-400">
+              One endpoint, multipart upload, PDF response. Works with any language.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="flex flex-col items-center px-6 py-16 text-center">
+        <h2 className="text-2xl font-bold text-white">Ready to integrate?</h2>
+        <p className="mt-3 max-w-md text-zinc-400">
+          Get your free API key and start converting documents in minutes.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+          <Link
+            href="/docs"
+            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+          >
+            View Documentation
+          </Link>
+          <Link
+            href="/pricing"
+            className="text-sm font-medium text-zinc-400 underline underline-offset-4 transition-colors hover:text-zinc-200"
+          >
+            See Pricing
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
