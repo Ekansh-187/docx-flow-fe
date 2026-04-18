@@ -24,7 +24,7 @@ export const documentEndpoints = (apiSlice: ApiSlice) =>
 
       convertDocument: builder.mutation<IDocument, FormData>({
         query: (body) => ({
-          url: "file-converter/convert",
+          url: "file-convertor/convert",
           method: "POST",
           body,
           // Skip Content-Type so browser sets multipart/form-data boundary

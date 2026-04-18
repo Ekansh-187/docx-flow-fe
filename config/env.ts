@@ -32,10 +32,11 @@ declare global {
   }
 }
 
-// const env = window._env_ ? window._env_ : process.env;
-const env = process.env;
+const env = typeof window !== "undefined" && window._env_ ? window._env_ : process.env;
+// const env = process.env;
 export const envConfig = {
-  apiBaseUrl: env.NEXT_PUBLIC_DOCX_CONVERTER_API,
+  // Must reference process.env.NEXT_PUBLIC_* directly for Next.js build-time inlining
+  apiBaseUrl: process.env.NEXT_PUBLIC_DOCX_CONVERTER_API,
   sourceType: env.VITE_SOURCE_TYPE,
   storageAccount: env.VITE_STORAGE_ACCOUNT,
   containerName: env.VITE_CONTAINER_NAME,
