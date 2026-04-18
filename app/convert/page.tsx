@@ -72,11 +72,10 @@ export default function ConvertPage() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const result = await convertDocument(formData).unwrap();
+      const blob = await convertDocument(formData).unwrap();
+      const url = URL.createObjectURL(blob);
+      setDownloadUrl(url);
       setConvertState("done");
-      if (result.downloadUrl) {
-        setDownloadUrl(result.downloadUrl);
-      }
     } catch {
       setConvertState("error");
       setErrorMessage("Conversion failed. Please try again.");

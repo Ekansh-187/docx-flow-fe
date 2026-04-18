@@ -22,15 +22,15 @@ export const documentEndpoints = (apiSlice: ApiSlice) =>
         providesTags: ["Document"],
       }),
 
-      convertDocument: builder.mutation<IDocument, FormData>({
+      convertDocument: builder.mutation<Blob, FormData>({
         query: (body) => ({
           url: "file-convertor/convert",
           method: "POST",
           body,
           // Skip Content-Type so browser sets multipart/form-data boundary
           headers: {},
+          responseHandler: (response) => response.blob(),
         }),
-        transformResponse: (res: IResponseWrapper<IDocument>) => res.data,
         invalidatesTags: ["Document"],
       }),
 
