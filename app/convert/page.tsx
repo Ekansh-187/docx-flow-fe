@@ -1,16 +1,18 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { useConvertDocumentMutation } from "@/rtk-query";
 
-type ConvertState = "idle" | "converting" | "done";
+type ConvertState = "idle" | "converting" | "done" | "error";
 
 export default function ConvertPage() {
   const [file, setFile] = useState<File | null>(null);
   const [dragActive, setDragActive] = useState(false);
   const [convertState, setConvertState] = useState<ConvertState>("idle");
-  const [progress, setProgress] = useState(0);
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [convertDocument] = useConvertDocumentMutation();
 
   function handleDrag(e: React.DragEvent) {
     e.preventDefault();
@@ -37,7 +39,7 @@ export default function ConvertPage() {
     if (selected && isDocFile(selected.name)) {
       setFile(selected);
       setConvertState("idle");
-      setProgress(0);
+      setErrorMessage(null);
     }
   }
 
@@ -56,32 +58,30 @@ export default function ConvertPage() {
     setDownloadUrl(null);
     setFile(null);
     setConvertState("idle");
-    setProgress(0);
+    setErrorMessage(null);
     if (inputRef.current) inputRef.current.value = "";
   }
 
-  const handleConvert = useCallback(() => {
+  const handleConvert = useCallback(async () => {
     if (!file || convertState === "converting") return;
 
     setConvertState("converting");
-    setProgress(0);
+    setErrorMessage(null);
 
-    let current = 0;
-    const interval = setInterval(() => {
-      current += Math.random() * 15 + 5;
-      if (current >= 100) {
-        current = 100;
-        clearInterval(interval);
-        setProgress(100);
-        setConvertState("done");
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
 
-        const url = URL.createObjectURL(file);
-        setDownloadUrl(url);
-      } else {
-        setProgress(Math.round(current));
+      const result = await convertDocument(formData).unwrap();
+      setConvertState("done");
+      if (result.downloadUrl) {
+        setDownloadUrl(result.downloadUrl);
       }
-    }, 200);
-  }, [file, convertState]);
+    } catch {
+      setConvertState("error");
+      setErrorMessage("Conversion failed. Please try again.");
+    }
+  }, [file, convertState, convertDocument]);
 
   return (
     <div className="flex flex-1 flex-col items-center justify-center px-6 py-20">
@@ -178,16 +178,11 @@ export default function ConvertPage() {
                 ? "bg-zinc-800 text-white"
                 : convertState === "done"
                   ? "bg-zinc-800 text-zinc-400"
-                  : "bg-white text-zinc-900 hover:bg-zinc-200"
+                  : convertState === "error"
+                    ? "bg-white text-zinc-900 hover:bg-zinc-200"
+                    : "bg-white text-zinc-900 hover:bg-zinc-200"
           }`}
         >
-          {convertState === "converting" && (
-            <span
-              className="absolute inset-y-0 left-0 bg-zinc-600 transition-[width] duration-200 ease-linear"
-              style={{ width: `${progress}%` }}
-            />
-          )}
-
           <span className="relative z-10 flex items-center justify-center gap-2">
             {convertState === "converting" && (
               <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -196,8 +191,9 @@ export default function ConvertPage() {
               </svg>
             )}
             {convertState === "idle" && "Convert to PDF"}
-            {convertState === "converting" && `Converting… ${progress}%`}
+            {convertState === "converting" && "Converting…"}
             {convertState === "done" && "Conversion Complete"}
+            {convertState === "error" && "Retry Conversion"}
           </span>
         </button>
 
@@ -212,6 +208,10 @@ export default function ConvertPage() {
             </svg>
             Download File
           </a>
+        )}
+
+        {convertState === "error" && errorMessage && (
+          <p className="mt-3 text-sm text-red-400">{errorMessage}</p>
         )}
       </div>
     </div>
