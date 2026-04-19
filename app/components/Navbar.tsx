@@ -17,7 +17,7 @@ export default function Navbar() {
     <nav className="border-b border-zinc-800 bg-zinc-950">
       <div className="flex h-16 items-center justify-between px-6">
         <Link href="/" className="text-lg font-semibold tracking-tight text-white">
-          ILoveDox
+          iLoveDox
         </Link>
 
         {/* Desktop nav */}

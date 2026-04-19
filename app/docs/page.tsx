@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import CodeTabs from "./CodeTabs";
 
 export const metadata: Metadata = {
   title: "API Documentation",
@@ -99,32 +100,24 @@ export default function DocsPage() {
             </table>
           </div>
 
-          {/* cURL example */}
+          {/* Code examples */}
           <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            Example &mdash; cURL
+            Examples
           </h3>
-          <div className="mt-3 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
-            <div className="border-b border-zinc-800 px-4 py-2.5">
-              <span className="text-xs text-zinc-500">bash</span>
-            </div>
-            <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-              <code>{`curl -X POST ${apiBaseUrl}file-convertor/convert \\
+          <CodeTabs
+            tabs={[
+              {
+                label: "cURL",
+                lang: "bash",
+                code: `curl -X POST ${apiBaseUrl}file-convertor/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
-  -o output.pdf`}</code>
-            </pre>
-          </div>
-
-          {/* Python example */}
-          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            Example &mdash; Python
-          </h3>
-          <div className="mt-3 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
-            <div className="border-b border-zinc-800 px-4 py-2.5">
-              <span className="text-xs text-zinc-500">python</span>
-            </div>
-            <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-              <code>{`import requests
+  -o output.pdf`,
+              },
+              {
+                label: "Python",
+                lang: "python",
+                code: `import requests
 
 url = "${apiBaseUrl}file-convertor/convert"
 headers = {"Authorization": "Bearer YOUR_API_KEY"}
@@ -133,20 +126,12 @@ with open("document.docx", "rb") as f:
     resp = requests.post(url, headers=headers, files={"file": f})
 
 with open("output.pdf", "wb") as f:
-    f.write(resp.content)`}</code>
-            </pre>
-          </div>
-
-          {/* Node.js example */}
-          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
-            Example &mdash; Node.js
-          </h3>
-          <div className="mt-3 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
-            <div className="border-b border-zinc-800 px-4 py-2.5">
-              <span className="text-xs text-zinc-500">javascript</span>
-            </div>
-            <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-              <code>{`import fs from "node:fs";
+    f.write(resp.content)`,
+              },
+              {
+                label: "Node.js",
+                lang: "javascript",
+                code: `import fs from "node:fs";
 
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("document.docx")]));
@@ -157,9 +142,88 @@ const res = await fetch("${apiBaseUrl}file-convertor/convert", {
   body: form,
 });
 
-fs.writeFileSync("output.pdf", Buffer.from(await res.arrayBuffer()));`}</code>
-            </pre>
-          </div>
+fs.writeFileSync("output.pdf", Buffer.from(await res.arrayBuffer()));`,
+              },
+              {
+                label: "Java",
+                lang: "java",
+                code: `import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ConvertDocx {
+    public static void main(String[] args) throws Exception {
+        String boundary = "----FormBoundary" + System.currentTimeMillis();
+        File file = new File("document.docx");
+
+        HttpURLConnection conn = (HttpURLConnection)
+            new URL("${apiBaseUrl}file-convertor/convert").openConnection();
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Authorization", "Bearer YOUR_API_KEY");
+        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+        try (OutputStream os = conn.getOutputStream()) {
+            String header = "--" + boundary + "\\r\\n"
+                + "Content-Disposition: form-data; name=\\"file\\"; filename=\\"" + file.getName() + "\\"\\r\\n"
+                + "Content-Type: application/octet-stream\\r\\n\\r\\n";
+            os.write(header.getBytes());
+
+            try (FileInputStream fis = new FileInputStream(file)) {
+                fis.transferTo(os);
+            }
+            os.write(("\\r\\n--" + boundary + "--\\r\\n").getBytes());
+        }
+
+        try (InputStream is = conn.getInputStream();
+             FileOutputStream fos = new FileOutputStream("output.pdf")) {
+            is.transferTo(fos);
+        }
+    }
+}`,
+              },
+              {
+                label: "C++",
+                lang: "cpp",
+                code: `#include <cstdio>
+#include <curl/curl.h>
+
+static size_t writeCallback(void* data, size_t size, size_t nmemb, FILE* out) {
+    return fwrite(data, size, nmemb, out);
+}
+
+int main() {
+    CURL* curl = curl_easy_init();
+    if (!curl) return 1;
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, "Authorization: Bearer YOUR_API_KEY");
+
+    curl_mime* mime = curl_mime_init(curl);
+    curl_mimepart* part = curl_mime_addpart(mime);
+    curl_mime_name(part, "file");
+    curl_mime_filedata(part, "document.docx");
+
+    FILE* out = fopen("output.pdf", "wb");
+
+    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}file-convertor/convert");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, out);
+
+    CURLcode res = curl_easy_perform(curl);
+
+    fclose(out);
+    curl_mime_free(mime);
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    return res != CURLE_OK;
+}`,
+              },
+            ]}
+          />
 
           {/* Response */}
           <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
