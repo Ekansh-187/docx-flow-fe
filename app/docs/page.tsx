@@ -3,12 +3,12 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "API Documentation",
   description:
-    "DocxFlow API reference — endpoints, authentication, request/response examples for DOCX to PDF conversion.",
+    "ILoveDox API reference — endpoints, authentication, request/response examples for DOCX to PDF conversion.",
   alternates: { canonical: "https://ilovedox.com/docs" },
 };
 
 export default function DocsPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.docxflow.dev/v1";
+  const baseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev/v1";
   return (
     <div className="flex flex-1 justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
@@ -16,7 +16,7 @@ export default function DocsPage() {
           API Documentation
         </h1>
         <p className="mt-3 text-zinc-400">
-          Everything you need to integrate DocxFlow into your application.
+          Everything you need to integrate ILoveDox into your application.
         </p>
 
         {/* Base URL */}
@@ -108,7 +108,7 @@ export default function DocsPage() {
               <span className="text-xs text-zinc-500">bash</span>
             </div>
             <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-              <code>{`curl -X POST https://api.docxflow.dev/v1/convert \\
+              <code>{`curl -X POST https://api.ilovedox.dev/v1/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`}</code>
@@ -126,7 +126,7 @@ export default function DocsPage() {
             <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
               <code>{`import requests
 
-url = "https://api.docxflow.dev/v1/convert"
+url = "https://api.ilovedox.dev/v1/convert"
 headers = {"Authorization": "Bearer YOUR_API_KEY"}
 
 with open("document.docx", "rb") as f:
@@ -151,7 +151,7 @@ with open("output.pdf", "wb") as f:
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("document.docx")]));
 
-const res = await fetch("https://api.docxflow.dev/v1/convert", {
+const res = await fetch("https://api.ilovedox.dev/v1/convert", {
   method: "POST",
   headers: { Authorization: "Bearer YOUR_API_KEY" },
   body: form,

@@ -1,16 +1,16 @@
 import { combineReducers } from "redux";
 import authUserReducer, { authUserInitialState } from "./auth-user/slice";
-import { docxFlowApiSlice } from "@/rtk-query";
+import { iLoveDoxApiSlice } from "@/rtk-query";
 
 export const initialState = {
   authUser: authUserInitialState,
-  [docxFlowApiSlice.reducerPath]: {},
+  [iLoveDoxApiSlice.reducerPath]: {},
 };
 
 export function createReducer(injectedReducers = {}) {
   return combineReducers({
     authUser: authUserReducer,
-    [docxFlowApiSlice.reducerPath]: docxFlowApiSlice.reducer,
+    [iLoveDoxApiSlice.reducerPath]: iLoveDoxApiSlice.reducer,
     ...injectedReducers,
   });
 }

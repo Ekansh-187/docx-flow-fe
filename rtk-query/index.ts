@@ -1,9 +1,9 @@
 import { documentEndpoints } from "./documentEndpoints";
 
-export { docxFlowApiSlice } from "./apiSlice";
+export { iLoveDoxApiSlice } from "./apiSlice";
 export type { ApiSlice } from "./apiSlice";
 
-import { docxFlowApiSlice } from "./apiSlice";
+import { iLoveDoxApiSlice } from "./apiSlice";
 
 // Inject and re-export hooks
 export const {
@@ -13,4 +13,4 @@ export const {
   useLazyGetDocumentByIdQuery,
   useConvertDocumentMutation,
   useDeleteDocumentMutation,
-} = documentEndpoints(docxFlowApiSlice);
+} = documentEndpoints(iLoveDoxApiSlice);

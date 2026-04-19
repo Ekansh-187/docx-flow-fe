@@ -10,7 +10,7 @@ export default function SignInPage() {
     <div className="flex flex-1 items-center justify-center px-6 py-20">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold tracking-tight text-white text-center">
-          {mode === "signin" ? "Sign in to DocxFlow" : "Create an account"}
+          {mode === "signin" ? "Sign in to ILoveDox" : "Create an account"}
         </h1>
         <p className="mt-2 text-center text-sm text-zinc-400">
           {mode === "signin"

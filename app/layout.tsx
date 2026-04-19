@@ -19,8 +19,8 @@ const SITE_URL = "https://ilovedox.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "DocxFlow — Document Conversion API",
-    template: "%s | DocxFlow",
+    default: "ILoveDox — Document Conversion API",
+    template: "%s | ILoveDox",
   },
   description:
     "Convert DOCX files to PDF with a single API call. REST API built for developers, automation, and app integrations.",
@@ -31,7 +31,7 @@ export const metadata: Metadata = {
     "pdf api",
     "file conversion",
     "developer api",
-    "docxflow",
+    "ilovedox",
   ],
   alternates: {
     canonical: SITE_URL,
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: SITE_URL,
-    siteName: "DocxFlow",
-    title: "DocxFlow — Document Conversion API",
+    siteName: "ILoveDox",
+    title: "ILoveDox — Document Conversion API",
     description:
       "Convert DOCX files to PDF with a single API call. REST API built for developers.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "DocxFlow — Document Conversion API",
+    title: "ILoveDox — Document Conversion API",
     description:
       "Convert DOCX files to PDF with a single API call. REST API built for developers.",
   },

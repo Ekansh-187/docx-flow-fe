@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   "@context": "https://schema.org",
   "@type": "WebApplication",
-  name: "DocxFlow",
+  name: "ILoveDox",
   url: "https://ilovedox.com",
   description:
     "Convert DOCX files to PDF with a single API call. REST API built for developers, automation, and app integrations.",
@@ -70,7 +70,7 @@ export default function Home() {
             <span className="ml-3 text-xs text-zinc-500">cURL</span>
           </div>
           <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-            <code>{`curl -X POST https://api.docxflow.dev/v1/convert \\
+            <code>{`curl -X POST https://api.ilovedox.dev/v1/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`}</code>

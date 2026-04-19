@@ -12,7 +12,7 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import { initialState, createReducer } from "./reducers";
-import { docxFlowApiSlice } from "@/rtk-query";
+import { iLoveDoxApiSlice } from "@/rtk-query";
 
 const persistConfig = {
   key: "root",
@@ -33,11 +33,11 @@ export const createAppStore = () => {
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
           ignoredPaths: [
-            `${docxFlowApiSlice.reducerPath}.queries`,
-            `${docxFlowApiSlice.reducerPath}.mutations`,
+            `${iLoveDoxApiSlice.reducerPath}.queries`,
+            `${iLoveDoxApiSlice.reducerPath}.mutations`,
           ],
         },
-      }).concat(docxFlowApiSlice.middleware),
+      }).concat(iLoveDoxApiSlice.middleware),
     preloadedState: initialState as any,
     devTools: process.env.NODE_ENV !== "production",
   });

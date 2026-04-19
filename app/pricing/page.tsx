@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Pricing",
   description:
-    "DocxFlow API pricing — free tier with 50 conversions per month. Simple, developer-friendly pricing for DOCX to PDF conversion.",
+    "ILoveDox API pricing — free tier with 50 conversions per month. Simple, developer-friendly pricing for DOCX to PDF conversion.",
   alternates: { canonical: "https://ilovedox.com/pricing" },
 };
 
