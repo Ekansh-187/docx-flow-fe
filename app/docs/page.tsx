@@ -1,4 +1,14 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "API Documentation",
+  description:
+    "DocxFlow API reference — endpoints, authentication, request/response examples for DOCX to PDF conversion.",
+  alternates: { canonical: "https://ilovedox.com/docs" },
+};
+
 export default function DocsPage() {
+  const baseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.docxflow.dev/v1";
   return (
     <div className="flex flex-1 justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
@@ -14,7 +24,7 @@ export default function DocsPage() {
           <h2 className="text-xl font-semibold text-white">Base URL</h2>
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
             <code className="text-sm text-zinc-300">
-              https://api.docxflow.dev/v1
+              {baseUrl}
             </code>
           </div>
         </section>

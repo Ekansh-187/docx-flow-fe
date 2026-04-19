@@ -1,8 +1,34 @@
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "https://ilovedox.com" },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  name: "DocxFlow",
+  url: "https://ilovedox.com",
+  description:
+    "Convert DOCX files to PDF with a single API call. REST API built for developers, automation, and app integrations.",
+  applicationCategory: "DeveloperApplication",
+  operatingSystem: "All",
+  offers: {
+    "@type": "Offer",
+    price: "0",
+    priceCurrency: "USD",
+    description: "Free tier — 50 conversions per month",
+  },
+};
 
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Hero */}
       <section className="flex flex-col items-center px-6 pt-20 pb-16 text-center">
         <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs font-medium text-zinc-400">
