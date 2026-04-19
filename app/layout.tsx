@@ -51,6 +51,14 @@ export const metadata: Metadata = {
     description:
       "Convert DOCX files to PDF with a single API call. REST API built for developers.",
   },
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-icon.png" }],
+  },
   robots: {
     index: true,
     follow: true,
