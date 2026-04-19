@@ -25,6 +25,7 @@ export default function Navbar() {
           <Link href="/docs" className={linkClass("/docs")}>Docs</Link>
           <Link href="/pricing" className={linkClass("/pricing")}>Pricing</Link>
           <Link href="/convert" className={linkClass("/convert")}>Try It</Link>
+          <Link href="/contact" className={linkClass("/contact")}>Contact Us</Link>
           <Link
             href="/signin"
             className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
@@ -57,6 +58,7 @@ export default function Navbar() {
           <Link href="/docs" className={linkClass("/docs")} onClick={() => setMenuOpen(false)}>Docs</Link>
           <Link href="/pricing" className={linkClass("/pricing")} onClick={() => setMenuOpen(false)}>Pricing</Link>
           <Link href="/convert" className={linkClass("/convert")} onClick={() => setMenuOpen(false)}>Try It</Link>
+          <Link href="/contact" className={linkClass("/contact")} onClick={() => setMenuOpen(false)}>Contact Us</Link>
           <Link
             href="/signin"
             className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
