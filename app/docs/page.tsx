@@ -62,7 +62,7 @@ export default function DocsPage() {
             <span className="rounded bg-emerald-500/20 px-2.5 py-1 text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30">
               POST
             </span>
-            <code className="text-sm text-zinc-300">/v1/convert</code>
+            <code className="text-sm text-zinc-300">/file-convertor/convert</code>
           </div>
 
           <p className="mt-4 text-sm text-zinc-400">
