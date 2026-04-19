@@ -22,6 +22,7 @@ const jsonLd = {
   },
 };
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev";
 export default function Home() {
   return (
     <div className="flex flex-1 flex-col">
@@ -70,7 +71,7 @@ export default function Home() {
             <span className="ml-3 text-xs text-zinc-500">cURL</span>
           </div>
           <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-            <code>{`curl -X POST https://api.ilovedox.dev/v1/convert \\
+            <code>{`curl -X POST ${apiBaseUrl}file-convertor/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`}</code>

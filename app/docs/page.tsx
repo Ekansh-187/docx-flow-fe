@@ -7,8 +7,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://ilovedox.com/docs" },
 };
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev/v1";
 export default function DocsPage() {
-  const baseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev/v1";
   return (
     <div className="flex flex-1 justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
@@ -24,7 +24,7 @@ export default function DocsPage() {
           <h2 className="text-xl font-semibold text-white">Base URL</h2>
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
             <code className="text-sm text-zinc-300">
-              {baseUrl}
+              {apiBaseUrl}
             </code>
           </div>
         </section>
@@ -108,7 +108,7 @@ export default function DocsPage() {
               <span className="text-xs text-zinc-500">bash</span>
             </div>
             <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-              <code>{`curl -X POST https://api.ilovedox.dev/v1/convert \\
+              <code>{`curl -X POST ${apiBaseUrl}file-convertor/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`}</code>
@@ -126,7 +126,7 @@ export default function DocsPage() {
             <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
               <code>{`import requests
 
-url = "https://api.ilovedox.dev/v1/convert"
+url = "${apiBaseUrl}file-convertor/convert"
 headers = {"Authorization": "Bearer YOUR_API_KEY"}
 
 with open("document.docx", "rb") as f:
@@ -151,7 +151,7 @@ with open("output.pdf", "wb") as f:
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("document.docx")]));
 
-const res = await fetch("https://api.ilovedox.dev/v1/convert", {
+const res = await fetch("${apiBaseUrl}file-convertor/convert", {
   method: "POST",
   headers: { Authorization: "Bearer YOUR_API_KEY" },
   body: form,
