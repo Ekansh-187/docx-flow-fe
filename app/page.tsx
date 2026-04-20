@@ -11,7 +11,7 @@ const jsonLd = {
   name: "ILoveDox",
   url: "https://ilovedox.com",
   description:
-    "Convert DOCX files to PDF with a single API call. REST API built for developers, automation, and app integrations.",
+    "Convert DOCX to PDF with a single API call. REST API built for developers, automation, and app integrations.",
   applicationCategory: "DeveloperApplication",
   operatingSystem: "All",
   offers: {
