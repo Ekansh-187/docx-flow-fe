@@ -90,7 +90,7 @@ export default function Home() {
           Document conversion API for developers
         </h1>
         <p className="mt-4 max-w-xl text-lg text-zinc-400">
-          Convert DOCX files to PDF with a single API call. Built for
+          Convert DOCX to PDF with a single API call. Built for
           automation, pipelines, and app integrations.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
