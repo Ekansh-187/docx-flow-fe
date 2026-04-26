@@ -1,12 +1,20 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
+import { useAuth } from "@/utils/useAuth";
 
 export default function Navbar() {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
+  const router = useRouter();
+  const { isAuthenticated, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    router.push("/");
+  };
 
   const linkClass = (href: string) =>
     `text-sm font-medium transition-colors ${
@@ -26,12 +34,21 @@ export default function Navbar() {
           <Link href="/pricing" className={linkClass("/pricing")}>Pricing</Link>
           <Link href="/convert" className={linkClass("/convert")}>Try It</Link>
           <Link href="/contact" className={linkClass("/contact")}>Contact Us</Link>
-          <Link
-            href="/signin"
-            className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
-          >
-            Sign In
-          </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={handleLogout}
+              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            >
+              Log Out
+            </button>
+          ) : (
+            <Link
+              href="/signin"
+              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+            >
+              Sign In
+            </Link>
+          )}
         </div>
 
         {/* Mobile menu button */}
@@ -59,13 +76,22 @@ export default function Navbar() {
           <Link href="/pricing" className={linkClass("/pricing")} onClick={() => setMenuOpen(false)}>Pricing</Link>
           <Link href="/convert" className={linkClass("/convert")} onClick={() => setMenuOpen(false)}>Try It</Link>
           <Link href="/contact" className={linkClass("/contact")} onClick={() => setMenuOpen(false)}>Contact Us</Link>
-          <Link
-            href="/signin"
-            className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
-            onClick={() => setMenuOpen(false)}
-          >
-            Sign In
-          </Link>
+          {isAuthenticated ? (
+            <button
+              onClick={() => { handleLogout(); setMenuOpen(false); }}
+              className="rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-red-700"
+            >
+              Log Out
+            </button>
+          ) : (
+            <Link
+              href="/signin"
+              className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+              onClick={() => setMenuOpen(false)}
+            >
+              Sign In
+            </Link>
+          )}
         </div>
       )}
     </nav>

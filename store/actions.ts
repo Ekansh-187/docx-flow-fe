@@ -1,1 +1,1 @@
-export * from "./auth-user/slice";
+// Auth is handled via RTK Query mutations + localStorage

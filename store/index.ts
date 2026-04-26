@@ -17,7 +17,7 @@ import { iLoveDoxApiSlice } from "@/rtk-query";
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["authUser"], // only persist auth slice
+  whitelist: [], // auth tokens stored in localStorage directly
 };
 
 const persistedReducer = persistReducer(
@@ -50,5 +50,4 @@ const { store, persistor } = createAppStore();
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
-export * from "./actions";
 export { store, persistor };
