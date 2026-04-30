@@ -7,31 +7,31 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: baseUrl,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 1,
     },
     {
       url: `${baseUrl}/convert`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 0.9,
     },
     {
       url: `${baseUrl}/docs`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/pricing`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 0.7,
     },
     {
       url: `${baseUrl}/contact`,
       lastModified: new Date(),
-      changeFrequency: "monthly",
+      changeFrequency: "daily",
       priority: 0.5,
     },
   ];
