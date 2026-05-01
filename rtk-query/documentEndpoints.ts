@@ -23,11 +23,13 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
 
     convertDocument: builder.mutation<Blob, FormData>({
       query: (body) => ({
-        url: "file-convertor/convert",
+        url: "web/convert",
         method: "POST",
         body,
-        // Skip Content-Type so browser sets multipart/form-data boundary
-        headers: {},
+        // Use API key for conversion; skip Content-Type so browser sets multipart boundary
+        headers: {
+          // Authorization: 'Bearer abc',
+        },
         responseHandler: (response) => response.blob(),
       }),
       invalidatesTags: ["Document"],

@@ -31,9 +31,11 @@ export function loginWithTokens(accessToken: string, refreshToken: string) {
   notifyAuthChange();
 }
 
+
 export function logoutAndClear() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
+  localStorage.removeItem("api_key");
   notifyAuthChange();
 }
 

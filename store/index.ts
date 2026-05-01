@@ -36,6 +36,7 @@ export const createAppStore = () => {
             `${iLoveDoxApiSlice.reducerPath}.queries`,
             `${iLoveDoxApiSlice.reducerPath}.mutations`,
           ],
+          ignoredActionPaths: ["payload", "meta.arg", "meta.baseQueryMeta"],
         },
       }).concat(iLoveDoxApiSlice.middleware),
     preloadedState: initialState as any,

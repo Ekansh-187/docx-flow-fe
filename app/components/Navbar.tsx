@@ -36,12 +36,15 @@ export default function Navbar() {
           <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`}>Try It</Link>
           <Link href="/contact" className={`${linkClass("/contact")} focus:outline-none focus:ring-2 focus:ring-white`}>Contact Us</Link>
           {isAuthenticated ? (
-            <button
-              onClick={handleLogout}
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-            >
-              Log Out
-            </button>
+            <>
+              <Link href="/api-keys" className={`${linkClass("/api-keys")} focus:outline-none focus:ring-2 focus:ring-white`}>API Keys</Link>
+              <button
+                onClick={handleLogout}
+                className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Log Out
+              </button>
+            </>
           ) : (
             <Link
               href="/signin"
@@ -79,12 +82,15 @@ export default function Navbar() {
           <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Try It</Link>
           <Link href="/contact" className={`${linkClass("/contact")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Contact Us</Link>
           {isAuthenticated ? (
-            <button
-              onClick={() => { handleLogout(); setMenuOpen(false); }}
-              className="rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
-            >
-              Log Out
-            </button>
+            <>
+              <Link href="/api-keys" className={`${linkClass("/api-keys")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>API Keys</Link>
+              <button
+                onClick={() => { handleLogout(); setMenuOpen(false); }}
+                className="rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
+              >
+                Log Out
+              </button>
+            </>
           ) : (
             <Link
               href="/signin"
