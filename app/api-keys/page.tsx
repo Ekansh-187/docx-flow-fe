@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/utils/useAuth";
 import { useCreateApiTokenMutation, useGetApiTokensQuery } from "@/rtk-query";
+import { TokenName, Scope } from "@/enums/enums";
 
 
 export default function ApiKeysPage() {
@@ -27,13 +28,18 @@ export default function ApiKeysPage() {
     setCreatedToken(null);
     try {
       const result = await createApiToken({
-        name: "free-tier",
-        scopes: ["convert"],
-        expires_in_days: 365,
+        name: TokenName.FreeTier,
+        scopes: [Scope.ConversionWrite],
+        expires_in_days: 1,
       }).unwrap();
       setCreatedToken(result.token);
-    } catch {
-      setError("Failed to create API token. Please try again.");
+    } catch (err) {
+      const error = err as { status?: number; data?: { message?: string } };
+      if (error?.status === 400) {
+        setError(error?.data?.message ?? "Bad request");
+      } else {
+        setError("An unexpected error occurred");
+      }
     }
   };
 
