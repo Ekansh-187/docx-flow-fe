@@ -30,6 +30,7 @@ export default function Navbar() {
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
+          <Link href="/" className={`${linkClass("/")} focus:outline-none focus:ring-2 focus:ring-white`}>Home</Link>
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`}>Pricing</Link>
           <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`}>Try It</Link>
