@@ -72,7 +72,7 @@ const faqJsonLd = {
 const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev";
 export default function Home() {
   return (
-    <div className="flex flex-1 flex-col">
+    <div id="main" className="flex flex-1 flex-col">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -96,13 +96,13 @@ export default function Home() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/docs"
-            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
           >
             Read the Docs
           </Link>
           <Link
             href="/convert"
-            className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white"
+            className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-zinc-500"
           >
             Try it Online
           </Link>

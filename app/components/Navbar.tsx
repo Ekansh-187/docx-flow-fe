@@ -24,27 +24,27 @@ export default function Navbar() {
   return (
     <nav className="border-b border-zinc-800 bg-zinc-950">
       <div className="flex h-16 items-center justify-between px-6">
-        <Link href="/" className="text-lg font-semibold tracking-tight text-white">
+        <Link href="/" className="text-lg font-semibold tracking-tight text-white focus:outline-none focus:ring-2 focus:ring-white">
           iLoveDox
         </Link>
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
-          <Link href="/docs" className={linkClass("/docs")}>Docs</Link>
-          <Link href="/pricing" className={linkClass("/pricing")}>Pricing</Link>
-          <Link href="/convert" className={linkClass("/convert")}>Try It</Link>
-          <Link href="/contact" className={linkClass("/contact")}>Contact Us</Link>
+          <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`}>Docs</Link>
+          <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`}>Pricing</Link>
+          <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`}>Try It</Link>
+          <Link href="/contact" className={`${linkClass("/contact")} focus:outline-none focus:ring-2 focus:ring-white`}>Contact Us</Link>
           {isAuthenticated ? (
             <button
               onClick={handleLogout}
-              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700"
+              className="rounded-lg bg-red-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
             >
               Log Out
             </button>
           ) : (
             <Link
               href="/signin"
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
             >
               Sign In
             </Link>
@@ -55,7 +55,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-white md:hidden"
+          className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-white md:hidden focus:outline-none focus:ring-2 focus:ring-white"
           aria-expanded={menuOpen}
           aria-label="Toggle navigation menu"
         >
@@ -72,21 +72,21 @@ export default function Navbar() {
       {/* Mobile nav */}
       {menuOpen && (
         <div className="flex flex-col gap-4 border-t border-zinc-800 px-6 py-4 md:hidden">
-          <Link href="/docs" className={linkClass("/docs")} onClick={() => setMenuOpen(false)}>Docs</Link>
-          <Link href="/pricing" className={linkClass("/pricing")} onClick={() => setMenuOpen(false)}>Pricing</Link>
-          <Link href="/convert" className={linkClass("/convert")} onClick={() => setMenuOpen(false)}>Try It</Link>
-          <Link href="/contact" className={linkClass("/contact")} onClick={() => setMenuOpen(false)}>Contact Us</Link>
+          <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Docs</Link>
+          <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Pricing</Link>
+          <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Try It</Link>
+          <Link href="/contact" className={`${linkClass("/contact")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Contact Us</Link>
           {isAuthenticated ? (
             <button
               onClick={() => { handleLogout(); setMenuOpen(false); }}
-              className="rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-red-700"
+              className="rounded-lg bg-red-600 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500"
             >
               Log Out
             </button>
           ) : (
             <Link
               href="/signin"
-              className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+              className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
               onClick={() => setMenuOpen(false)}
             >
               Sign In
