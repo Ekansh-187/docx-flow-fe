@@ -33,7 +33,23 @@ export interface ICreateApiTokenRequest {
 }
 
 export interface ICreateApiTokenResponse {
-  key: string;
+  token: string;
+  token_id: string;
+  name: string;
+  scopes: string[];
+  expires_at: string;
+  created_at: string;
+}
+
+export interface ICurrentApiToken {
+  token_id: string;
+  name: string;
+  scopes: string[];
+  prefix: string;
+  last_used_at: string;
+  expires_at: string;
+  created_at: string;
+  is_active: boolean;
 }
 
 export interface IAuthResponse {

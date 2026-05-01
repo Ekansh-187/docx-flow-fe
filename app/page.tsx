@@ -69,7 +69,7 @@ const faqJsonLd = {
   ],
 };
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API || "https://api.ilovedox.dev";
+const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API;
 export default function Home() {
   return (
     <div id="main" className="flex flex-1 flex-col">

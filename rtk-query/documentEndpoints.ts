@@ -2,7 +2,6 @@ import { iLoveDoxApiSlice } from "./apiSlice";
 import type { IResponseWrapper, IPaginationResponseWrapper } from "@/interfaces/common";
 import type { IDocument, IGetDocumentsRequest } from "@/interfaces/document";
 import { toQueryString } from "@/utils/helper";
-import { getApiKey } from "@/utils/useAuth";
 
 const documentApi = iLoveDoxApiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -29,7 +28,7 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
         body,
         // Use API key for conversion; skip Content-Type so browser sets multipart boundary
         headers: {
-          Authorization: `Bearer ${getApiKey()}`,
+          Authorization: 'Bearer abc',
         },
         responseHandler: (response) => response.blob(),
       }),
