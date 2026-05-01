@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSignupMutation, useLoginMutation, useCreateApiTokenMutation } from "@/rtk-query";
+import { useSignupMutation, useLoginMutation, useVerifyEmailMutation, useCreateApiTokenMutation } from "@/rtk-query";
 import { useAuth, loginWithTokens, storeApiKey } from "@/utils/useAuth";
 
 export default function SignInPage() {
@@ -14,10 +14,16 @@ export default function SignInPage() {
   const [organizationName, setOrganizationName] = useState("");
   const [error, setError] = useState<string | null>(null);
 
+  const [showOtpDialog, setShowOtpDialog] = useState(false);
+  const [otpMessage, setOtpMessage] = useState("");
+  const [otp, setOtp] = useState("");
+  const [otpError, setOtpError] = useState<string | null>(null);
+
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const [signup, { isLoading: isSigningUp }] = useSignupMutation();
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
+  const [verifyEmail, { isLoading: isVerifying }] = useVerifyEmailMutation();
   const [createApiToken] = useCreateApiTokenMutation();
 
   useEffect(() => {
@@ -39,21 +45,15 @@ export default function SignInPage() {
           organization_name: organizationName,
         }).unwrap();
 
-        loginWithTokens(res.access_token, res.refresh_token);
-
-        const tokenRes = await createApiToken({
-          name: "free-conversion-token",
-          scopes: ["conversion:write"],
-          expires_in_days: 1,
-        }).unwrap();
-        storeApiKey(tokenRes.key);
-
-        router.push("/convert");
+        setOtpMessage(res.message);
+        setShowOtpDialog(true);
+        setOtp("");
+        setOtpError(null);
       } catch (err: any) {
         setError(err?.data?.detail || err?.data?.message || "Signup failed. Please try again.");
       }
-    }else{
-      try{
+    } else {
+      try {
         const res = await login({
           email,
           password,
@@ -72,6 +72,29 @@ export default function SignInPage() {
       } catch (err: any) {
         setError(err?.data?.detail || err?.data?.message || "Login failed. Please try again.");
       }
+    }
+  };
+
+  const handleOtpSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setOtpError(null);
+
+    try {
+      const res = await verifyEmail({ email, otp }).unwrap();
+
+      loginWithTokens(res.access_token, res.refresh_token);
+
+      const tokenRes = await createApiToken({
+        name: "free-conversion-token",
+        scopes: ["conversion:write"],
+        expires_in_days: 1,
+      }).unwrap();
+      storeApiKey(tokenRes.key);
+
+      setShowOtpDialog(false);
+      router.push("/convert");
+    } catch (err: any) {
+      setOtpError(err?.data?.detail || err?.data?.message || "Verification failed. Please try again.");
     }
   };
 
@@ -214,6 +237,63 @@ export default function SignInPage() {
           </Link>
         </p>
       </div>
+
+      {showOtpDialog && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
+          <div className="w-full max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl">
+            <h2 className="text-lg font-semibold text-white text-center">
+              Verify your email
+            </h2>
+            <p className="mt-2 text-center text-sm text-zinc-400">
+              {otpMessage}
+            </p>
+
+            <form onSubmit={handleOtpSubmit} className="mt-6 space-y-4">
+              <div>
+                <label
+                  htmlFor="otp"
+                  className="block text-sm font-medium text-zinc-300"
+                >
+                  6-digit OTP
+                </label>
+                <input
+                  id="otp"
+                  type="text"
+                  inputMode="numeric"
+                  pattern="[0-9]{6}"
+                  maxLength={6}
+                  required
+                  autoFocus
+                  value={otp}
+                  onChange={(e) => setOtp(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                  className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3.5 py-2.5 text-center text-lg tracking-[0.3em] text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  placeholder="000000"
+                />
+              </div>
+
+              {otpError && (
+                <p className="text-sm text-red-400">{otpError}</p>
+              )}
+
+              <button
+                type="submit"
+                disabled={isVerifying || otp.length !== 6}
+                className="w-full rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isVerifying ? "Verifying…" : "Verify & Continue"}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowOtpDialog(false)}
+                className="w-full rounded-lg border border-zinc-700 px-6 py-2.5 text-sm text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+              >
+                Cancel
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

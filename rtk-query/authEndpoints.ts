@@ -5,11 +5,13 @@ import type {
   ILoginRequest,
   ICreateApiTokenRequest,
   ICreateApiTokenResponse,
+  IRegisterResponse,
+  IVerifyEMail,
 } from "@/interfaces/auth";
 
 const authApi = iLoveDoxApiSlice.injectEndpoints({
   endpoints: (builder) => ({
-    signup: builder.mutation<IAuthResponse, ISignupRequest>({
+    signup: builder.mutation<IRegisterResponse, ISignupRequest>({
       query: (body) => ({
         url: "auth/signup",
         method: "POST",
@@ -19,6 +21,13 @@ const authApi = iLoveDoxApiSlice.injectEndpoints({
     login: builder.mutation<IAuthResponse, ILoginRequest>({
       query: (body) => ({
         url: "auth/login",
+        method: "POST",
+        body,
+      }),
+    }),
+    verifyEmail: builder.mutation<IAuthResponse, IVerifyEMail>({
+      query: (body) => ({
+        url: "auth/verify-email",
         method: "POST",
         body,
       }),
@@ -33,4 +42,4 @@ const authApi = iLoveDoxApiSlice.injectEndpoints({
   }),
 });
 
-export const { useSignupMutation, useLoginMutation, useCreateApiTokenMutation } = authApi;
+export const { useSignupMutation, useLoginMutation, useVerifyEmailMutation, useCreateApiTokenMutation } = authApi;

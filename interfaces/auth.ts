@@ -16,13 +16,14 @@ export interface IAuthUser {
   is_active: boolean;
   created_at: string;
 }
-
-export interface IAuthResponse {
-  access_token: string;
-  refresh_token: string;
-  token_type: string;
+export interface IVerifyEMail{
+  email: string;
+  otp: string;
+}
+export interface IRegisterResponse {
+  email: string;
+  message: string;
   expires_in: number;
-  user: IAuthUser;
 }
 
 export interface ICreateApiTokenRequest {
@@ -33,4 +34,12 @@ export interface ICreateApiTokenRequest {
 
 export interface ICreateApiTokenResponse {
   key: string;
+}
+
+export interface IAuthResponse {
+  access_token: string;
+  refresh_token: string;
+  token_type: string;
+  expires_in: number;
+  user: IAuthUser;
 }
