@@ -73,6 +73,7 @@ export default function Navbar() {
       {/* Mobile nav */}
       {menuOpen && (
         <div className="flex flex-col gap-4 border-t border-zinc-800 px-6 py-4 md:hidden">
+          <Link href="/" className={`${linkClass("/")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Pricing</Link>
           <Link href="/convert" className={`${linkClass("/convert")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Try It</Link>
