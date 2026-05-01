@@ -2,6 +2,7 @@ import { iLoveDoxApiSlice } from "./apiSlice";
 import type { IResponseWrapper, IPaginationResponseWrapper } from "@/interfaces/common";
 import type { IDocument, IGetDocumentsRequest } from "@/interfaces/document";
 import { toQueryString } from "@/utils/helper";
+import { getApiKey } from "@/utils/useAuth";
 
 const documentApi = iLoveDoxApiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -26,8 +27,10 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
         url: "file-convertor/convert",
         method: "POST",
         body,
-        // Skip Content-Type so browser sets multipart/form-data boundary
-        headers: {},
+        // Use API key for conversion; skip Content-Type so browser sets multipart boundary
+        headers: {
+          Authorization: `Bearer ${getApiKey()}`,
+        },
         responseHandler: (response) => response.blob(),
       }),
       invalidatesTags: ["Document"],

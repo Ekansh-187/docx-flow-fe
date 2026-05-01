@@ -13,4 +13,5 @@ export {
 export {
   useSignupMutation,
   useLoginMutation,
+  useCreateApiTokenMutation,
 } from "./authEndpoints";

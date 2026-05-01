@@ -31,9 +31,20 @@ export function loginWithTokens(accessToken: string, refreshToken: string) {
   notifyAuthChange();
 }
 
+export function storeApiKey(apiKey: string) {
+  localStorage.setItem("api_key", apiKey);
+  notifyAuthChange();
+}
+
+export function getApiKey(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem("api_key");
+}
+
 export function logoutAndClear() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
+  localStorage.removeItem("api_key");
   notifyAuthChange();
 }
 

@@ -24,3 +24,13 @@ export interface IAuthResponse {
   expires_in: number;
   user: IAuthUser;
 }
+
+export interface ICreateApiTokenRequest {
+  name: string;
+  scopes: string[];
+  expires_in_days: number;
+}
+
+export interface ICreateApiTokenResponse {
+  key: string;
+}

@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useSignupMutation, useLoginMutation } from "@/rtk-query";
-import { useAuth, loginWithTokens } from "@/utils/useAuth";
+import { useSignupMutation, useLoginMutation, useCreateApiTokenMutation } from "@/rtk-query";
+import { useAuth, loginWithTokens, storeApiKey } from "@/utils/useAuth";
 
 export default function SignInPage() {
   const [mode, setMode] = useState<"signin" | "register">("signin");
@@ -18,6 +18,7 @@ export default function SignInPage() {
   const { isAuthenticated } = useAuth();
   const [signup, { isLoading: isSigningUp }] = useSignupMutation();
   const [login, { isLoading: isLoggingIn }] = useLoginMutation();
+  const [createApiToken] = useCreateApiTokenMutation();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -39,6 +40,14 @@ export default function SignInPage() {
         }).unwrap();
 
         loginWithTokens(res.access_token, res.refresh_token);
+
+        const tokenRes = await createApiToken({
+          name: "free-conversion-token",
+          scopes: ["conversion:write"],
+          expires_in_days: 1,
+        }).unwrap();
+        storeApiKey(tokenRes.key);
+
         router.push("/convert");
       } catch (err: any) {
         setError(err?.data?.detail || err?.data?.message || "Signup failed. Please try again.");
@@ -51,6 +60,14 @@ export default function SignInPage() {
         }).unwrap();
 
         loginWithTokens(res.access_token, res.refresh_token);
+
+        const tokenRes = await createApiToken({
+          name: "free-conversion-token",
+          scopes: ["conversion:write"],
+          expires_in_days: 1,
+        }).unwrap();
+        storeApiKey(tokenRes.key);
+
         router.push("/convert");
       } catch (err: any) {
         setError(err?.data?.detail || err?.data?.message || "Login failed. Please try again.");

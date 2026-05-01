@@ -1,5 +1,11 @@
 import { iLoveDoxApiSlice } from "./apiSlice";
-import type { ISignupRequest, IAuthResponse, ILoginRequest } from "@/interfaces/auth";
+import type {
+  ISignupRequest,
+  IAuthResponse,
+  ILoginRequest,
+  ICreateApiTokenRequest,
+  ICreateApiTokenResponse,
+} from "@/interfaces/auth";
 
 const authApi = iLoveDoxApiSlice.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,7 +23,14 @@ const authApi = iLoveDoxApiSlice.injectEndpoints({
         body,
       }),
     }),
+    createApiToken: builder.mutation<ICreateApiTokenResponse, ICreateApiTokenRequest>({
+      query: (body) => ({
+        url: "me/tokens",
+        method: "POST",
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useSignupMutation, useLoginMutation } = authApi;
+export const { useSignupMutation, useLoginMutation, useCreateApiTokenMutation } = authApi;
