@@ -46,7 +46,6 @@ export function loginWithTokens(accessToken: string, refreshToken: string, userN
 export function logoutAndClear() {
   localStorage.removeItem("access_token");
   localStorage.removeItem("refresh_token");
-  localStorage.removeItem("api_key");
   localStorage.removeItem("user_name");
   notifyAuthChange();
 }
