@@ -24,6 +24,7 @@ export default function Navbar() {
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const toolsRef = useRef<HTMLDivElement>(null);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const mobileUserMenuRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -31,7 +32,10 @@ export default function Navbar() {
       if (toolsRef.current && !toolsRef.current.contains(e.target as Node)) {
         setToolsOpen(false);
       }
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
+      if (
+        !userMenuRef.current?.contains(e.target as Node) &&
+        !mobileUserMenuRef.current?.contains(e.target as Node)
+      ) {
         setUserMenuOpen(false);
       }
     }
@@ -56,10 +60,73 @@ export default function Navbar() {
 
   return (
     <nav className="border-b border-zinc-800 bg-zinc-950">
-      <div className="flex h-16 items-center justify-between px-6">
-        <Link href="/" className="text-lg font-semibold tracking-tight text-white focus:outline-none focus:ring-2 focus:ring-white">
+      <div className="flex h-16 items-center justify-between px-6 md:flex">
+        {/* Mobile: 3-column layout */}
+        <div className="flex items-center md:hidden">
+          <button
+            type="button"
+            onClick={() => setMenuOpen((prev) => !prev)}
+            className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
+            aria-expanded={menuOpen}
+            aria-label="Toggle navigation menu"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+              {menuOpen ? (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+              ) : (
+                <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+              )}
+            </svg>
+          </button>
+        </div>
+
+        <Link href="/" className="text-lg font-semibold tracking-tight text-white focus:outline-none focus:ring-2 focus:ring-white md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
           iLoveDox
         </Link>
+
+        {/* Mobile: user icon on right */}
+        <div className="relative flex items-center md:hidden w-10 justify-end" ref={mobileUserMenuRef}>
+          {isAuthenticated && (
+            <>
+              <button
+                onClick={() => setUserMenuOpen((prev) => !prev)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 text-sm font-semibold text-white transition-colors hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-white"
+                aria-label="User menu"
+              >
+                {userInitial}
+              </button>
+              {userMenuOpen && (
+                <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-950 py-1 shadow-xl">
+                  {userName && (
+                    <div className="border-b border-zinc-800 px-4 py-2">
+                      <p className="truncate text-sm font-medium text-white">{userName}</p>
+                    </div>
+                  )}
+                  <Link
+                    href="/profile"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex w-full items-center px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                  >
+                    User Profile
+                  </Link>
+                  <Link
+                    href="/api-keys"
+                    onClick={() => setUserMenuOpen(false)}
+                    className="flex w-full items-center px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white"
+                  >
+                    Manage API Keys
+                  </Link>
+                  <button
+                    onClick={() => { handleLogout(); setUserMenuOpen(false); }}
+                    className="flex w-full items-center px-4 py-2 text-sm text-red-400 transition-colors hover:bg-zinc-800 hover:text-red-300"
+                  >
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
 
         {/* Desktop nav */}
         <div className="hidden items-center gap-8 md:flex">
@@ -153,23 +220,6 @@ export default function Navbar() {
             </Link>
           )}
         </div>
-
-        {/* Mobile menu button */}
-        <button
-          type="button"
-          onClick={() => setMenuOpen((prev) => !prev)}
-          className="inline-flex items-center justify-center rounded-md p-2 text-zinc-400 hover:text-white md:hidden focus:outline-none focus:ring-2 focus:ring-white"
-          aria-expanded={menuOpen}
-          aria-label="Toggle navigation menu"
-        >
-          <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
-            {menuOpen ? (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            ) : (
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-            )}
-          </svg>
-        </button>
       </div>
 
       {/* Mobile nav */}
@@ -217,26 +267,7 @@ export default function Navbar() {
             )}
           </div>
           <Link href="/contact" className={`${linkClass("/contact")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Contact Us</Link>
-          {isAuthenticated ? (
-            <>
-              {userName && (
-                <div className="flex items-center gap-3 border-t border-zinc-800 pt-4">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 text-sm font-semibold text-white">
-                    {userInitial}
-                  </div>
-                  <span className="truncate text-sm font-medium text-white">{userName}</span>
-                </div>
-              )}
-              <Link href="/profile" className={`${linkClass("/profile")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>User Profile</Link>
-              <Link href="/api-keys" className={`${linkClass("/api-keys")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Manage API Keys</Link>
-              <button
-                onClick={() => { handleLogout(); setMenuOpen(false); }}
-                className="text-left text-sm font-medium text-red-400 transition-colors hover:text-red-300 focus:outline-none focus:ring-2 focus:ring-red-500"
-              >
-                Log Out
-              </button>
-            </>
-          ) : (
+          {!isAuthenticated && (
             <Link
               href="/signin"
               className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
