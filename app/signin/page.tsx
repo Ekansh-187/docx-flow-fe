@@ -58,7 +58,7 @@ export default function SignInPage() {
           password,
         }).unwrap();
 
-        loginWithTokens(res.access_token, res.refresh_token);
+        loginWithTokens(res.access_token, res.refresh_token, res.user?.full_name);
 
         router.push("/convert");
       } catch (err: any) {
@@ -74,7 +74,7 @@ export default function SignInPage() {
     try {
       const res = await verifyEmail({ email, otp }).unwrap();
 
-      loginWithTokens(res.access_token, res.refresh_token);
+      loginWithTokens(res.access_token, res.refresh_token, res.user?.full_name);
 
       setShowOtpDialog(false);
       router.push("/convert");
