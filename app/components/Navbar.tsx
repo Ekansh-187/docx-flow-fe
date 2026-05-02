@@ -103,7 +103,7 @@ export default function Navbar() {
                     </div>
                   )}
                   <Link
-                    href="/profile"
+                    href="#"
                     onClick={() => setUserMenuOpen(false)}
                     className="flex w-full items-center px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white"
                   >
