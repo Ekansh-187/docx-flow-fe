@@ -133,6 +133,7 @@ export default function Navbar() {
           <Link href="/" className={`${linkClass("/")} focus:outline-none focus:ring-2 focus:ring-white`}>Home</Link>
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`}>Pricing</Link>
+          <Link href="/blog" className={`${linkClass("/blog")} focus:outline-none focus:ring-2 focus:ring-white`}>Blog</Link>
           <div ref={toolsRef} className="relative">
             <button
               onClick={() => setToolsOpen((prev) => !prev)}
@@ -228,6 +229,7 @@ export default function Navbar() {
           <Link href="/" className={`${linkClass("/")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Home</Link>
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Pricing</Link>
+          <Link href="/blog" className={`${linkClass("/blog")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Blog</Link>
           <div>
             <button
               onClick={() => setMobileToolsOpen((prev) => !prev)}
