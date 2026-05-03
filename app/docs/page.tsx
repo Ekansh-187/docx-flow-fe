@@ -21,7 +21,7 @@ export default function DocsPage() {
         </p>
 
         {/* Base URL */}
-        <section className="mt-12">
+        <section className="mt-12" id="base-url">
           <h2 className="text-xl font-semibold text-white">Base URL</h2>
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
             <code className="text-sm text-zinc-300">
@@ -31,7 +31,7 @@ export default function DocsPage() {
         </section>
 
         {/* Authentication */}
-        <section className="mt-12">
+        <section className="mt-12" id="authentication">
           <h2 className="text-xl font-semibold text-white">Authentication</h2>
           <p className="mt-3 text-sm text-zinc-400">
             All requests require an API key sent via the{" "}
@@ -54,7 +54,7 @@ export default function DocsPage() {
         </section>
 
         {/* Convert endpoint */}
-        <section className="mt-12">
+        <section className="mt-12" id="convert">
           <h2 className="text-xl font-semibold text-white">
             Convert DOCX to PDF
           </h2>
@@ -298,7 +298,7 @@ int main() {
         </section>
 
         {/* Rate Limits */}
-        <section className="mt-12">
+        <section className="mt-12" id="rate-limits">
           <h2 className="text-xl font-semibold text-white">Rate Limits</h2>
           <div className="mt-4 overflow-x-auto rounded-xl border border-zinc-800">
             <table className="w-full text-left text-sm">
