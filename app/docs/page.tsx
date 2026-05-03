@@ -13,6 +13,7 @@ export default function DocsPage() {
   return (
     <div className="flex flex-1 justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
+        <section id="introduction">
         <h1 className="text-3xl font-bold tracking-tight text-white">
           API Documentation
         </h1>
@@ -21,7 +22,7 @@ export default function DocsPage() {
           RESTful document conversion API lets you programmatically convert DOCX, DOC,
           and other office files to PDF with enterprise-grade reliability, low latency,
           and scalable cloud infrastructure.
-        </p>
+        </p></section>
 
         {/* Base URL */}
         <section className="mt-12" id="base-url">
@@ -300,41 +301,6 @@ int main() {
           </div>
         </section>
 
-        {/* Rate Limits */}
-        <section className="mt-12" id="rate-limits">
-          <h2 className="text-xl font-semibold text-white">Rate Limits</h2>
-          <div className="mt-4 overflow-x-auto rounded-xl border border-zinc-800">
-            <table className="w-full text-left text-sm">
-              <thead>
-                <tr className="border-b border-zinc-800 bg-zinc-900">
-                  <th className="px-4 py-3 font-medium text-zinc-400">Plan</th>
-                  <th className="px-4 py-3 font-medium text-zinc-400">Conversions / month</th>
-                  <th className="px-4 py-3 font-medium text-zinc-400">Max file size</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-zinc-800 bg-zinc-950">
-                <tr>
-                  <td className="px-4 py-3 text-zinc-300">Free</td>
-                  <td className="px-4 py-3 text-zinc-400">50</td>
-                  <td className="px-4 py-3 text-zinc-400">10 MB</td>
-                </tr>
-                <tr>
-                  <td className="px-4 py-3 text-zinc-500">Pro (coming soon)</td>
-                  <td className="px-4 py-3 text-zinc-500">5,000</td>
-                  <td className="px-4 py-3 text-zinc-500">50 MB</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <p className="mt-3 text-sm text-zinc-500">
-            Rate limit headers{" "}
-            <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-400">X-RateLimit-Remaining</code>{" "}
-            and{" "}
-            <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-400">X-RateLimit-Reset</code>{" "}
-            are included in every response.
-          </p>
-        </section>
-
         {/* Quick Start Guide */}
         <section className="mt-12" id="quick-start">
           <h2 className="text-xl font-semibold text-white">Quick Start Guide</h2>
@@ -449,6 +415,41 @@ int main() {
             For transient errors (5xx, 429), use <strong className="text-zinc-300">exponential backoff with jitter</strong>.
             Start with a 1-second delay, double on each retry, and add random jitter to prevent thundering herd issues.
             Limit retries to 3–5 attempts before surfacing the error to the user.
+          </p>
+        </section>
+
+{/* Rate Limits */}
+        <section className="mt-12" id="rate-limits">
+          <h2 className="text-xl font-semibold text-white">Rate Limits</h2>
+          <div className="mt-4 overflow-x-auto rounded-xl border border-zinc-800">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 bg-zinc-900">
+                  <th className="px-4 py-3 font-medium text-zinc-400">Plan</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Conversions / month</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Max file size</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800 bg-zinc-950">
+                <tr>
+                  <td className="px-4 py-3 text-zinc-300">Free</td>
+                  <td className="px-4 py-3 text-zinc-400">50</td>
+                  <td className="px-4 py-3 text-zinc-400">10 MB</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3 text-zinc-500">Pro (coming soon)</td>
+                  <td className="px-4 py-3 text-zinc-500">5,000</td>
+                  <td className="px-4 py-3 text-zinc-500">50 MB</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <p className="mt-3 text-sm text-zinc-500">
+            Rate limit headers{" "}
+            <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-400">X-RateLimit-Remaining</code>{" "}
+            and{" "}
+            <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-400">X-RateLimit-Reset</code>{" "}
+            are included in every response.
           </p>
         </section>
 
