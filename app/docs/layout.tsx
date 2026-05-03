@@ -19,11 +19,34 @@ const docsSections: SidebarSection[] = [
     ],
   },
   {
+    title: "Guides",
+    items: [
+      { title: "Quick Start", href: "/docs#quick-start" },
+      { title: "Error Handling", href: "/docs#error-handling" },
+      { title: "Best Practices", href: "/docs#best-practices" },
+      { title: "Webhooks & Async", href: "/docs#webhooks" },
+    ],
+  },
+  {
+    title: "Use Cases",
+    items: [
+      { title: "Common Workflows", href: "/docs#use-cases" },
+      { title: "CI/CD Integration", href: "/docs#cicd" },
+    ],
+  },
+  {
     title: "SDKs & Libraries",
     items: [
       { title: "Node.js SDK", href: "/docs/sdks/node" },
       { title: "Python SDK", href: "/docs/sdks/python" },
       { title: "Go SDK", href: "/docs/sdks/go" },
+    ],
+  },
+  {
+    title: "Resources",
+    items: [
+      { title: "Tutorials & Videos", href: "/docs#tutorials" },
+      { title: "FAQ", href: "/docs#faq" },
     ],
   },
 ];
