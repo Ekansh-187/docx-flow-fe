@@ -17,3 +17,7 @@ export {
   useCreateApiTokenMutation,
   useGetApiTokensQuery,
 } from "./authEndpoints";
+
+export {
+  useSendContactQueryMutation
+} from "./contactEndpoints";
