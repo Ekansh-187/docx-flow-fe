@@ -62,14 +62,14 @@ function ScopeDropdown({
                     onClick={() => onToggle(scope)}
                     className="flex w-full items-center px-3 py-2 text-sm transition-colors hover:bg-zinc-700"
                   >
-                    <span className="w-5 flex-shrink-0">
+                    <span className={`flex-1 text-left ${checked ? "text-white" : "text-zinc-300"}`}>{scope}</span>
+                    <span className="w-5 flex-shrink-0 flex justify-end">
                       {checked && (
                         <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                           <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                         </svg>
                       )}
                     </span>
-                    <span className={checked ? "text-white" : "text-zinc-300"}>{scope}</span>
                   </button>
                 </li>
               );
@@ -139,6 +139,8 @@ function Modal({ onClose, children }: { onClose: () => void; children: React.Rea
 
 
 export default function ApiKeysPage() {
+  const minExpiry = 1;
+  const maxExpiry = 90;
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { data: tokens, isLoading } = useGetApiTokensQuery(undefined, {
@@ -338,10 +340,17 @@ export default function ApiKeysPage() {
               <div className="flex items-center gap-3">
                 <input
                   type="number"
-                  min={1}
-                  max={365}
+                  min={minExpiry}
+                  max={maxExpiry}
                   value={expiryDays}
-                  onChange={(e) => setExpiryDays(Number(e.target.value))}
+                  onChange={(e) => {
+                    let val = Number(e.target.value);
+                    if(Number.isNaN(val)) setExpiryDays(0);
+                    else if (val < 0) setExpiryDays(minExpiry);
+                    else if (val > maxExpiry) setExpiryDays(maxExpiry);
+                    else setExpiryDays(val);
+                  }
+                  }
                   className="w-28 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
                 />
                 <div className="flex gap-1.5">
