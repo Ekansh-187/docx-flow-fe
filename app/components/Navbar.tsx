@@ -43,8 +43,7 @@ export default function Navbar() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   const { isAuthenticated, logout, userName } = useAuth();
-
-  const userInitial = userName ? userName.charAt(0).toUpperCase() : "U";
+  const userInitials = userName.split(" ").map((n) => n.charAt(0).toUpperCase()).join("").slice(0, 2);
 
   const handleLogout = () => {
     logout();
@@ -93,7 +92,7 @@ export default function Navbar() {
                 className="flex h-8 w-8 items-center justify-center rounded-full bg-zinc-700 text-sm font-semibold text-white transition-colors hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-white"
                 aria-label="User menu"
               >
-                {userInitial}
+                {userInitials}
               </button>
               {userMenuOpen && (
                 <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-950 py-1 shadow-xl">
@@ -134,6 +133,7 @@ export default function Navbar() {
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`}>Pricing</Link>
           <Link href="/blog" className={`${linkClass("/blog")} focus:outline-none focus:ring-2 focus:ring-white`}>Blog</Link>
+          <Link href="/changelog" className={`${linkClass("/changelog")} focus:outline-none focus:ring-2 focus:ring-white`}>Changelog</Link>
           <div ref={toolsRef} className="relative">
             <button
               onClick={() => setToolsOpen((prev) => !prev)}
@@ -180,7 +180,7 @@ export default function Navbar() {
                 className="flex h-9 w-9 items-center justify-center rounded-full bg-zinc-700 text-sm font-semibold text-white transition-colors hover:bg-zinc-600 focus:outline-none focus:ring-2 focus:ring-white"
                 aria-label="User menu"
               >
-                {userInitial}
+                {userInitials}
               </button>
               {userMenuOpen && (
                 <div className="absolute right-0 top-full z-50 mt-2 w-48 rounded-lg border border-zinc-800 bg-zinc-950 py-1 shadow-xl">
@@ -230,6 +230,7 @@ export default function Navbar() {
           <Link href="/docs" className={`${linkClass("/docs")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Docs</Link>
           <Link href="/pricing" className={`${linkClass("/pricing")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Pricing</Link>
           <Link href="/blog" className={`${linkClass("/blog")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Blog</Link>
+          <Link href="/changelog" className={`${linkClass("/changelog")} focus:outline-none focus:ring-2 focus:ring-white`} onClick={() => setMenuOpen(false)}>Changelog</Link>
           <div>
             <button
               onClick={() => setMobileToolsOpen((prev) => !prev)}
