@@ -59,3 +59,8 @@ export interface IAuthResponse {
   expires_in: number;
   user: IAuthUser;
 }
+
+export interface IScopeResponse{
+  endpoint_name: string;
+  scope: string;
+}

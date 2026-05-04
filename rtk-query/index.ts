@@ -14,9 +14,12 @@ export {
   useSignupMutation,
   useLoginMutation,
   useVerifyEmailMutation,
+} from "./authEndpoints";
+export{
   useCreateApiTokenMutation,
   useGetApiTokensQuery,
-} from "./authEndpoints";
+  useGetScopesQuery
+} from "./meEndpoints";
 
 export {
   useSendContactQueryMutation
