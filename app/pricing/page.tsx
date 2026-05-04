@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -130,9 +131,9 @@ export default function PricingPage() {
             </li>
           </ul>
 
-          <button className="mt-8 w-full rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200">
+          <Link href="/api-keys" className="mt-8 block w-full rounded-lg bg-white px-6 py-3 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200">
             Get Started — It&apos;s Free
-          </button>
+          </Link>
         </div>
 
         <p className="mt-8 text-xs text-zinc-500">
