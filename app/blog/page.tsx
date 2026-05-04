@@ -8,15 +8,6 @@ export const metadata: Metadata = {
 
 const blogs = [
   {
-    id: "1",
-    slug: "how-to-convert-docx-to-pdf",
-    title: "How to Convert DOCX to PDF Programmatically",
-    excerpt: "Learn the best practices and easiest ways to convert Word documents to PDF using our API in Node.js and Python.",
-    date: "May 1, 2026",
-    readTime: "5 min read",
-    category: "Tutorial",
-  },
-  {
     id: "2",
     slug: "introducing-ilovedox-api",
     title: "Introducing the ILoveDox API",
@@ -27,12 +18,12 @@ const blogs = [
   },
   {
     id: "3",
-    slug: "optimizing-document-workflows",
-    title: "Optimizing Document Workflows for Enterprises",
-    excerpt: "A deep dive into how automating your document conversion pipeline can save thousands of hours and reduce operational costs.",
-    date: "April 2, 2026",
-    readTime: "7 min read",
-    category: "Business",
+    slug: "delete-page-in-word-without-formatting-issues",
+    title: "How to Delete a Page in Word (Without the Formatting Headache)",
+    excerpt: "Deleting a page in Microsoft Word sounds simple—until it isn’t. Learn how to remove unwanted pages without breaking your document’s layout.",
+    date: "May 4, 2026",
+    readTime: "5 min read",
+    category: "Tutorial",
   },
 ];
 

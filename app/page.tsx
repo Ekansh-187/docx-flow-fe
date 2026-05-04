@@ -87,7 +87,7 @@ export default function Home() {
           DOCX &rarr; PDF &middot; REST API
         </div>
         <h1 className="mt-6 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          Document conversion API for developers
+          DOCX conversion API for developers
         </h1>
         <p className="mt-4 max-w-xl text-lg text-zinc-400">
           Convert DOCX to PDF with a single API call. Built for
