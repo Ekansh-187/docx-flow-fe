@@ -8,6 +8,7 @@ export {
   useLazyGetDocumentByIdQuery,
   useConvertDocumentMutation,
   useDeleteDocumentMutation,
+  useConvertImagesToPdfMutation,
 } from "./documentEndpoints";
 
 export {

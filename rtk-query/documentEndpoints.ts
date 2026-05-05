@@ -42,6 +42,16 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Document"],
     }),
+
+    convertImagesToPdf: builder.mutation<Blob, FormData>({
+      query: (body) => ({
+        url: "web/image-to-pdf",
+        method: "POST",
+        body,
+        responseHandler: (response) => response.blob(),
+      }),
+      invalidatesTags: ["Document"],
+    }),
   }),
 });
 
@@ -52,4 +62,5 @@ export const {
   useLazyGetDocumentByIdQuery,
   useConvertDocumentMutation,
   useDeleteDocumentMutation,
+  useConvertImagesToPdfMutation,
 } = documentApi;

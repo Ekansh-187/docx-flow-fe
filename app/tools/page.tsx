@@ -22,17 +22,17 @@ const tools = [
     active: false,
   },
   {
-    title: "JPG to PDF",
+    title: "Image to PDF",
     description: "Convert JPG images to PDF documents.",
-    href: "/tools/coming-soon",
-    active: false,
+    href: "/tools/image-to-pdf",
+    active: true,
   },
-  {
-    title: "PNG to PDF",
-    description: "Convert PNG images to PDF documents.",
-    href: "/tools/coming-soon",
-    active: false,
-  },
+  // {
+  //   title: "PNG to PDF",
+  //   description: "Convert PNG images to PDF documents.",
+  //   href: "/tools/image-to-pdf",
+  //   active: true,
+  // },
   {
     title: "PDF to JPG",
     description: "Extract images from PDF or convert pages to JPG.",
@@ -75,11 +75,10 @@ export default function ToolsPage() {
             <Link
               key={tool.title}
               href={tool.href}
-              className={`group relative rounded-xl border p-6 transition-colors ${
-                tool.active
-                  ? "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/60"
-                  : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 hover:bg-zinc-800/40"
-              }`}
+              className={`group relative rounded-xl border p-6 transition-colors ${tool.active
+                ? "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/60"
+                : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 hover:bg-zinc-800/40"
+                }`}
             >
               {!tool.active && (
                 <span className="absolute top-3 right-3 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
@@ -87,16 +86,14 @@ export default function ToolsPage() {
                 </span>
               )}
               <h2
-                className={`text-lg font-semibold ${
-                  tool.active ? "text-white" : "text-zinc-500"
-                }`}
+                className={`text-lg font-semibold ${tool.active ? "text-white" : "text-zinc-500"
+                  }`}
               >
                 {tool.title}
               </h2>
               <p
-                className={`mt-2 text-sm ${
-                  tool.active ? "text-zinc-400" : "text-zinc-600"
-                }`}
+                className={`mt-2 text-sm ${tool.active ? "text-zinc-400" : "text-zinc-600"
+                  }`}
               >
                 {tool.description}
               </p>
