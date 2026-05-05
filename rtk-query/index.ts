@@ -19,7 +19,8 @@ export {
 export{
   useCreateApiTokenMutation,
   useGetApiTokensQuery,
-  useGetScopesQuery
+  useGetScopesQuery,
+  useGetSubscriptionQuery
 } from "./meEndpoints";
 
 export {

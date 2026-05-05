@@ -5,6 +5,17 @@ export interface IScopeResponse{
   scope: string;
 }
 
+export interface ICurrentSubscriptionResponse {
+  id: string;
+  user_id: string;
+  plan_id: string;
+  plan_name: string;
+  status: string;
+  started_at: string;
+  current_period_start: string;
+  current_period_end: string;
+}
+
 export interface ICreateApiTokenRequest {
   name: string;
   scopes: string[];

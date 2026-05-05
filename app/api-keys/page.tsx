@@ -3,8 +3,10 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useState, useRef } from "react";
 import { useAuth } from "@/utils/useAuth";
-import { useCreateApiTokenMutation, useGetApiTokensQuery, useGetScopesQuery } from "@/rtk-query";
+import { useCreateApiTokenMutation, useGetApiTokensQuery, useGetScopesQuery, useGetSubscriptionQuery,useGetPlansQuery } from "@/rtk-query";
 import { TokenName } from "@/enums/enums";
+import { ICurrentSubscriptionResponse, IScopeResponse } from "@/interfaces/me";
+import { IPlanResponse } from "@/interfaces/admin";
 
 
 function ScopeDropdown({
@@ -12,9 +14,9 @@ function ScopeDropdown({
   selected,
   onToggle,
 }: {
-  scopes: { scope: string }[];
-  selected: string[];
-  onToggle: (scope: string) => void;
+  scopes: IScopeResponse[];
+  selected: IScopeResponse[];
+  onToggle: (scope: IScopeResponse) => void;
 }) {
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -31,7 +33,7 @@ function ScopeDropdown({
     selected.length === 0
       ? "Select scopes…"
       : selected.length === 1
-      ? selected[0]
+      ? selected[0].name
       : `${selected.length} scopes selected`;
 
   return (
@@ -53,16 +55,16 @@ function ScopeDropdown({
       {open && (
         <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 shadow-xl overflow-hidden">
           <ul className="max-h-48 overflow-y-auto py-1">
-            {scopes.map(({ scope }) => {
+            {scopes.map((scope) => {
               const checked = selected.includes(scope);
               return (
-                <li key={scope}>
+                <li key={scope.scope}>
                   <button
                     type="button"
                     onClick={() => onToggle(scope)}
                     className="flex w-full items-center px-3 py-2 text-sm transition-colors hover:bg-zinc-700"
                   >
-                    <span className={`flex-1 text-left ${checked ? "text-white" : "text-zinc-300"}`}>{scope}</span>
+                    <span className={`flex-1 text-left ${checked ? "text-white" : "text-zinc-300"}`}>{scope.name}</span>
                     <span className="w-5 flex-shrink-0 flex justify-end">
                       {checked && (
                         <svg className="h-3.5 w-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -93,15 +95,15 @@ function ScopeDropdown({
         <div className="mt-2 flex flex-wrap gap-1.5">
           {selected.map((s) => (
             <span
-              key={s}
+              key={s.scope}
               className="inline-flex items-center gap-1 rounded-full border border-zinc-600 bg-zinc-700 px-2 py-0.5 text-xs text-zinc-200"
             >
-              {s}
+              {s.name}
               <button
                 type="button"
                 onClick={() => onToggle(s)}
                 className="text-zinc-400 hover:text-white transition-colors focus:outline-none"
-                aria-label={`Remove ${s}`}
+                aria-label={`Remove ${s.name}`}
               >
                 <svg className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -138,6 +140,16 @@ function Modal({ onClose, children }: { onClose: () => void; children: React.Rea
 }
 
 
+function getExpiryDaysFromSubscription({subscription}: {subscription: ICurrentSubscriptionResponse | undefined},
+  {plans}: {plans: IPlanResponse[] | undefined}
+): number {
+  if (!subscription) return 0;
+  const plan = plans?.find((p) => p.id === subscription.plan_id);
+  if (!plan) return 0;
+  return plan.expires_in_days;
+
+}
+
 export default function ApiKeysPage() {
   const router = useRouter();
   const { isAuthenticated } = useAuth();
@@ -148,6 +160,13 @@ export default function ApiKeysPage() {
     skip: !isAuthenticated,
   });
   const [createApiToken, { isLoading: isCreating }] = useCreateApiTokenMutation();
+  const { data: subscription } = useGetSubscriptionQuery(undefined, {
+    skip: !isAuthenticated,
+  });
+  const { data: plans } = useGetPlansQuery(undefined, {
+    skip: !isAuthenticated,
+  });
+
 
   const [showModal, setShowModal] = useState(false);
   const [createdToken, setCreatedToken] = useState<string | null>(null);
@@ -156,7 +175,7 @@ export default function ApiKeysPage() {
 
   // Form state
   const [keyName, setKeyName] = useState("");
-  const [selectedScopes, setSelectedScopes] = useState<string[]>([]);
+  const [selectedScopes, setSelectedScopes] = useState<IScopeResponse[]>([]);
   const [expiryDays, setExpiryDays] = useState<number>(30);
   const [formError, setFormError] = useState<string | null>(null);
 
@@ -174,7 +193,7 @@ export default function ApiKeysPage() {
 
   const closeModal = () => setShowModal(false);
 
-  const toggleScope = (scope: string) => {
+  const toggleScope = (scope: IScopeResponse) => {
     setSelectedScopes((prev) =>
       prev.includes(scope) ? prev.filter((s) => s !== scope) : [...prev, scope]
     );
@@ -188,7 +207,7 @@ export default function ApiKeysPage() {
     try {
       const result = await createApiToken({
         name: keyName.trim() as TokenName,
-        scopes: selectedScopes,
+        scopes: selectedScopes.map((s) => s.scope),
         expires_in_days: expiryDays,
       }).unwrap();
       setCreatedToken(result.token);

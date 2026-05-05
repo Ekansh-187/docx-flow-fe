@@ -1,9 +1,10 @@
 import { iLoveDoxApiSlice } from "./apiSlice";
-import type {
-  IScopeResponse,
-  ICreateApiTokenRequest,
-  ICreateApiTokenResponse,
-  ICurrentApiToken
+import {
+  type IScopeResponse,
+  type ICreateApiTokenRequest,
+  type ICreateApiTokenResponse,
+  type ICurrentApiToken,
+  ICurrentSubscriptionResponse
 } from "@/interfaces/me";
 
 const meApi = iLoveDoxApiSlice.injectEndpoints({
@@ -26,7 +27,10 @@ const meApi = iLoveDoxApiSlice.injectEndpoints({
             method: "GET",
         }),
     }),
+    getSubscription: builder.query<ICurrentSubscriptionResponse, void>({
+      query: () => "me/subscription",
+    }),
 })
 });
 
-export const { useCreateApiTokenMutation, useGetApiTokensQuery, useGetScopesQuery } = meApi;
+export const { useCreateApiTokenMutation, useGetApiTokensQuery, useGetScopesQuery, useGetSubscriptionQuery } = meApi;
