@@ -13,7 +13,7 @@ export default function DocsPage() {
   return (
     <div className="flex flex-1 justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
-        <section id="introduction">
+        <section id="introduction" className="scroll-mt-24">
         <h1 className="text-3xl font-bold tracking-tight text-white">
           API Documentation
         </h1>
@@ -25,7 +25,7 @@ export default function DocsPage() {
         </p></section>
 
         {/* Base URL */}
-        <section className="mt-12" id="base-url">
+        <section className="mt-12 scroll-mt-24" id="base-url">
           <h2 className="text-xl font-semibold text-white">Base URL</h2>
           <div className="mt-3 rounded-lg border border-zinc-800 bg-zinc-900 px-4 py-3">
             <code className="text-sm text-zinc-300">
@@ -35,7 +35,7 @@ export default function DocsPage() {
         </section>
 
         {/* Authentication */}
-        <section className="mt-12" id="authentication">
+        <section className="mt-12 scroll-mt-24" id="authentication">
           <h2 className="text-xl font-semibold text-white">Authentication</h2>
           <p className="mt-3 text-sm text-zinc-400">
             All requests require an API key sent via the{" "}
@@ -58,7 +58,7 @@ export default function DocsPage() {
         </section>
 
         {/* Convert endpoint */}
-        <section className="mt-12" id="convert">
+        <section className="mt-12 scroll-mt-24" id="convert">
           <h2 className="text-xl font-semibold text-white">
             Convert DOCX to PDF
           </h2>
@@ -302,7 +302,7 @@ int main() {
         </section>
 
         {/* Quick Start Guide */}
-        <section className="mt-12" id="quick-start">
+        <section className="mt-12 scroll-mt-24" id="quick-start">
           <h2 className="text-xl font-semibold text-white">Quick Start Guide</h2>
           <p className="mt-3 text-sm text-zinc-400">
             Get up and running with the ILoveDox document conversion API in under five minutes.
@@ -347,7 +347,7 @@ int main() {
         </section>
 
         {/* Error Handling */}
-        <section className="mt-12" id="error-handling">
+        <section className="mt-12 scroll-mt-24" id="error-handling">
           <h2 className="text-xl font-semibold text-white">Error Handling Guide</h2>
           <p className="mt-3 text-sm text-zinc-400">
             Robust error handling is critical for production-grade API integrations.
@@ -419,7 +419,7 @@ int main() {
         </section>
 
 {/* Rate Limits */}
-        <section className="mt-12" id="rate-limits">
+        <section className="mt-12 scroll-mt-24" id="rate-limits">
           <h2 className="text-xl font-semibold text-white">Rate Limits</h2>
           <div className="mt-4 overflow-x-auto rounded-xl border border-zinc-800">
             <table className="w-full text-left text-sm">
@@ -454,7 +454,7 @@ int main() {
         </section>
 
         {/* Best Practices */}
-        <section className="mt-12" id="best-practices">
+        <section className="mt-12 scroll-mt-24" id="best-practices">
           <h2 className="text-xl font-semibold text-white">Best Practices</h2>
           <p className="mt-3 text-sm text-zinc-400">
             Follow these recommended patterns to build scalable, performant, and secure
@@ -517,7 +517,7 @@ int main() {
         </section>
 
         {/* Webhooks & Async Processing */}
-        <section className="mt-12" id="webhooks">
+        <section className="mt-12 scroll-mt-24" id="webhooks">
           <h2 className="text-xl font-semibold text-white">Webhooks & Asynchronous Processing</h2>
           <p className="mt-3 text-sm text-zinc-400">
             For high-throughput workloads and batch document processing, our webhook-based
@@ -562,7 +562,7 @@ int main() {
         </section>
 
         {/* Use Cases */}
-        <section className="mt-12" id="use-cases">
+        <section className="mt-12 scroll-mt-24" id="use-cases">
           <h2 className="text-xl font-semibold text-white">Common Use Cases & Workflows</h2>
           <p className="mt-3 text-sm text-zinc-400">
             The ILoveDox API powers document automation for startups, enterprises, SaaS platforms,
@@ -608,7 +608,7 @@ int main() {
         </section>
 
         {/* CI/CD Integration */}
-        <section className="mt-12" id="cicd">
+        <section className="mt-12 scroll-mt-24" id="cicd">
           <h2 className="text-xl font-semibold text-white">CI/CD & DevOps Integration</h2>
           <p className="mt-3 text-sm text-zinc-400">
             Integrate document conversion into your CI/CD pipeline for automated testing,
@@ -641,7 +641,7 @@ int main() {
         </section>
 
         {/* Tutorials & Resources */}
-        <section className="mt-12" id="tutorials">
+        <section className="mt-12 scroll-mt-24" id="tutorials">
           <h2 className="text-xl font-semibold text-white">Tutorials & Learning Resources</h2>
           <p className="mt-3 text-sm text-zinc-400">
             New to REST APIs or document automation? These curated tutorials and video resources
@@ -751,7 +751,7 @@ int main() {
         </section>
 
         {/* FAQ */}
-        <section className="mt-12" id="faq">
+        <section className="mt-12 scroll-mt-24" id="faq">
           <h2 className="text-xl font-semibold text-white">Frequently Asked Questions</h2>
 
           <div className="mt-6 space-y-6">
