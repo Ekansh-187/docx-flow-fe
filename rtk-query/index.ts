@@ -25,3 +25,7 @@ export{
 export {
   useSendContactQueryMutation
 } from "./contactEndpoints";
+
+export {
+  useGetPlansQuery
+} from "./adminEndpoints";

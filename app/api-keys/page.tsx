@@ -139,8 +139,6 @@ function Modal({ onClose, children }: { onClose: () => void; children: React.Rea
 
 
 export default function ApiKeysPage() {
-  const minExpiry = 1;
-  const maxExpiry = 90;
   const router = useRouter();
   const { isAuthenticated } = useAuth();
   const { data: tokens, isLoading } = useGetApiTokensQuery(undefined, {
@@ -154,6 +152,7 @@ export default function ApiKeysPage() {
   const [showModal, setShowModal] = useState(false);
   const [createdToken, setCreatedToken] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
 
   // Form state
   const [keyName, setKeyName] = useState("");
@@ -168,7 +167,7 @@ export default function ApiKeysPage() {
   const openModal = () => {
     setKeyName("");
     setSelectedScopes([]);
-    setExpiryDays(30);
+    setExpiryDays(365);
     setFormError(null);
     setShowModal(true);
   };
@@ -185,7 +184,6 @@ export default function ApiKeysPage() {
     setFormError(null);
     if (!keyName.trim()) return setFormError("API key name is required.");
     if (selectedScopes.length === 0) return setFormError("Select at least one scope.");
-    if (!expiryDays || expiryDays < 1) return setFormError("Expiry must be at least 1 day.");
 
     try {
       const result = await createApiToken({
@@ -235,9 +233,30 @@ export default function ApiKeysPage() {
               <p className="text-sm font-medium text-emerald-400">
                 API key created! Copy it now — it won&apos;t be shown again.
               </p>
-              <code className="mt-2 block break-all rounded bg-zinc-950 px-3 py-2 text-sm text-emerald-300">
-                {createdToken}
-              </code>
+              <div className="mt-2 flex items-start gap-2">
+                <code className="flex-1 block break-all rounded bg-zinc-950 px-3 py-2 text-sm text-emerald-300">
+                  {createdToken}
+                </code>
+                <button
+                  onClick={() => {
+                    navigator.clipboard.writeText(createdToken);
+                    setCopied(true);
+                    setTimeout(() => setCopied(false), 2000);
+                  }}
+                  className="mt-0.5 flex-shrink-0 cursor-pointer rounded-lg bg-emerald-700 px-3 py-2 text-sm font-medium text-white transition-colors hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  title="Copy to clipboard"
+                >
+                  {copied ? (
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  ) : (
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
@@ -331,45 +350,7 @@ export default function ApiKeysPage() {
                 />
               )}
             </div>
-
-            {/* Expiry Days */}
-            <div>
-              <label className="mb-1.5 block text-sm font-medium text-zinc-300">
-                Expires in (days) <span className="text-red-400">*</span>
-              </label>
-              <div className="flex items-center gap-3">
-                <input
-                  type="number"
-                  min={minExpiry}
-                  max={maxExpiry}
-                  value={expiryDays}
-                  onChange={(e) => {
-                    let val = Number(e.target.value);
-                    if(Number.isNaN(val)) setExpiryDays(0);
-                    else if (val < 0) setExpiryDays(minExpiry);
-                    else if (val > maxExpiry) setExpiryDays(maxExpiry);
-                    else setExpiryDays(val);
-                  }
-                  }
-                  className="w-28 rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
-                />
-                <div className="flex gap-1.5">
-                  {[7, 30, 90].map((d) => (
-                    <button
-                      key={d}
-                      onClick={() => setExpiryDays(d)}
-                      className={`rounded-md px-2.5 py-1 text-xs font-medium transition-colors ${
-                        expiryDays === d
-                          ? "bg-zinc-600 text-white"
-                          : "bg-zinc-800 text-zinc-400 hover:bg-zinc-700 hover:text-white"
-                      }`}
-                    >
-                      {d}d
-                    </button>
-                  ))}
-                </div>
-              </div>
-            </div>
+            
 
             {formError && (
               <p className="rounded-lg border border-red-900 bg-red-950/50 px-3 py-2 text-sm text-red-400">

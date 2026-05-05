@@ -113,7 +113,7 @@ export default function DocsPage() {
               {
                 label: "cURL",
                 lang: "bash",
-                code: `curl -X POST ${apiBaseUrl}file-convertor/convert \\
+                code: `curl -X POST ${apiBaseUrl}/file-convertor/convert \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`,
@@ -123,7 +123,7 @@ export default function DocsPage() {
                 lang: "python",
                 code: `import requests
 
-url = "${apiBaseUrl}file-convertor/convert"
+url = "${apiBaseUrl}/file-convertor/convert"
 headers = {"Authorization": "Bearer YOUR_API_KEY"}
 
 with open("document.docx", "rb") as f:
@@ -140,7 +140,7 @@ with open("output.pdf", "wb") as f:
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("document.docx")]));
 
-const res = await fetch("${apiBaseUrl}file-convertor/convert", {
+const res = await fetch("${apiBaseUrl}/file-convertor/convert", {
   method: "POST",
   headers: { Authorization: "Bearer YOUR_API_KEY" },
   body: form,
@@ -161,7 +161,7 @@ public class ConvertDocx {
         File file = new File("document.docx");
 
         HttpURLConnection conn = (HttpURLConnection)
-            new URL("${apiBaseUrl}file-convertor/convert").openConnection();
+            new URL("${apiBaseUrl}/file-convertor/convert").openConnection();
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setRequestProperty("Authorization", "Bearer YOUR_API_KEY");
@@ -210,7 +210,7 @@ int main() {
 
     FILE* out = fopen("output.pdf", "wb");
 
-    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}file-convertor/convert");
+    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}/file-convertor/convert");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
@@ -626,7 +626,7 @@ int main() {
               <code>{`- name: Convert docs to PDF
   run: |
     for file in docs/*.docx; do
-      curl -X POST ${apiBaseUrl}file-convertor/convert \\
+      curl -X POST ${apiBaseUrl}/file-convertor/convert \\
         -H "Authorization: Bearer \${{ secrets.ILOVEDOX_API_KEY }}" \\
         -F "file=@$file" \\
         -o "output/$(basename \${file%.docx}.pdf)"

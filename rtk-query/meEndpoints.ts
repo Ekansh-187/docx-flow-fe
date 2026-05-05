@@ -1,11 +1,10 @@
-import { url } from "inspector";
 import { iLoveDoxApiSlice } from "./apiSlice";
 import type {
   IScopeResponse,
   ICreateApiTokenRequest,
   ICreateApiTokenResponse,
   ICurrentApiToken
-} from "@/interfaces/auth";
+} from "@/interfaces/me";
 
 const meApi = iLoveDoxApiSlice.injectEndpoints({
   endpoints: (builder) => ({
