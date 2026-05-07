@@ -29,7 +29,7 @@ export default function SignInPage() {
 
   useEffect(() => {
     if (isAuthenticated) {
-      router.replace("/convert");
+      router.replace("/tools/docx-to-pdf");
     }
   }, [isAuthenticated, router]);
 
@@ -63,7 +63,7 @@ export default function SignInPage() {
 
         loginWithTokens(res.access_token, res.refresh_token, res.user?.full_name);
 
-        router.push("/convert");
+        router.push("/tools/docx-to-pdf");
       } catch (err: any) {
         setError(err?.data?.detail || err?.data?.message || "Login failed. Please try again.");
       }
@@ -80,7 +80,7 @@ export default function SignInPage() {
       loginWithTokens(res.access_token, res.refresh_token, res.user?.full_name);
 
       setShowOtpDialog(false);
-      router.push("/convert");
+      router.push("/tools/docx-to-pdf");
     } catch (err: any) {
       setOtpError(err?.data?.detail || err?.data?.message || "Verification failed. Please try again.");
     }

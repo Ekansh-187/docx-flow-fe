@@ -6,10 +6,9 @@ import { useState, useRef, useEffect } from "react";
 import { useAuth } from "@/utils/useAuth";
 
 const tools = [
-  { title: "DOCX to PDF", href: "/convert", active: true },
+  { title: "DOCX to PDF", href: "/tools/docx-to-pdf", active: true },
+  { title: "Image to PDF", href: "/tools/image-to-pdf", active: true },
   { title: "PDF to DOCX", href: "/tools/coming-soon", active: false },
-  { title: "JPG to PDF", href: "/tools/coming-soon", active: false },
-  { title: "PNG to PDF", href: "/tools/coming-soon", active: false },
   { title: "PDF to JPG", href: "/tools/coming-soon", active: false },
   { title: "Excel to PDF", href: "/tools/coming-soon", active: false },
   { title: "PPT to PDF", href: "/tools/coming-soon", active: false },
@@ -138,7 +137,7 @@ export default function Navbar() {
             <button
               onClick={() => setToolsOpen((prev) => !prev)}
               className={`flex items-center gap-1 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${
-                pathname.startsWith("/convert") || pathname.startsWith("/tools")
+                pathname.startsWith("/tools")
                   ? "text-white"
                   : "text-zinc-400 hover:text-zinc-200"
               }`}
@@ -235,7 +234,7 @@ export default function Navbar() {
             <button
               onClick={() => setMobileToolsOpen((prev) => !prev)}
               className={`flex w-full items-center justify-between text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${
-                pathname.startsWith("/convert") || pathname.startsWith("/tools")
+                pathname.startsWith("/tools")
                   ? "text-white"
                   : "text-zinc-400 hover:text-zinc-200"
               }`}

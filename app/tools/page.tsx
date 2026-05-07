@@ -12,7 +12,7 @@ const tools = [
   {
     title: "DOCX to PDF",
     description: "Convert Word documents to PDF instantly.",
-    href: "/convert",
+    href: "/tools/docx-to-pdf",
     active: true,
   },
   {

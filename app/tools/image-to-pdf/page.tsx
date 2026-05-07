@@ -189,8 +189,8 @@ export default function ImageToPdfPage() {
   }, [images, convertState, downloadUrl, convertImagesToPdf]);
 
   return (
-    <div className="flex flex-1 flex-col items-center px-6 py-20">
-      <div className="w-full max-w-2xl">
+    <div className="flex flex-1 flex-col items-center justify-center px-6 py-20">
+      <div className="w-full max-w-xl text-center">
         <h1 className="text-center text-3xl font-bold tracking-tight text-white">
           Images to PDF
         </h1>
@@ -206,7 +206,7 @@ export default function ImageToPdfPage() {
           onDragLeave={handleDrag}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-12 transition-colors ${
+          className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-16 transition-colors ${
             dragActive
               ? "border-zinc-400 bg-zinc-800/60"
               : "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/40"

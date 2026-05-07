@@ -101,7 +101,7 @@ export default function Home() {
             Read the Docs
           </Link>
           <Link
-            href="/convert"
+            href="/tools/docx-to-pdf"
             className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-zinc-500"
           >
             Try it Online
