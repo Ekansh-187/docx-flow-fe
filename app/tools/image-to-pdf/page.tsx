@@ -21,7 +21,7 @@ export default function ImageToPdfPage() {
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dragSrcIndex = useRef<number | null>(null);
+  const [dragSrcIndex, setDragSrcIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
   const [convertImagesToPdf] = useConvertImagesToPdfMutation();
 
@@ -67,14 +67,14 @@ export default function ImageToPdfPage() {
   }
 
   function handleItemDragStart(e: React.DragEvent, index: number) {
-    dragSrcIndex.current = index;
+    setDragSrcIndex(index);
     e.dataTransfer.effectAllowed = "move";
     // Minimal payload so isFileDrag returns false for these events
     e.dataTransfer.setData("text/plain", String(index));
   }
 
   function handleItemDragOver(e: React.DragEvent, index: number) {
-    if (dragSrcIndex.current === null) return;
+    if (dragSrcIndex === null) return;
     e.preventDefault();
     e.dataTransfer.dropEffect = "move";
     setDragOverIndex(index);
@@ -82,9 +82,9 @@ export default function ImageToPdfPage() {
 
   function handleItemDrop(e: React.DragEvent, targetIndex: number) {
     e.preventDefault();
-    const srcIndex = dragSrcIndex.current;
+    const srcIndex = dragSrcIndex;
     if (srcIndex === null || srcIndex === targetIndex) {
-      dragSrcIndex.current = null;
+      setDragSrcIndex(null);
       setDragOverIndex(null);
       return;
     }
@@ -94,12 +94,12 @@ export default function ImageToPdfPage() {
       next.splice(targetIndex, 0, moved);
       return next;
     });
-    dragSrcIndex.current = null;
+    setDragSrcIndex(null);
     setDragOverIndex(null);
   }
 
   function handleItemDragEnd() {
-    dragSrcIndex.current = null;
+    setDragSrcIndex(null);
     setDragOverIndex(null);
   }
 
@@ -266,7 +266,7 @@ export default function ImageToPdfPage() {
                 onDrop={(e) => handleItemDrop(e, index)}
                 onDragEnd={handleItemDragEnd}
                 className={`flex cursor-grab items-center gap-4 rounded-lg border px-4 py-3 transition-colors active:cursor-grabbing ${
-                  dragOverIndex === index && dragSrcIndex.current !== index
+                  dragOverIndex === index && dragSrcIndex !== index
                     ? "border-zinc-500 bg-zinc-800"
                     : "border-zinc-800 bg-zinc-900"
                 }`}
