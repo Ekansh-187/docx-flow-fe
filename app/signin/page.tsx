@@ -87,7 +87,7 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex flex-1 items-center justify-center px-6 py-20">
+    <div className="flex min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-sm">
         <h1 className="text-2xl font-bold tracking-tight text-white text-center">
           {mode === "signin" ? "Sign in to ILoveDox" : "Create an account"}

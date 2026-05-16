@@ -22,8 +22,48 @@ function CheckIcon() {
   );
 }
 
+function PlanCardSkeleton() {
+  return (
+    <div className="mx-auto mt-12 max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-8 animate-pulse">
+      {/* Badge */}
+      <div className="h-6 w-28 rounded-full bg-zinc-800" />
+
+      {/* Title */}
+      <div className="mt-5 h-8 w-32 rounded-md bg-zinc-800" />
+
+      {/* Price */}
+      <div className="mt-3 flex items-baseline justify-center gap-2">
+        <div className="h-10 w-16 rounded-md bg-zinc-800" />
+        <div className="h-4 w-16 rounded-md bg-zinc-800" />
+      </div>
+
+      {/* Description */}
+      <div className="mt-4 space-y-2">
+        <div className="h-4 w-full rounded-md bg-zinc-800" />
+        <div className="h-4 w-3/4 rounded-md bg-zinc-800" />
+      </div>
+
+      {/* Feature list */}
+      <ul className="mt-8 space-y-4">
+        {Array.from({ length: 6 }).map((_, i) => (
+          <li key={i} className="flex items-center gap-3">
+            <div className="h-5 w-5 shrink-0 rounded-full bg-zinc-800" />
+            <div
+              className="h-4 rounded-md bg-zinc-800"
+              style={{ width: `${60 + (i % 3) * 15}%` }}
+            />
+          </li>
+        ))}
+      </ul>
+
+      {/* CTA button */}
+      <div className="mt-8 h-11 w-full rounded-lg bg-zinc-800" />
+    </div>
+  );
+}
+
 function PlanCard({ plan }: { plan: IPlanResponse }) {
-  let limits = plan.limits;
+  const limits = plan.limits;
   const features = [
     {
       label: (
@@ -114,11 +154,11 @@ function PlanCard({ plan }: { plan: IPlanResponse }) {
 }
 
 export default function PricingPage() {
-  const { data: plans } = useGetPlansQuery(undefined);
+  const { data: plans, isLoading } = useGetPlansQuery(undefined);
   const freePlan = plans?.find((p) => p.name === "free" && p.isActive);
 
   return (
-    <div className="flex flex-1 flex-col items-center px-6 py-20">
+    <div className="flex flex-1 flex-col min-h-screen items-center px-6 py-20">
       <div className="w-full max-w-3xl text-center">
         <h1 className="text-3xl font-bold tracking-tight text-white">
           API Pricing
@@ -127,7 +167,9 @@ export default function PricingPage() {
           Integrate document conversion into your apps with our API.
         </p>
 
-        {freePlan ? (
+        {isLoading ? (
+          <PlanCardSkeleton />
+        ) : freePlan ? (
           <PlanCard plan={freePlan} />
         ) : (
           <p className="mt-12 text-zinc-500">No active plans available.</p>

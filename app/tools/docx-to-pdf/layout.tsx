@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import Footer from "@/app/components/Footer";
 export const metadata: Metadata = {
   title: "Convert DOCX to PDF Online",
   description:
@@ -12,5 +12,10 @@ export default function ConvertLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+      <>
+            {children}
+            <Footer />
+          </>
+    )
 }

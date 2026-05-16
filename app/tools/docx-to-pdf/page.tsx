@@ -83,7 +83,7 @@ export default function ConvertPage() {
   }, [file, convertState, convertDocument]);
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-20">
+    <div className="flex flex-1 min-h-screen flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl text-center">
         <h1 className="text-3xl font-bold tracking-tight text-white">
           Convert DOCX to PDF

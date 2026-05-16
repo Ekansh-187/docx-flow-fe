@@ -1,3 +1,4 @@
+import Footer from "@/app/components/Footer";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,5 +13,10 @@ export default function ConvertLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return (
+    <>
+          {children}
+          <Footer />
+        </>
+  )
 }

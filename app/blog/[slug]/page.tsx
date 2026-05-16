@@ -3,6 +3,8 @@ import { Blog } from "@/types/blog";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
+const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL;
+const convertorEndpoint = process.env.NEXT_DEV_CONVERTOR_ENDPOINT;
 const blogs: Blog[] = [
   {
     id: "2",
@@ -51,7 +53,7 @@ const blogs: Blog[] = [
       {
         type: "code",
         language: "bash",
-        content: `curl -X POST https://api.ilovedox.com/v1/file-convertor/convert \\
+        content: `curl -X POST ${apiBaseUrl}${convertorEndpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`,

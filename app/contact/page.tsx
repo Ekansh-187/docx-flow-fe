@@ -60,7 +60,7 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="flex flex-1 flex-col items-center px-6 py-20">
+    <div className="flex min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl">
         <h1 className="text-3xl font-bold tracking-tight text-white text-center">
           Contact Us

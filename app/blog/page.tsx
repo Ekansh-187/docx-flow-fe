@@ -29,7 +29,7 @@ const blogs = [
 
 export default function BlogPage() {
   return (
-    <div className="flex flex-1 flex-col items-center px-6 py-20">
+    <div className="flex min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-4xl">
         <div className="text-center">
           <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">

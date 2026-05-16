@@ -23,7 +23,7 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
 
     convertDocument: builder.mutation<Blob, FormData>({
       query: (body) => ({
-        url: "web/convert",
+        url: "web/docx-to-pdf",
         method: "POST",
         body,
         // Use API key for conversion; skip Content-Type so browser sets multipart boundary

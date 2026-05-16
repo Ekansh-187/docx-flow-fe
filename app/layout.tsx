@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import StoreProvider from "./components/StoreProvider";
+import FooterRenderer from "./components/FooterRenderer";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,8 @@ export const metadata: Metadata = {
     "docx to pdf",
     "document conversion api",
     "docx converter",
+    "docx convertor",
+    "image to pdf",
     "pdf api",
     "file conversion",
     "developer api",
@@ -77,10 +80,11 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-50">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-white text-black p-2 z-50">Skip to main content</a>
-        <StoreProvider>
-          <Navbar />
-          {children}
-        </StoreProvider>
+          <StoreProvider>
+            <Navbar />
+            {children}
+            <FooterRenderer />
+          </StoreProvider>
       </body>
     </html>
   );

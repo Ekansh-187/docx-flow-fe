@@ -69,7 +69,8 @@ const faqJsonLd = {
   ],
 };
 
-const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTER_API;
+const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL;
+const convertorEndpoint = process.env.NEXT_DEV_CONVERTOR_ENDPOINT;
 export default function Home() {
   return (
     <div id="main" className="flex flex-1 flex-col">
@@ -122,7 +123,7 @@ export default function Home() {
             <span className="ml-3 text-xs text-zinc-500">cURL</span>
           </div>
           <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
-            <code>{`curl -X POST ${apiBaseUrl}file-convertor/convert \\
+            <code>{`curl -X POST ${apiBaseUrl}${convertorEndpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`}</code>

@@ -189,7 +189,7 @@ export default function ImageToPdfPage() {
   }, [images, convertState, downloadUrl, convertImagesToPdf]);
 
   return (
-    <div className="flex flex-1 flex-col items-center justify-center px-6 py-20">
+    <div className="flex flex-1 flex-col min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl text-center">
         <h1 className="text-center text-3xl font-bold tracking-tight text-white">
           Images to PDF
