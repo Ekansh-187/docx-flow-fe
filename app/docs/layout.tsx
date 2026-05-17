@@ -13,6 +13,7 @@ const docsSections: SidebarSection[] = [
     title: "Endpoints",
     items: [
       { title: "Convert DOCX to PDF", href: "/docs#convert" },
+      {title: "Compress File", href: "/docs#compress-endpoint" },
       { title: "PDF to DOCX", href: "/docs/pdf-to-docx", disabled: true },
       { title: "Image to PDF", href: "/docs/image-to-pdf", disabled: true },
     ],

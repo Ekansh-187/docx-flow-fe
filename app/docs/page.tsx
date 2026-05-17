@@ -302,6 +302,261 @@ int main() {
           </div>
         </section>
 
+        {/* Compress endpoint */}
+        <section className="mt-12 scroll-mt-24" id="compress-endpoint">
+          <h2 className="text-xl font-semibold text-white">Compress File</h2>
+          <div className="mt-4 flex items-center gap-3">
+            <span className="rounded bg-emerald-500/20 px-2.5 py-1 text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30">
+              POST
+            </span>
+            <code className="text-sm text-zinc-300">{apiBaseUrl}/file-compressor/compress</code>
+          </div>
+
+          <p className="mt-4 text-sm text-zinc-400">
+            Upload an image, PDF, or DOCX file and receive the compressed file as a binary response.
+            Compression reduces file size while maintaining quality for images, PDFs, and office documents.
+          </p>
+
+          {/* Request */}
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            Request
+          </h3>
+          <div className="mt-3 overflow-x-auto rounded-xl border border-zinc-800">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 bg-zinc-900">
+                  <th className="px-4 py-3 font-medium text-zinc-400">Parameter</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Type</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Description</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800 bg-zinc-950">
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-zinc-300">file</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">file</td>
+                  <td className="px-4 py-3 text-zinc-400">
+                    The image, PDF, or DOCX file to compress. Max 10 MB.
+                  </td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-zinc-300">file_type</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">string</td>
+                  <td className="px-4 py-3 text-zinc-400">
+                    The type of file being compressed: <code className="rounded bg-zinc-800 px-1 py-0.5 text-zinc-300">image</code>, <code className="rounded bg-zinc-800 px-1 py-0.5 text-zinc-300">pdf</code>, or <code className="rounded bg-zinc-800 px-1 py-0.5 text-zinc-300">docx</code>.
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Code examples */}
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            Examples
+          </h3>
+          <CodeTabs
+            tabs={[
+              {
+                label: "cURL",
+                lang: "bash",
+                code: `curl -X POST ${apiBaseUrl}/file-compressor/compress \\
+  -H "Authorization: Bearer YOUR_API_KEY" \\
+  -F "file=@input.pdf" \\
+  -F "file_type=pdf" \\
+  -o compressed.pdf`,
+              },
+              {
+                label: "Python",
+                lang: "python",
+                code: `import requests
+
+url = "${apiBaseUrl}/file-compressor/compress"
+headers = {"Authorization": "Bearer YOUR_API_KEY"}
+files = {
+    "file": open("input.pdf", "rb"),
+    "file_type": (None, "pdf"),
+}
+
+response = requests.post(url, headers=headers, files=files)
+with open("compressed.pdf", "wb") as f:
+    f.write(response.content)`,
+              },
+              {
+                label: "Node.js",
+                lang: "javascript",
+                code: `import fs from "node:fs";
+
+const form = new FormData();
+form.append("file", fs.createReadStream("input.pdf"));
+form.append("file_type", "pdf");
+
+const res = await fetch("${apiBaseUrl}/file-compressor/compress", {
+  method: "POST",
+  headers: { Authorization: "Bearer YOUR_API_KEY" },
+  body: form,
+});
+
+const buffer = Buffer.from(await res.arrayBuffer());
+fs.writeFileSync("compressed.pdf", buffer);`,
+              },
+              {
+                label: "Java",
+                lang: "java",
+                code: `import java.io.*;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+public class ConvertDocx {
+    public static void main(String[] args) throws Exception {
+        String boundary = "----FormBoundary" + System.currentTimeMillis();
+        File file = new File("input.pdf");
+
+        HttpURLConnection conn = (HttpURLConnection)
+            new URL("${apiBaseUrl}/file-compressor/compress").openConnection();
+        conn.setRequestMethod("POST");
+        conn.setDoOutput(true);
+        conn.setRequestProperty("Authorization", "Bearer YOUR_API_KEY");
+        conn.setRequestProperty("file_type", "pdf");
+        conn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+
+        try (OutputStream os = conn.getOutputStream()) {
+            String header = "--" + boundary + "\\r\\n"
+                + "Content-Disposition: form-data; name=\\"file\\"; filename=\\"" + file.getName() + "\\"\\r\\n"
+                + "Content-Type: application/octet-stream\\r\\n\\r\\n";
+            os.write(header.getBytes());
+
+            try (FileInputStream fis = new FileInputStream(file)) {
+                fis.transferTo(os);
+            }
+            os.write(("\\r\\n--" + boundary + "--\\r\\n").getBytes());
+        }
+
+        try (InputStream is = conn.getInputStream();
+             FileOutputStream fos = new FileOutputStream("output.pdf")) {
+            is.transferTo(fos);
+        }
+    }
+}`,
+              },
+              {
+                label: "C++",
+                lang: "cpp",
+                code: `#include <cstdio>
+#include <curl/curl.h>
+
+static size_t writeCallback(void* data, size_t size, size_t nmemb, FILE* out) {
+    return fwrite(data, size, nmemb, out);
+}
+
+int main() {
+    CURL* curl = curl_easy_init();
+    if (!curl) return 1;
+
+    struct curl_slist* headers = nullptr;
+    headers = curl_slist_append(headers, "Authorization: Bearer YOUR_API_KEY");
+    curl_slist_append(headers, "file_type: pdf");
+
+    curl_mime* mime = curl_mime_init(curl);
+    curl_mimepart* part = curl_mime_addpart(mime);
+    curl_mime_name(part, "file");
+    curl_mime_filedata(part, "input.pdf");
+
+    FILE* out = fopen("output.pdf", "wb");
+
+    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}/file-compressor/compress");
+    curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
+    curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
+    curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
+    curl_easy_setopt(curl, CURLOPT_WRITEDATA, out);
+
+    CURLcode res = curl_easy_perform(curl);
+
+    fclose(out);
+    curl_mime_free(mime);
+    curl_slist_free_all(headers);
+    curl_easy_cleanup(curl);
+
+    return res != CURLE_OK;
+}`,
+              }
+            ]}
+          />
+
+          {/* Response */}
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            Response
+          </h3>
+          <div className="mt-3 overflow-x-auto rounded-xl border border-zinc-800">
+            <table className="w-full text-left text-sm">
+              <thead>
+                <tr className="border-b border-zinc-800 bg-zinc-900">
+                  <th className="px-4 py-3 font-medium text-zinc-400">Status</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Content-Type</th>
+                  <th className="px-4 py-3 font-medium text-zinc-400">Body</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-zinc-800 bg-zinc-950">
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-emerald-400">200</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">application/octet-stream</td>
+                  <td className="px-4 py-3 text-zinc-400">The compressed file binary.</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-amber-400">400</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">application/json</td>
+                  <td className="px-4 py-3 text-zinc-400">Invalid file type or missing parameter.</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-red-400">401</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">application/json</td>
+                  <td className="px-4 py-3 text-zinc-400">Missing or invalid API key.</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-red-400">413</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">application/json</td>
+                  <td className="px-4 py-3 text-zinc-400">File exceeds 10 MB limit.</td>
+                </tr>
+                <tr>
+                  <td className="px-4 py-3">
+                    <code className="text-red-400">429</code>
+                  </td>
+                  <td className="px-4 py-3 text-zinc-500">application/json</td>
+                  <td className="px-4 py-3 text-zinc-400">Rate limit exceeded.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          {/* Error format */}
+          <h3 className="mt-8 text-sm font-semibold uppercase tracking-wider text-zinc-500">
+            Error Response Format
+          </h3>
+          <div className="mt-3 overflow-hidden rounded-xl border border-zinc-800 bg-zinc-900">
+            <div className="border-b border-zinc-800 px-4 py-2.5">
+              <span className="text-xs text-zinc-500">json</span>
+            </div>
+            <pre className="overflow-x-auto p-5 text-sm leading-relaxed text-zinc-300">
+              <code>{`{
+  "error": {
+    "code": "INVALID_FILE_TYPE",
+    "message": "The specified file_type is not supported. Use 'image', 'pdf', or 'docx'."
+  }
+}`}</code>
+            </pre>
+          </div>
+        </section>
+
         {/* Quick Start Guide */}
         <section className="mt-12 scroll-mt-24" id="quick-start">
           <h2 className="text-xl font-semibold text-white">Quick Start Guide</h2>
