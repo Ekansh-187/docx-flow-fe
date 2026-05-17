@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     "free docx converter",
     "image to pdf",
     "pdf api",
+    "free api",
     "file conversion",
     "developer api",
     "ilovedox",

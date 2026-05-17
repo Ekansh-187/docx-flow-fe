@@ -52,6 +52,16 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Document"],
     }),
+
+    compressFile: builder.mutation<Blob, FormData>({
+      query: (body) => ({
+        url: "web/compress-file",
+        method: "POST",
+        body,
+        responseHandler: (response) => response.blob(),
+      }),
+      invalidatesTags: ["Document"],
+    }),
   }),
 });
 
@@ -63,4 +73,5 @@ export const {
   useConvertDocumentMutation,
   useDeleteDocumentMutation,
   useConvertImagesToPdfMutation,
+  useCompressFileMutation,
 } = documentApi;

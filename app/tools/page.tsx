@@ -27,6 +27,12 @@ const tools = [
     href: "/tools/image-to-pdf",
     active: true,
   },
+  {
+    title: "Compress File",
+    description: "Reduce the size of images, PDFs, or DOCX files.",
+    href: "/tools/compress",
+    active: true,
+  },
   // {
   //   title: "PNG to PDF",
   //   description: "Convert PNG images to PDF documents.",

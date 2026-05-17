@@ -9,6 +9,7 @@ export {
   useConvertDocumentMutation,
   useDeleteDocumentMutation,
   useConvertImagesToPdfMutation,
+  useCompressFileMutation,
 } from "./documentEndpoints";
 
 export {

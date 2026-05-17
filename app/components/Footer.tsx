@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { title } from "process";
 
 const columns = [
   {
@@ -16,6 +17,7 @@ const columns = [
       { title: "All Tools", href: "/tools" },
       { title: "DOCX to PDF", href: "/tools/docx-to-pdf" },
       { title: "Image to PDF", href: "/tools/image-to-pdf" },
+      {title: "Compress File", href: "/tools/compress"},
     ],
   },
   {

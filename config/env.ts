@@ -36,7 +36,7 @@ const env = typeof window !== "undefined" && window._env_ ? window._env_ : proce
 // const env = process.env;
 export const envConfig = {
   // Proxy through Next.js rewrites to avoid CORS issues
-  apiBaseUrl: process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL || "/api/proxy",
+  apiBaseUrl: "/api/proxy",
   sourceType: env.VITE_SOURCE_TYPE,
   storageAccount: env.VITE_STORAGE_ACCOUNT,
   containerName: env.VITE_CONTAINER_NAME,
