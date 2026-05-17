@@ -7,33 +7,39 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     {
-      url: baseUrl,
+      url: `${baseUrl}/docs`,
       lastModified,
       changeFrequency: "weekly",
       priority: 1,
     },
     {
-      url: `${baseUrl}/tools/docx-to-pdf`,
+      url: baseUrl,
       lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       priority: 0.95,
     },
     {
-      url: `${baseUrl}/docs`,
+      url: `${baseUrl}/tools/docx-to-pdf`,
       lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/tools/compress`,
+      lastModified,
+      changeFrequency: "monthly",
       priority: 0.95,
     },
     {
       url: `${baseUrl}/tools`,
       lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       priority: 0.85,
     },
     {
       url: `${baseUrl}/tools/image-to-pdf`,
       lastModified,
-      changeFrequency: "weekly",
+      changeFrequency: "monthly",
       priority: 0.8,
     },
     {
@@ -51,7 +57,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     {
       url: `${baseUrl}/pricing`,
       lastModified,
-      changeFrequency: "monthly",
+      changeFrequency: "yearly",
       priority: 0.65,
     },
     {
