@@ -3,6 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://ilovedox.com" },
+  title: "Free DOCX to PDF API — 50 Conversions/Month, No Credit Card",
+  description:
+    "Convert DOCX files to PDF for free with a single API call. 50 free conversions/month, no credit card required. REST API for developers — works with Node.js, Python, cURL, and more.",
 };
 
 const jsonLd = {
@@ -85,29 +88,31 @@ export default function Home() {
       {/* Hero */}
       <section className="flex flex-col items-center px-6 pt-20 pb-16 text-center">
         <div className="inline-flex items-center rounded-full border border-zinc-800 bg-zinc-900 px-3 py-1 text-xs font-medium text-zinc-400">
-          DOCX &rarr; PDF &middot; REST API
+          DOCX &rarr; PDF &middot; Free API &middot; No Credit Card
         </div>
         <h1 className="mt-6 max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-          DOCX conversion API for developers
+          Free DOCX to PDF conversion API for developers
         </h1>
         <p className="mt-4 max-w-xl text-lg text-zinc-400">
-          Convert DOCX to PDF with a single API call. Built for
-          automation, pipelines, and app integrations.
+          Convert DOCX to PDF with a single API call. 50 free conversions/month — no credit card required. Built for automation, pipelines, and app integrations.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/docs"
             className="rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
-            Read the Docs
+            Get Free API Key
           </Link>
           <Link
             href="/tools/docx-to-pdf"
             className="rounded-lg border border-zinc-700 px-6 py-3 text-sm font-semibold text-zinc-300 transition-colors hover:border-zinc-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-zinc-500"
           >
-            Try it Online
+            Try it Free Online
           </Link>
         </div>
+        <p className="mt-4 text-xs text-zinc-500">
+          Free forever &middot; 50 conversions/month &middot; No credit card &middot; Upgrade anytime
+        </p>
       </section>
 
       {/* Quick Start snippet */}
@@ -351,16 +356,16 @@ export default function Home() {
 
       {/* CTA */}
       <section className="flex flex-col items-center px-6 py-16 text-center">
-        <h2 className="text-2xl font-bold text-white">Ready to integrate?</h2>
+        <h2 className="text-2xl font-bold text-white">Start for free — no credit card required</h2>
         <p className="mt-3 max-w-md text-zinc-400">
-          Get your free API key and start converting documents in minutes.
+          Get your free API key and convert up to 50 documents/month at no cost. Upgrade anytime.
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/docs"
             className="rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
           >
-            View Documentation
+            Get Free API Key
           </Link>
           <Link
             href="/pricing"
@@ -369,6 +374,9 @@ export default function Home() {
             See Pricing
           </Link>
         </div>
+        <p className="mt-4 text-xs text-zinc-500">
+          Free forever &middot; 50 conversions/month &middot; No credit card &middot; Upgrade anytime
+        </p>
       </section>
     </div>
   );

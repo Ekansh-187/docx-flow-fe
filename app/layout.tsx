@@ -20,16 +20,20 @@ const SITE_URL = "https://ilovedox.com";
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "ILoveDox — Document Conversion API",
+    default: "ILoveDox — Free DOCX to PDF Conversion API",
     template: "%s | ILoveDox",
   },
   description:
-    "Convert DOCX files to PDF with a single API call. REST API built for developers, automation, and app integrations.",
+    "Convert DOCX files to PDF for free with a single API call. 50 free conversions/month, no credit card required. REST API built for developers, automation, and app integrations.",
   keywords: [
     "docx to pdf",
+    "free docx to pdf",
+    "free pdf api",
+    "free document conversion api",
     "document conversion api",
     "docx converter",
     "docx convertor",
+    "free docx converter",
     "image to pdf",
     "pdf api",
     "file conversion",
@@ -44,15 +48,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: SITE_URL,
     siteName: "ILoveDox",
-    title: "ILoveDox — Document Conversion API",
+    title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
-      "Convert DOCX files to PDF with a single API call. REST API built for developers.",
+      "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "ILoveDox — Document Conversion API",
+    title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
-      "Convert DOCX files to PDF with a single API call. REST API built for developers.",
+      "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
   },
   icons: {
     icon: [

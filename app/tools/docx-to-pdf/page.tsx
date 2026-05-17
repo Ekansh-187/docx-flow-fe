@@ -85,13 +85,16 @@ export default function ConvertPage() {
   return (
     <div className="flex flex-1 min-h-screen flex-col items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl text-center">
+        <div className="inline-flex items-center rounded-full border border-emerald-800 bg-emerald-950 px-3 py-1 text-xs font-medium text-emerald-400 mb-4">
+          Free &middot; No sign-up required
+        </div>
         <h1 className="text-3xl font-bold tracking-tight text-white">
-          Convert DOCX to PDF
+          Free DOCX to PDF Converter
         </h1>
         <p className="mt-3 text-zinc-400">
           Upload a <span className="text-zinc-300">.doc</span> or{" "}
           <span className="text-zinc-300">.docx</span> file and convert it to
-          PDF instantly.
+          PDF instantly — free, no account needed.
         </p>
 
         <div
