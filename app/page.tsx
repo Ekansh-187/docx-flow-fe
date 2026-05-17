@@ -97,7 +97,7 @@ export default function Home() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/docs"
-            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
+            className="rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
           >
             Read the Docs
           </Link>
@@ -135,7 +135,7 @@ export default function Home() {
       <section className="mx-auto w-full max-w-4xl px-6 py-16">
         <div className="grid gap-8 sm:grid-cols-3">
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-400">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
@@ -146,7 +146,7 @@ export default function Home() {
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-emerald-500/10 text-emerald-400">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
               </svg>
@@ -157,7 +157,7 @@ export default function Home() {
             </p>
           </div>
           <div className="rounded-xl border border-zinc-800 bg-zinc-900 p-6">
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-zinc-800 text-zinc-400">
+            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-violet-500/10 text-violet-400">
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
               </svg>
@@ -181,7 +181,7 @@ export default function Home() {
         </p>
         <div className="mt-10 grid gap-8 sm:grid-cols-3">
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800 text-lg font-bold text-white">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500/10 text-lg font-bold text-indigo-400 ring-1 ring-indigo-500/20">
               1
             </div>
             <h3 className="mt-4 text-sm font-semibold text-white">
@@ -193,7 +193,7 @@ export default function Home() {
             </p>
           </div>
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800 text-lg font-bold text-white">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500/10 text-lg font-bold text-indigo-400 ring-1 ring-indigo-500/20">
               2
             </div>
             <h3 className="mt-4 text-sm font-semibold text-white">
@@ -205,7 +205,7 @@ export default function Home() {
             </p>
           </div>
           <div className="text-center">
-            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-zinc-800 text-lg font-bold text-white">
+            <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-indigo-500/10 text-lg font-bold text-indigo-400 ring-1 ring-indigo-500/20">
               3
             </div>
             <h3 className="mt-4 text-sm font-semibold text-white">
@@ -274,19 +274,19 @@ export default function Home() {
       <section className="border-y border-zinc-800 bg-zinc-900/50 px-6 py-16">
         <div className="mx-auto grid max-w-4xl gap-8 text-center sm:grid-cols-4">
           <div>
-            <p className="text-3xl font-bold text-white">50+</p>
+            <p className="text-3xl font-bold text-indigo-400">50+</p>
             <p className="mt-1 text-sm text-zinc-400">API Integrations</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-white">99.9%</p>
+            <p className="text-3xl font-bold text-indigo-400">99.9%</p>
             <p className="mt-1 text-sm text-zinc-400">Uptime SLA</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-white">&lt;1s</p>
+            <p className="text-3xl font-bold text-indigo-400">&lt;1s</p>
             <p className="mt-1 text-sm text-zinc-400">Avg. Conversion Time</p>
           </div>
           <div>
-            <p className="text-3xl font-bold text-white">256-bit</p>
+            <p className="text-3xl font-bold text-indigo-400">256-bit</p>
             <p className="mt-1 text-sm text-zinc-400">TLS Encryption</p>
           </div>
         </div>
@@ -358,7 +358,7 @@ export default function Home() {
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/docs"
-            className="rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+            className="rounded-lg bg-indigo-500 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
           >
             View Documentation
           </Link>

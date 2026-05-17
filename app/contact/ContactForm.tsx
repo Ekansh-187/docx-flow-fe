@@ -71,7 +71,7 @@ export default function ContactForm() {
         <button
           type="button"
           onClick={handleReset}
-          className="mt-6 rounded-lg bg-white px-5 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+          className="mt-6 rounded-lg bg-indigo-500 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
         >
           Send Another Message
         </button>
@@ -92,7 +92,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Your name"
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
         />
       </div>
 
@@ -105,7 +105,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="you@example.com"
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
         />
       </div>
 
@@ -118,7 +118,7 @@ export default function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           required
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
         >
           <option value="" disabled>
             Select a topic
@@ -143,7 +143,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Tell us what's on your mind…"
-          className="mt-1.5 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+          className="mt-1.5 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
         />
       </div>
 
@@ -156,7 +156,7 @@ export default function ContactForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded-lg bg-white px-4 py-2.5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50"
+        className="w-full rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 disabled:opacity-50"
       >
         {isLoading ? "Sending…" : "Send Message"}
       </button>

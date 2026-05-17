@@ -213,7 +213,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/signin"
-              className="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
+              className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
               Sign In
             </Link>
@@ -270,7 +270,7 @@ export default function Navbar() {
           {!isAuthenticated && (
             <Link
               href="/signin"
-              className="rounded-lg bg-white px-4 py-2 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
+              className="rounded-lg bg-indigo-500 px-4 py-2 text-center text-sm font-semibold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
               onClick={() => setMenuOpen(false)}
             >
               Sign In
