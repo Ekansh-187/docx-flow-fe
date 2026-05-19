@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://ilovedox.com";
+  const baseUrl = "https://www.ilovedox.com";
 
   const lastModified = new Date();
 
@@ -65,12 +65,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "yearly",
       priority: 0.5,
-    },
-    {
-      url: `${baseUrl}/signin`,
-      lastModified,
-      changeFrequency: "yearly",
-      priority: 0.4,
     },
   ];
 }

@@ -17,6 +17,6 @@ export default function robots(): MetadataRoute.Robots {
       { userAgent: "GPTBot", allow: "/" },
       { userAgent: "meta-externalagent", allow: "/" },
     ],
-    sitemap: "https://ilovedox.com/sitemap.xml",
+    sitemap: "https://www.ilovedox.com/sitemap.xml",
   };
 }

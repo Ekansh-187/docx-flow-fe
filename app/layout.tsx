@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://ilovedox.com";
+const SITE_URL = "https://www.ilovedox.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -52,21 +52,25 @@ export const metadata: Metadata = {
     title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
       "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "ILoveDox — Free DOCX to PDF Conversion API",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
       "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
+    images: ["/og-image.png"],
   },
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/icon.png", type: "image/png" },
-    ],
-    apple: [{ url: "/apple-icon.png" }],
-  },
+  // icons intentionally omitted — App Router auto-generates from app/favicon.ico,
+  // app/icon.png, app/icon.svg, app/apple-icon.png convention files
+  themeColor: "#09090b",
   robots: {
     index: true,
     follow: true,
