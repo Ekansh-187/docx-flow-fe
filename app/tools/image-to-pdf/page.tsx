@@ -363,46 +363,47 @@ export default function ImageToPdfPage() {
           </div>
         )}
 
-        {/* Convert button */}
-        <button
-          disabled={!images.length || convertState === "converting"}
-          onClick={handleConvert}
-          className={`relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
-            !images.length
-              ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-              : convertState === "converting"
-                ? "bg-zinc-800 text-white"
-                : convertState === "done"
-                  ? "bg-zinc-800 text-zinc-400"
-                  : "bg-white text-zinc-900 hover:bg-zinc-200"
-          }`}
-        >
-          <span className="relative z-10 flex items-center justify-center gap-2">
-            {convertState === "converting" && (
-              <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-              </svg>
-            )}
-            {convertState === "idle" && "Convert to PDF"}
-            {convertState === "converting" && "Converting…"}
-            {convertState === "done" && "Conversion Complete"}
-            {convertState === "error" && "Retry Conversion"}
-          </span>
-        </button>
-
-        {/* Download */}
-        {convertState === "done" && downloadUrl && (
+        {/* Convert button / Download */}
+        {convertState === "done" && downloadUrl ? (
           <a
             href={downloadUrl}
             download="images.pdf"
-            className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500/20 px-6 py-3.5 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-500/40 transition-colors hover:bg-emerald-500/30 active:bg-emerald-500/40"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500/20 px-6 py-3.5 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-500/40 transition-colors hover:bg-emerald-500/30 active:bg-emerald-500/40"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
             </svg>
             Download PDF
           </a>
+        ) : !images.length ? (
+          <button
+            onClick={() => inputRef.current?.click()}
+            className="relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all bg-white text-zinc-900 hover:bg-zinc-200"
+          >
+            Upload Images
+          </button>
+        ) : (
+          <button
+            disabled={convertState === "converting"}
+            onClick={handleConvert}
+            className={`relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
+              convertState === "converting"
+                ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
+                : "bg-white text-zinc-900 hover:bg-zinc-200"
+            }`}
+          >
+            <span className="relative z-10 flex items-center justify-center gap-2">
+              {convertState === "converting" && (
+                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                </svg>
+              )}
+              {convertState === "idle" && "Convert to PDF"}
+              {convertState === "converting" && "Converting…"}
+              {convertState === "error" && "Retry Conversion"}
+            </span>
+          </button>
         )}
 
         {/* Error */}

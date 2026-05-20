@@ -4,7 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL;
-const convertorEndpoint = process.env.NEXT_DEV_CONVERTOR_ENDPOINT;
+const convertDocxToPdfEndpoint = "/file-convertor/convert/docx-to-pdf";
 const blogs: Blog[] = [
   {
     id: "2",
@@ -53,7 +53,7 @@ const blogs: Blog[] = [
       {
         type: "code",
         language: "bash",
-        content: `curl -X POST ${apiBaseUrl}${convertorEndpoint} \\
+        content: `curl -X POST ${apiBaseUrl}${convertDocxToPdfEndpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`,

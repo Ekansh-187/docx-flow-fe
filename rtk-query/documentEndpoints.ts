@@ -53,12 +53,15 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
       invalidatesTags: ["Document"],
     }),
 
-    compressFile: builder.mutation<Blob, FormData>({
+    compressFile: builder.mutation<{ blob: Blob; statsHeader: string | null }, FormData>({
       query: (body) => ({
         url: "web/compress-file",
         method: "POST",
         body,
-        responseHandler: (response) => response.blob(),
+        responseHandler: async (response) => ({
+          blob: await response.blob(),
+          statsHeader: response.headers.get("x-compression-stats"),
+        }),
       }),
       invalidatesTags: ["Document"],
     }),

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 };
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL || "https://ilovedox.com";
-const convertorEndpoint = process.env.NEXT_DEV_CONVERTOR_ENDPOINT;
+const convertDocxToPdfEndpoint = "/file-convertor/convert/docx-to-pdf";
 export default function DocsPage() {
   return (
     <div className="flex flex-1 min-h-screen justify-center px-6 py-16">
@@ -67,7 +67,7 @@ export default function DocsPage() {
             <span className="rounded bg-emerald-500/20 px-2.5 py-1 text-xs font-bold text-emerald-400 ring-1 ring-emerald-500/30">
               POST
             </span>
-            <code className="text-sm text-zinc-300">{convertorEndpoint}</code>
+            <code className="text-sm text-zinc-300">{convertDocxToPdfEndpoint}</code>
           </div>
 
           <p className="mt-4 text-sm text-zinc-400">
@@ -114,7 +114,7 @@ export default function DocsPage() {
               {
                 label: "cURL",
                 lang: "bash",
-                code: `curl -X POST ${apiBaseUrl}${convertorEndpoint} \\
+                code: `curl -X POST ${apiBaseUrl}${convertDocxToPdfEndpoint} \\
   -H "Authorization: Bearer YOUR_API_KEY" \\
   -F "file=@document.docx" \\
   -o output.pdf`,
@@ -124,7 +124,7 @@ export default function DocsPage() {
                 lang: "python",
                 code: `import requests
 
-url = "${apiBaseUrl}${convertorEndpoint}"
+url = "${apiBaseUrl}${convertDocxToPdfEndpoint}"
 headers = {"Authorization": "Bearer YOUR_API_KEY"}
 
 with open("document.docx", "rb") as f:
@@ -141,7 +141,7 @@ with open("output.pdf", "wb") as f:
 const form = new FormData();
 form.append("file", new Blob([fs.readFileSync("document.docx")]));
 
-const res = await fetch("${apiBaseUrl}${convertorEndpoint}", {
+const res = await fetch("${apiBaseUrl}${convertDocxToPdfEndpoint}", {
   method: "POST",
   headers: { Authorization: "Bearer YOUR_API_KEY" },
   body: form,
@@ -162,7 +162,7 @@ public class ConvertDocx {
         File file = new File("document.docx");
 
         HttpURLConnection conn = (HttpURLConnection)
-            new URL("${apiBaseUrl}${convertorEndpoint}").openConnection();
+            new URL("${apiBaseUrl}${convertDocxToPdfEndpoint}").openConnection();
         conn.setRequestMethod("POST");
         conn.setDoOutput(true);
         conn.setRequestProperty("Authorization", "Bearer YOUR_API_KEY");
@@ -211,7 +211,7 @@ int main() {
 
     FILE* out = fopen("output.pdf", "wb");
 
-    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}${convertorEndpoint}");
+    curl_easy_setopt(curl, CURLOPT_URL, "${apiBaseUrl}${convertDocxToPdfEndpoint}");
     curl_easy_setopt(curl, CURLOPT_HTTPHEADER, headers);
     curl_easy_setopt(curl, CURLOPT_MIMEPOST, mime);
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeCallback);
@@ -591,7 +591,7 @@ int main() {
               <span className="font-medium text-zinc-300">Make your first request</span> —{" "}
               Send a <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">POST</code> request with
               your <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">.docx</code> file to the{" "}
-              <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">${convertorEndpoint}</code> endpoint.
+              <code className="rounded bg-zinc-800 px-1.5 py-0.5 text-zinc-300">${convertDocxToPdfEndpoint}</code> endpoint.
             </li>
             <li>
               <span className="font-medium text-zinc-300">Receive your PDF</span> —{" "}
@@ -882,7 +882,7 @@ int main() {
               <code>{`- name: Convert docs to PDF
   run: |
     for file in docs/*.docx; do
-      curl -X POST ${apiBaseUrl}${convertorEndpoint} \\
+      curl -X POST ${apiBaseUrl}${convertDocxToPdfEndpoint} \\
         -H "Authorization: Bearer \${{ secrets.ILOVEDOX_API_KEY }}" \\
         -F "file=@$file" \\
         -o "output/$(basename \${file%.docx}.pdf)"

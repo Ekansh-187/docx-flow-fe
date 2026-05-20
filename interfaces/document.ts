@@ -16,3 +16,14 @@ export interface IGetDocumentsRequest {
   pageSize?: number;
   search?: string;
 }
+
+export interface ICompressionStats {
+  original_size_bytes: number;
+  compressed_size_bytes: number;
+  space_saved_bytes: number;
+  space_saved_percent: number;
+  compression_ratio: number;
+  file_type: string;
+  quality: string;
+  improved: boolean;
+}
