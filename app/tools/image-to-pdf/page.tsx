@@ -20,6 +20,7 @@ export default function ImageToPdfPage() {
   const [convertState, setConvertState] = useState<ConvertState>("idle");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [collapsed, setCollapsed] = useState(true);
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragSrcIndex, setDragSrcIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
@@ -250,9 +251,31 @@ export default function ImageToPdfPage() {
         {images.length > 0 && (
           <div className="mt-6">
             <div className="flex items-center justify-between mb-3">
-              <p className="text-sm text-zinc-400">
-                {images.length} image{images.length !== 1 ? "s" : ""} selected
-              </p>
+              <button
+                onClick={() => setCollapsed((c) => !c)}
+                className="group flex items-center gap-1.5 text-sm text-zinc-400 transition-colors hover:text-zinc-200"
+                aria-expanded={!collapsed}
+                aria-label={collapsed ? "Expand list" : "Collapse list"}
+              >
+                <svg
+                  className={`h-4 w-4 transition-transform ${
+                    collapsed ? "-rotate-90" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M19 9l-7 7-7-7"
+                  />
+                </svg>
+                <span>
+                  {images.length} image{images.length !== 1 ? "s" : ""} selected
+                </span>
+              </button>
               <button
                 onClick={clearAll}
                 className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
@@ -261,8 +284,107 @@ export default function ImageToPdfPage() {
               </button>
             </div>
 
-            <div className="space-y-2 max-h-80 overflow-y-auto border border-zinc-800 rounded-lg p-2">
-              {images.map((img, index) => (
+            <div className="border border-zinc-800 rounded-lg p-2">
+              <div
+                className="grid transition-[grid-template-rows,opacity] duration-300 ease-out"
+                style={{
+                  gridTemplateRows: collapsed ? "1fr" : "0fr",
+                  opacity: collapsed ? 1 : 0,
+                }}
+                aria-hidden={!collapsed}
+              >
+                <div
+                  className={`overflow-hidden ${
+                    collapsed ? "" : "pointer-events-none"
+                  }`}
+                >
+                <button
+                  type="button"
+                  onClick={() => setCollapsed(false)}
+                  className="group flex w-full items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-2 text-left transition-colors hover:bg-zinc-800/30"
+                >
+                  <div className="flex-shrink-0 w-12 h-12 relative">
+                    {images[2] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={images[2].previewUrl}
+                        alt=""
+                        aria-hidden
+                        className="absolute inset-0 h-full w-full rounded-md border border-zinc-700 bg-zinc-800 object-cover shadow-sm"
+                        style={{
+                          transform: `translate(-6px, -4px) rotate(10deg)`,
+                        }}
+                      />
+                    )}
+                    {images[1] && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={images[1].previewUrl}
+                        alt=""
+                        aria-hidden
+                        className="absolute inset-0 h-full w-full rounded-md border border-zinc-700 bg-zinc-800 object-cover shadow-sm"
+                        style={{
+                          transform: `translate(-3px, -2px) rotate(5deg)`,
+                        }}
+                      />
+                    )}
+                    <div className="relative h-full w-full rounded-md overflow-hidden border border-zinc-700 bg-zinc-800 shadow-md">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={images[0].previewUrl}
+                        alt={images[0].file.name}
+                        className="h-full w-full object-cover"
+                        style={{ transform: `rotate(${images[0].rotation}deg)` }}
+                      />
+                      {images.length > 1 && (
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/55 text-[11px] font-semibold text-white">
+                          +{images.length - 1}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-zinc-200 truncate">
+                      {images.length} image{images.length !== 1 ? "s" : ""}{" "}
+                      ready
+                    </p>
+                    <p className="text-[10px] text-zinc-500">
+                      Click to expand and reorder
+                    </p>
+                  </div>
+                  <div className="flex-shrink-0 text-zinc-500 group-hover:text-zinc-300 transition-colors pr-1">
+                    <svg
+                      className="h-5 w-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 5l7 7-7 7"
+                      />
+                    </svg>
+                  </div>
+                </button>
+                </div>
+              </div>
+              <div
+                className="grid transition-[grid-template-rows,opacity] duration-300 ease-out"
+                style={{
+                  gridTemplateRows: collapsed ? "0fr" : "1fr",
+                  opacity: collapsed ? 0 : 1,
+                }}
+                aria-hidden={collapsed}
+              >
+                <div
+                  className={`overflow-hidden ${
+                    collapsed ? "pointer-events-none" : ""
+                  }`}
+                >
+                  <div className="space-y-2 max-h-80 overflow-y-auto">
+                  {images.map((img, index) => (
                 <li
                   key={img.id}
                   draggable
@@ -358,6 +480,9 @@ export default function ImageToPdfPage() {
                   </div>
                 </li>
               ))}
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* Add more button */}
