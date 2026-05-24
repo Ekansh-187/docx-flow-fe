@@ -10,7 +10,6 @@ interface ImageEntry {
   file: File;
   previewUrl: string;
   rotation: number; // 0, 90, 180, 270
-  position: number; // position in original upload sequence
 }
 
 const ACCEPTED = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -24,26 +23,22 @@ export default function ImageToPdfPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragSrcIndex, setDragSrcIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
-  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
-  const swipedRef = useRef(false);
   const [convertImagesToPdf] = useConvertImagesToPdfMutation();
 
-  function makeEntry(file: File, position: number): ImageEntry {
+  function makeEntry(file: File): ImageEntry {
     return {
       id: `${file.name}-${file.size}-${Date.now()}-${Math.random()}`,
       file,
       previewUrl: URL.createObjectURL(file),
       rotation: 0,
-      position,
     };
   }
 
   function addFiles(files: FileList | File[]) {
     const valid = Array.from(files).filter((f) => ACCEPTED.includes(f.type));
     if (!valid.length) return;
-    const maxPosition = images.length > 0 ? Math.max(...images.map(img => img.position)) : 0;
-    const newEntries = valid.map((file, index) => makeEntry(file, maxPosition + 1 + index));
-    setImages((prev) => [...newEntries, ...prev]);
+    const newEntries = valid.map((file) => makeEntry(file));
+    setImages((prev) => [...prev, ...newEntries]);
     setConvertState("idle");
     setErrorMessage(null);
     if (downloadUrl) {
@@ -134,49 +129,22 @@ export default function ImageToPdfPage() {
     setErrorMessage(null);
   }
 
-  function bringToTop(index: number) {
+  function moveUp(index: number) {
     if (index === 0) return;
     setImages((prev) => {
       const next = [...prev];
-      const [moved] = next.splice(index, 1);
-      next.unshift(moved);
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
       return next;
     });
   }
 
-  function cycleNext() {
+  function moveDown(index: number) {
     setImages((prev) => {
-      if (prev.length < 2) return prev;
-      const [first, ...rest] = prev;
-      return [...rest, first];
+      if (index === prev.length - 1) return prev;
+      const next = [...prev];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return next;
     });
-  }
-
-  function cyclePrev() {
-    setImages((prev) => {
-      if (prev.length < 2) return prev;
-      const last = prev[prev.length - 1];
-      return [last, ...prev.slice(0, -1)];
-    });
-  }
-
-  function handleStackTouchStart(e: React.TouchEvent) {
-    const t = e.touches[0];
-    touchStartRef.current = { x: t.clientX, y: t.clientY };
-    swipedRef.current = false;
-  }
-
-  function handleStackTouchEnd(e: React.TouchEvent) {
-    const start = touchStartRef.current;
-    touchStartRef.current = null;
-    if (!start) return;
-    const t = e.changedTouches[0];
-    const dx = t.clientX - start.x;
-    const dy = t.clientY - start.y;
-    if (Math.abs(dx) < 25 || Math.abs(dx) < Math.abs(dy)) return;
-    swipedRef.current = true;
-    if (dx < 0) cycleNext();
-    else cyclePrev();
   }
 
   function clearAll() {
@@ -281,163 +249,127 @@ export default function ImageToPdfPage() {
         {/* Image gallery */}
         {images.length > 0 && (
           <div className="mt-6">
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between mb-3">
               <p className="text-sm text-zinc-400">
                 {images.length} image{images.length !== 1 ? "s" : ""} selected
               </p>
-              
-            </div>
-
-            <div className="mt-3 grid grid-cols-2 gap-3">
-              {/* Depth stack */}
-              <div
-                className="relative aspect-square touch-pan-y"
-                onTouchStart={handleStackTouchStart}
-                onTouchEnd={handleStackTouchEnd}
-              >
-                {images.length > 1 && (
-                  <>
-                    <button
-                      type="button"
-                      onClick={cyclePrev}
-                      title="Previous image"
-                      className="absolute left-0 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/70 p-2 text-zinc-100 backdrop-blur-sm transition-colors hover:bg-black/90 hover:text-white"
-                    >
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                      </svg>
-                    </button>
-                    <button
-                      type="button"
-                      onClick={cycleNext}
-                      title="Next image"
-                      className="absolute right-0 top-1/2 z-50 translate-x-1/2 -translate-y-1/2 rounded-full bg-black/70 p-2 text-zinc-100 backdrop-blur-sm transition-colors hover:bg-black/90 hover:text-white"
-                    >
-                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </button>
-                  </>
-                )}
-                {images.map((img, index) => {
-                  const cappedOffset = Math.min(index, 4);
-                  const isTop = index === 0;
-                  const tx = cappedOffset * 5;
-                  const ty = cappedOffset * 5;
-                  const rot = cappedOffset * -2;
-                  const scale = 1 - cappedOffset * 0.025;
-                  return (
-                    <div
-                      key={img.id}
-                      draggable={isTop}
-                      onDragStart={isTop ? (e) => handleItemDragStart(e, index) : undefined}
-                      onDragOver={(e) => handleItemDragOver(e, index)}
-                      onDrop={(e) => handleItemDrop(e, index)}
-                      onDragEnd={handleItemDragEnd}
-                      onClick={
-                        !isTop
-                          ? () => {
-                              if (swipedRef.current) {
-                                swipedRef.current = false;
-                                return;
-                              }
-                              bringToTop(index);
-                            }
-                          : undefined
-                      }
-                      style={{
-                        transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`,
-                        zIndex: images.length - index,
-                      }}
-                      className={`group absolute inset-0 overflow-hidden rounded-lg border bg-zinc-900 shadow-lg transition-transform duration-200 ${
-                        dragOverIndex === index && dragSrcIndex !== index
-                          ? "border-zinc-400"
-                          : "border-zinc-800"
-                      } ${isTop ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"}`}
-                    >
-                      {/* Thumbnail with rotation */}
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        src={img.previewUrl}
-                        alt={img.file.name}
-                        className="h-full w-full object-cover"
-                        style={{ transform: `rotate(${img.rotation}deg)` }}
-                      />
-
-                      {isTop && (
-                        <>
-                          {/* Position badge */}
-                          <span className="absolute left-2 top-2 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-medium text-zinc-100 backdrop-blur-sm">
-                            {img.position} / {images.reduce((max, i) => Math.max(max, i.position), 0)}
-                          </span>
-
-                          {/* Controls */}
-                          <div className="absolute right-2 top-2 flex items-center gap-1">
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                rotate(img.id);
-                              }}
-                              title="Rotate 90°"
-                              className="rounded-md bg-black/70 p-1.5 text-zinc-200 backdrop-blur-sm hover:text-white"
-                            >
-                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                                />
-                              </svg>
-                            </button>
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                remove(img.id);
-                              }}
-                              title="Remove"
-                              className="rounded-md bg-black/70 p-1.5 text-zinc-200 backdrop-blur-sm hover:text-red-400"
-                            >
-                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                              </svg>
-                            </button>
-                          </div>
-
-                          {/* Filename footer */}
-                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent px-3 pb-2 pt-6">
-                            <p className="truncate text-left text-xs font-medium text-zinc-100">
-                              {img.file.name}
-                            </p>
-                            <p className="text-left text-[10px] text-zinc-400">
-                              {formatSize(img.file.size)}
-                              {img.rotation !== 0 && (
-                                <span className="ml-1.5 text-zinc-300">
-                                  {img.rotation}°
-                                </span>
-                              )}
-                            </p>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-
-              {/* Add more tile */}
               <button
-                onClick={() => inputRef.current?.click()}
-                className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-300"
+                onClick={clearAll}
+                className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
               >
-                <span className="flex flex-col items-center gap-1.5">
-                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
-                  </svg>
-                  <span className="text-xs">Add more</span>
-                </span>
+                Clear all
               </button>
             </div>
+
+            <div className="space-y-2 max-h-80 overflow-y-auto border border-zinc-800 rounded-lg p-2">
+              {images.map((img, index) => (
+                <li
+                  key={img.id}
+                  draggable
+                  onDragStart={(e) => handleItemDragStart(e, index)}
+                  onDragOver={(e) => handleItemDragOver(e, index)}
+                  onDrop={(e) => handleItemDrop(e, index)}
+                  onDragEnd={handleItemDragEnd}
+                  className={`group flex items-center gap-3 rounded-lg border p-2 transition-colors ${
+                    dragOverIndex === index && dragSrcIndex !== index
+                      ? "border-zinc-400 bg-zinc-800/50"
+                      : "border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/30"
+                  }`}
+                  style={{ listStyle: "none" }}
+                >
+                  {/* Drag handle */}
+                  <div className="flex-shrink-0 cursor-grab active:cursor-grabbing text-zinc-500 pointer-events-none">
+                    <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M9 3h2v2H9V3zm0 4h2v2H9V7zm0 4h2v2H9v-2zm4-8h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2zm4-8h2v2h-2V3zm0 4h2v2h-2V7zm0 4h2v2h-2v-2z" />
+                    </svg>
+                  </div>
+
+                  {/* Thumbnail */}
+                  <div className="flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border border-zinc-700 bg-zinc-800">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={img.previewUrl}
+                      alt={img.file.name}
+                      className="h-full w-full object-cover"
+                      style={{ transform: `rotate(${img.rotation}deg)` }}
+                    />
+                  </div>
+
+                  {/* Name and size */}
+                  <div className="flex-1 min-w-0">
+                    <p className="text-xs font-medium text-zinc-200 truncate">
+                      {img.file.name}
+                    </p>
+                    <p className="text-[10px] text-zinc-500">
+                      {formatSize(img.file.size)}
+                      {img.rotation !== 0 && (
+                        <span className="ml-1.5 text-zinc-400">
+                          {img.rotation}°
+                        </span>
+                      )}
+                    </p>
+                  </div>
+
+                  {/* Controls */}
+                  <div className="flex-shrink-0 flex items-center gap-1">
+                    <button
+                      disabled={index === 0}
+                      onClick={() => moveUp(index)}
+                      title="Move up"
+                      className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-zinc-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7-7m0 0L5 14m7-7v12" />
+                      </svg>
+                    </button>
+                    <button
+                      disabled={index === images.length - 1}
+                      onClick={() => moveDown(index)}
+                      title="Move down"
+                      className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-zinc-200 disabled:opacity-30 disabled:cursor-not-allowed"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7 7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => rotate(img.id)}
+                      title="Rotate 90°"
+                      className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-zinc-200"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                    </button>
+                    <button
+                      onClick={() => remove(img.id)}
+                      title="Remove"
+                      className="rounded-md p-1.5 text-zinc-400 transition-colors hover:text-red-400"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                      </svg>
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </div>
+
+            {/* Add more button */}
+            <button
+              onClick={() => inputRef.current?.click()}
+              className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-700 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-300"
+            >
+              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+              </svg>
+              <span>Add more images</span>
+            </button>
           </div>
         )}
 
