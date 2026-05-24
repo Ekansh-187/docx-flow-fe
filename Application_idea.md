@@ -14,7 +14,7 @@ ILoveDox exposes a single REST endpoint: POST a `.docx` file, get a PDF back. No
 - **Zero file retention** — files deleted immediately after conversion
 - **Language agnostic** — works with any HTTP client (curl, fetch, axios, requests, etc.)
 - **Sub-second conversions** — no cold starts, <1s avg
-- **Free tier** — 50 conversions/month, no credit card required
+- **Free tier** — 1000 conversions/month, no credit card required
 
 ## Target Users
 - Developers building SaaS apps that need PDF export
@@ -44,7 +44,7 @@ ILoveDox exposes a single REST endpoint: POST a `.docx` file, get a PDF back. No
 - Pages: Landing, Docs, Convert (web UI), Pricing, Blog, Changelog
 
 ## Pricing Model
-- **Free** — 50 conversions/month
+- **Free** — 1000 conversions/month
 - **Paid tiers** — higher volume (pricing page TBD)
 - **Enterprise** — custom limits, files >50 MB
 

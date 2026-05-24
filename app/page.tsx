@@ -3,9 +3,9 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   alternates: { canonical: "https://ilovedox.com" },
-  title: "Free DOCX to PDF API — 50 Conversions/Month, No Credit Card",
+  title: "Free DOCX to PDF API — 1000 Conversions/Month, No Credit Card",
   description:
-    "Convert DOCX files to PDF for free with a single API call. 50 free conversions/month, no credit card required. REST API for developers — works with Node.js, Python, cURL, and more.",
+    "Convert DOCX files to PDF for free with a single API call. 1000 free conversions/month, no credit card required. REST API for developers — works with Node.js, Python, cURL, and more.",
 };
 
 const jsonLd = {
@@ -21,7 +21,7 @@ const jsonLd = {
     "@type": "Offer",
     price: "0",
     priceCurrency: "USD",
-    description: "Free tier — 50 conversions per month",
+    description: "Free tier — 1000 conversions per month",
   },
 };
 
@@ -42,7 +42,7 @@ const faqJsonLd = {
       name: "Is there a free tier?",
       acceptedAnswer: {
         "@type": "Answer",
-        text: "Yes. Every account includes 50 free document conversions per month — no credit card required. Upgrade anytime for higher volume.",
+        text: "Yes. Every account includes 1000 free document conversions per month — no credit card required. Upgrade anytime for higher volume.",
       },
     },
     {
@@ -94,7 +94,7 @@ export default function Home() {
           Free DOCX to PDF conversion API for developers
         </h1>
         <p className="mt-4 max-w-xl text-lg text-zinc-400">
-          Convert DOCX to PDF with a single API call. 50 free conversions/month — no credit card required. Built for automation, pipelines, and app integrations.
+          Convert DOCX to PDF with a single API call. 1000 free conversions/month — no credit card required. Built for automation, pipelines, and app integrations.
         </p>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
           <Link
@@ -111,7 +111,7 @@ export default function Home() {
           </Link>
         </div>
         <p className="mt-4 text-xs text-zinc-500">
-          Free forever &middot; 50 conversions/month &middot; No credit card &middot; Upgrade anytime
+          Free forever &middot; 1000 conversions/month &middot; No credit card &middot; Upgrade anytime
         </p>
       </section>
 
@@ -318,7 +318,7 @@ export default function Home() {
               Is there a free tier?
             </dt>
             <dd className="mt-2 text-sm text-zinc-400">
-              Yes. Every account includes 50 free document conversions per month
+              Yes. Every account includes 1000 free document conversions per month
               — no credit card required. Upgrade anytime for higher volume.
             </dd>
           </div>
@@ -358,7 +358,7 @@ export default function Home() {
       <section className="flex flex-col items-center px-6 py-16 text-center">
         <h2 className="text-2xl font-bold text-white">Start for free — no credit card required</h2>
         <p className="mt-3 max-w-md text-zinc-400">
-          Get your free API key and convert up to 50 documents/month at no cost. Upgrade anytime.
+          Get your free API key and convert up to 1000 documents/month at no cost. Upgrade anytime.
         </p>
         <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
           <Link
@@ -375,7 +375,7 @@ export default function Home() {
           </Link>
         </div>
         <p className="mt-4 text-xs text-zinc-500">
-          Free forever &middot; 50 conversions/month &middot; No credit card &middot; Upgrade anytime
+          Free forever &middot; 1000 conversions/month &middot; No credit card &middot; Upgrade anytime
         </p>
       </section>
     </div>

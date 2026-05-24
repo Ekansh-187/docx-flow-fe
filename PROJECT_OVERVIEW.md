@@ -4,7 +4,7 @@
 
 ILoveDox is a **document conversion platform** — converts DOCX, DOC, and images (JPG, PNG, WebP) to PDF. Two audiences:
 
-- **Developers** — REST API with API key auth, free tier (50 conversions/month), no server-side LibreOffice/Word required
+- **Developers** — REST API with API key auth, free tier (1000 conversions/month), no server-side LibreOffice/Word required
 - **End users** — Web UI with drag-drop, image reordering, rotation, instant download
 
 Core promise: high-fidelity conversion (tables, images, headers, footers preserved), files deleted immediately after conversion, no storage.

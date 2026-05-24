@@ -10,6 +10,7 @@ interface ImageEntry {
   file: File;
   previewUrl: string;
   rotation: number; // 0, 90, 180, 270
+  position: number; // position in original upload sequence
 }
 
 const ACCEPTED = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
@@ -23,21 +24,26 @@ export default function ImageToPdfPage() {
   const inputRef = useRef<HTMLInputElement>(null);
   const [dragSrcIndex, setDragSrcIndex] = useState<number | null>(null);
   const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+  const touchStartRef = useRef<{ x: number; y: number } | null>(null);
+  const swipedRef = useRef(false);
   const [convertImagesToPdf] = useConvertImagesToPdfMutation();
 
-  function makeEntry(file: File): ImageEntry {
+  function makeEntry(file: File, position: number): ImageEntry {
     return {
       id: `${file.name}-${file.size}-${Date.now()}-${Math.random()}`,
       file,
       previewUrl: URL.createObjectURL(file),
       rotation: 0,
+      position,
     };
   }
 
   function addFiles(files: FileList | File[]) {
     const valid = Array.from(files).filter((f) => ACCEPTED.includes(f.type));
     if (!valid.length) return;
-    setImages((prev) => [...prev, ...valid.map(makeEntry)]);
+    const maxPosition = images.length > 0 ? Math.max(...images.map(img => img.position)) : 0;
+    const newEntries = valid.map((file, index) => makeEntry(file, maxPosition + 1 + index));
+    setImages((prev) => [...newEntries, ...prev]);
     setConvertState("idle");
     setErrorMessage(null);
     if (downloadUrl) {
@@ -128,22 +134,49 @@ export default function ImageToPdfPage() {
     setErrorMessage(null);
   }
 
-  function moveUp(index: number) {
+  function bringToTop(index: number) {
     if (index === 0) return;
     setImages((prev) => {
       const next = [...prev];
-      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      const [moved] = next.splice(index, 1);
+      next.unshift(moved);
       return next;
     });
   }
 
-  function moveDown(index: number) {
+  function cycleNext() {
     setImages((prev) => {
-      if (index === prev.length - 1) return prev;
-      const next = [...prev];
-      [next[index], next[index + 1]] = [next[index + 1], next[index]];
-      return next;
+      if (prev.length < 2) return prev;
+      const [first, ...rest] = prev;
+      return [...rest, first];
     });
+  }
+
+  function cyclePrev() {
+    setImages((prev) => {
+      if (prev.length < 2) return prev;
+      const last = prev[prev.length - 1];
+      return [last, ...prev.slice(0, -1)];
+    });
+  }
+
+  function handleStackTouchStart(e: React.TouchEvent) {
+    const t = e.touches[0];
+    touchStartRef.current = { x: t.clientX, y: t.clientY };
+    swipedRef.current = false;
+  }
+
+  function handleStackTouchEnd(e: React.TouchEvent) {
+    const start = touchStartRef.current;
+    touchStartRef.current = null;
+    if (!start) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - start.x;
+    const dy = t.clientY - start.y;
+    if (Math.abs(dx) < 25 || Math.abs(dx) < Math.abs(dy)) return;
+    swipedRef.current = true;
+    if (dx < 0) cycleNext();
+    else cyclePrev();
   }
 
   function clearAll() {
@@ -191,6 +224,9 @@ export default function ImageToPdfPage() {
   return (
     <div className="flex flex-1 flex-col min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl text-center">
+        <div className="inline-flex items-center rounded-full border border-emerald-800 bg-emerald-950 px-3 py-1 text-xs font-medium text-emerald-400 mb-4">
+          Free &middot; No sign-up required
+        </div>
         <h1 className="text-center text-3xl font-bold tracking-tight text-white">
           Images to PDF
         </h1>
@@ -242,124 +278,166 @@ export default function ImageToPdfPage() {
           />
         </div>
 
-        {/* Image list */}
+        {/* Image gallery */}
         {images.length > 0 && (
-          <div className="mt-6 space-y-3">
+          <div className="mt-6">
             <div className="flex items-center justify-between">
               <p className="text-sm text-zinc-400">
                 {images.length} image{images.length !== 1 ? "s" : ""} selected
               </p>
-              <button
-                onClick={clearAll}
-                className="text-xs text-zinc-500 hover:text-zinc-300 transition-colors"
-              >
-                Clear all
-              </button>
+              
             </div>
 
-            {images.map((img, index) => (
+            <div className="mt-3 grid grid-cols-2 gap-3">
+              {/* Depth stack */}
               <div
-                key={img.id}
-                draggable
-                onDragStart={(e) => handleItemDragStart(e, index)}
-                onDragOver={(e) => handleItemDragOver(e, index)}
-                onDrop={(e) => handleItemDrop(e, index)}
-                onDragEnd={handleItemDragEnd}
-                className={`flex cursor-grab items-center gap-4 rounded-lg border px-4 py-3 transition-colors active:cursor-grabbing ${
-                  dragOverIndex === index && dragSrcIndex !== index
-                    ? "border-zinc-500 bg-zinc-800"
-                    : "border-zinc-800 bg-zinc-900"
-                }`}
+                className="relative aspect-square touch-pan-y"
+                onTouchStart={handleStackTouchStart}
+                onTouchEnd={handleStackTouchEnd}
               >
-                {/* Thumbnail with rotation */}
-                <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md bg-zinc-800">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={img.previewUrl}
-                    alt={img.file.name}
-                    className="h-full w-full object-cover transition-transform duration-200"
-                    style={{ transform: `rotate(${img.rotation}deg)` }}
-                  />
-                </div>
-
-                {/* File info */}
-                <div className="flex-1 min-w-0">
-                  <p className="truncate text-sm font-medium text-zinc-200">
-                    {img.file.name}
-                  </p>
-                  <p className="text-xs text-zinc-500">
-                    {formatSize(img.file.size)}
-                    {img.rotation !== 0 && (
-                      <span className="ml-2 text-zinc-400">
-                        {img.rotation}° rotated
-                      </span>
-                    )}
-                  </p>
-                </div>
-
-                {/* Controls */}
-                <div className="flex items-center gap-1 shrink-0">
-                  {/* Move up */}
-                  <button
-                    onClick={() => moveUp(index)}
-                    disabled={index === 0}
-                    title="Move up"
-                    className="rounded p-1.5 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 15l7-7 7 7" />
-                    </svg>
-                  </button>
-
-                  {/* Move down */}
-                  <button
-                    onClick={() => moveDown(index)}
-                    disabled={index === images.length - 1}
-                    title="Move down"
-                    className="rounded p-1.5 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-
-                  {/* Rotate */}
-                  <button
-                    onClick={() => rotate(img.id)}
-                    title="Rotate 90°"
-                    className="rounded p-1.5 text-zinc-500 hover:bg-zinc-800 hover:text-zinc-300 transition-colors"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                {images.length > 1 && (
+                  <>
+                    <button
+                      type="button"
+                      onClick={cyclePrev}
+                      title="Previous image"
+                      className="absolute left-0 top-1/2 z-50 -translate-x-1/2 -translate-y-1/2 rounded-full bg-black/70 p-2 text-zinc-100 backdrop-blur-sm transition-colors hover:bg-black/90 hover:text-white"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      onClick={cycleNext}
+                      title="Next image"
+                      className="absolute right-0 top-1/2 z-50 translate-x-1/2 -translate-y-1/2 rounded-full bg-black/70 p-2 text-zinc-100 backdrop-blur-sm transition-colors hover:bg-black/90 hover:text-white"
+                    >
+                      <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </>
+                )}
+                {images.map((img, index) => {
+                  const cappedOffset = Math.min(index, 4);
+                  const isTop = index === 0;
+                  const tx = cappedOffset * 5;
+                  const ty = cappedOffset * 5;
+                  const rot = cappedOffset * -2;
+                  const scale = 1 - cappedOffset * 0.025;
+                  return (
+                    <div
+                      key={img.id}
+                      draggable={isTop}
+                      onDragStart={isTop ? (e) => handleItemDragStart(e, index) : undefined}
+                      onDragOver={(e) => handleItemDragOver(e, index)}
+                      onDrop={(e) => handleItemDrop(e, index)}
+                      onDragEnd={handleItemDragEnd}
+                      onClick={
+                        !isTop
+                          ? () => {
+                              if (swipedRef.current) {
+                                swipedRef.current = false;
+                                return;
+                              }
+                              bringToTop(index);
+                            }
+                          : undefined
+                      }
+                      style={{
+                        transform: `translate(${tx}px, ${ty}px) rotate(${rot}deg) scale(${scale})`,
+                        zIndex: images.length - index,
+                      }}
+                      className={`group absolute inset-0 overflow-hidden rounded-lg border bg-zinc-900 shadow-lg transition-transform duration-200 ${
+                        dragOverIndex === index && dragSrcIndex !== index
+                          ? "border-zinc-400"
+                          : "border-zinc-800"
+                      } ${isTop ? "cursor-grab active:cursor-grabbing" : "cursor-pointer"}`}
+                    >
+                      {/* Thumbnail with rotation */}
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={img.previewUrl}
+                        alt={img.file.name}
+                        className="h-full w-full object-cover"
+                        style={{ transform: `rotate(${img.rotation}deg)` }}
                       />
-                    </svg>
-                  </button>
 
-                  {/* Remove */}
-                  <button
-                    onClick={() => remove(img.id)}
-                    title="Remove"
-                    className="rounded p-1.5 text-zinc-500 hover:bg-zinc-800 hover:text-red-400 transition-colors"
-                  >
-                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
+                      {isTop && (
+                        <>
+                          {/* Position badge */}
+                          <span className="absolute left-2 top-2 rounded-md bg-black/70 px-2 py-0.5 text-[11px] font-medium text-zinc-100 backdrop-blur-sm">
+                            {img.position} / {images.reduce((max, i) => Math.max(max, i.position), 0)}
+                          </span>
+
+                          {/* Controls */}
+                          <div className="absolute right-2 top-2 flex items-center gap-1">
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                rotate(img.id);
+                              }}
+                              title="Rotate 90°"
+                              className="rounded-md bg-black/70 p-1.5 text-zinc-200 backdrop-blur-sm hover:text-white"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                                />
+                              </svg>
+                            </button>
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                remove(img.id);
+                              }}
+                              title="Remove"
+                              className="rounded-md bg-black/70 p-1.5 text-zinc-200 backdrop-blur-sm hover:text-red-400"
+                            >
+                              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                              </svg>
+                            </button>
+                          </div>
+
+                          {/* Filename footer */}
+                          <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/60 to-transparent px-3 pb-2 pt-6">
+                            <p className="truncate text-left text-xs font-medium text-zinc-100">
+                              {img.file.name}
+                            </p>
+                            <p className="text-left text-[10px] text-zinc-400">
+                              {formatSize(img.file.size)}
+                              {img.rotation !== 0 && (
+                                <span className="ml-1.5 text-zinc-300">
+                                  {img.rotation}°
+                                </span>
+                              )}
+                            </p>
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
-            ))}
 
-            {/* Add more */}
-            <button
-              onClick={() => inputRef.current?.click()}
-              className="w-full rounded-lg border border-dashed border-zinc-700 py-2.5 text-sm text-zinc-500 hover:border-zinc-500 hover:text-zinc-300 transition-colors"
-            >
-              + Add more images
-            </button>
+              {/* Add more tile */}
+              <button
+                onClick={() => inputRef.current?.click()}
+                className="flex aspect-square items-center justify-center rounded-lg border border-dashed border-zinc-700 text-sm text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-300"
+              >
+                <span className="flex flex-col items-center gap-1.5">
+                  <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                  </svg>
+                  <span className="text-xs">Add more</span>
+                </span>
+              </button>
+            </div>
           </div>
         )}
 
@@ -383,27 +461,36 @@ export default function ImageToPdfPage() {
             Upload Images
           </button>
         ) : (
-          <button
-            disabled={convertState === "converting"}
-            onClick={handleConvert}
-            className={`relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
-              convertState === "converting"
-                ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-                : "bg-white text-zinc-900 hover:bg-zinc-200"
-            }`}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              {convertState === "converting" && (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                </svg>
-              )}
-              {convertState === "idle" && "Convert to PDF"}
-              {convertState === "converting" && "Converting…"}
-              {convertState === "error" && "Retry Conversion"}
-            </span>
-          </button>
+          <div className="mt-6 flex gap-3">
+            <button
+              disabled={convertState === "converting"}
+              onClick={handleConvert}
+              className={`relative flex-1 overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
+                convertState === "converting"
+                  ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
+                  : "bg-white text-zinc-900 hover:bg-zinc-200"
+              }`}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {convertState === "converting" && (
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                )}
+                {convertState === "idle" && "Convert to PDF"}
+                {convertState === "converting" && "Converting…"}
+                {convertState === "error" && "Retry Conversion"}
+              </span>
+            </button>
+            <button
+              disabled={convertState === "converting"}
+              onClick={clearAll}
+              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Clear Selection
+            </button>
+          </div>
         )}
 
         {/* Error */}

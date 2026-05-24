@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | ILoveDox",
   },
   description:
-    "Convert DOCX files to PDF for free with a single API call. 50 free conversions/month, no credit card required. REST API built for developers, automation, and app integrations.",
+    "Convert DOCX files to PDF for free with a single API call. 1000 free conversions/month, no credit card required. REST API built for developers, automation, and app integrations.",
   keywords: [
     "docx to pdf",
     "free docx to pdf",
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
     siteName: "ILoveDox",
     title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
-      "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
+      "Convert DOCX files to PDF for free. 1000 conversions/month, no credit card. REST API built for developers.",
     images: [
       {
         url: "/og-image.png",
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "ILoveDox — Free DOCX to PDF Conversion API",
     description:
-      "Convert DOCX files to PDF for free. 50 conversions/month, no credit card. REST API built for developers.",
+      "Convert DOCX files to PDF for free. 1000 conversions/month, no credit card. REST API built for developers.",
     images: ["/og-image.png"],
   },
   // icons intentionally omitted — App Router auto-generates from app/favicon.ico,

@@ -191,27 +191,36 @@ export default function ConvertPage() {
             Upload File
           </button>
         ) : (
-          <button
-            disabled={convertState === "converting"}
-            onClick={handleConvert}
-            className={`relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
-              convertState === "converting"
-                ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-                : "bg-white text-zinc-900 hover:bg-zinc-200"
-            }`}
-          >
-            <span className="relative z-10 flex items-center justify-center gap-2">
-              {convertState === "converting" && (
-                <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                </svg>
-              )}
-              {convertState === "idle" && "Convert to PDF"}
-              {convertState === "converting" && "Converting…"}
-              {convertState === "error" && "Retry Conversion"}
-            </span>
-          </button>
+          <div className="mt-6 flex gap-3">
+            <button
+              disabled={convertState === "converting"}
+              onClick={handleConvert}
+              className={`relative flex-1 overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
+                convertState === "converting"
+                  ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
+                  : "bg-white text-zinc-900 hover:bg-zinc-200"
+              }`}
+            >
+              <span className="relative z-10 flex items-center justify-center gap-2">
+                {convertState === "converting" && (
+                  <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
+                  </svg>
+                )}
+                {convertState === "idle" && "Convert to PDF"}
+                {convertState === "converting" && "Converting…"}
+                {convertState === "error" && "Retry Conversion"}
+              </span>
+            </button>
+            <button
+              disabled={convertState === "converting"}
+              onClick={removeFile}
+              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Clear Selection
+            </button>
+          </div>
         )}
 
         {convertState === "error" && errorMessage && (
