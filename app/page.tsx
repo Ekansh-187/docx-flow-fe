@@ -2,7 +2,7 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  alternates: { canonical: "https://ilovedox.com" },
+  alternates: { canonical: "https://www.ilovedox.com" },
   title: "Free DOCX to PDF API — 1000 Conversions/Month, No Credit Card",
   description:
     "Convert DOCX files to PDF for free with a single API call. 1000 free conversions/month, no credit card required. REST API for developers — works with Node.js, Python, cURL, and more.",

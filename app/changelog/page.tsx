@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Changelog — ILoveDox",
   description: "Release notes, updates, and important changes for ILoveDox.",
-  alternates: { canonical: "https://ilovedox.com/changelog" },
+  alternates: { canonical: "https://www.ilovedox.com/changelog" },
 };
 
 const entries = [

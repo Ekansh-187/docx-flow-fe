@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "Free Online Document Conversion Tools | ILoveDox",
   description:
     "Convert documents between formats — DOCX to PDF, PDF to DOCX, JPG to PDF, and more. Free, fast, and no sign-up required.",
-  alternates: { canonical: "https://ilovedox.com/tools" },
+  alternates: { canonical: "https://www.ilovedox.com/tools" },
 };
 
 const tools = [

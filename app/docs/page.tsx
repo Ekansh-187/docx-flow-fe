@@ -5,7 +5,7 @@ export const metadata: Metadata = {
   title: "API Documentation — DOCX to PDF Conversion REST API | ILoveDox",
   description:
     "Complete ILoveDox API reference — RESTful endpoints, OAuth & API key authentication, DOCX to PDF conversion, batch processing, webhooks, rate limits, SDKs, tutorials, and integration guides for developers.",
-  alternates: { canonical: "https://ilovedox.com/docs" },
+  alternates: { canonical: "https://www.ilovedox.com/docs" },
 };
 
 const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL || "https://ilovedox.com";

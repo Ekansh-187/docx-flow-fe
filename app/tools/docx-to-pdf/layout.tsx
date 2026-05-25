@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "convert docx online free",
     "doc to pdf free",
   ],
-  alternates: { canonical: "https://ilovedox.com/tools/docx-to-pdf" },
+  alternates: { canonical: "https://www.ilovedox.com/tools/docx-to-pdf" },
 };
 
 export default function ConvertLayout({
