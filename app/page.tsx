@@ -99,8 +99,8 @@ export default function Home() {
           {/* H1 */}
           <h1 className="mt-6 max-w-2xl text-4xl font-extrabold tracking-[-0.04em] leading-[1.1] text-heading sm:text-5xl">
             Free DOCX to PDF{" "}
-            <span className="text-accent">conversion API</span>
-            {" "}for developers
+            <span className="text-accent">Conversion API</span>
+            {" "}for Developers
           </h1>
 
           {/* Subheading */}
