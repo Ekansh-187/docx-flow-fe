@@ -17,9 +17,6 @@ declare global {
       VITE_TIME_ZONE: string;
       VITE_CLIENT_ID: string;
       VITE_APP_IS_TEST_READY: boolean;
-      // Advanced Edit configuration (legacy)
-      VITE_ADVANCED_EDIT_URL: string;
-      VITE_USE_ADVANCED_EDIT: string;
       VITE_MAX_FILE_SIZE_FOR_UPLOAD: string;
       VITE_APP_ENV: string;
       VITE_USER_MANAGEMENT_URL: string;
@@ -32,7 +29,8 @@ declare global {
   }
 }
 
-const env = typeof window !== "undefined" && window._env_ ? window._env_ : process.env;
+const env =
+  typeof window !== "undefined" && window._env_ ? window._env_ : process.env;
 // const env = process.env;
 export const envConfig = {
   // Proxy through Next.js rewrites to avoid CORS issues
@@ -47,13 +45,9 @@ export const envConfig = {
   copilotId: env.VITE_COPILOT_ID,
   letterTypeFileSizeLimitMb: env.VITE_LETTER_TYPE_SIZE_UPLOAD_LIMIT_MB,
   themeVariant: env.VITE_THEME_VARIANT,
-  clientName: env.VITE_CLIENT_NAME || "molina",
   appSubPath: env.VITE_SUB_APP_PATH || "",
   timeZone: env.VITE_TIME_ZONE || "America/Los_Angeles",
-  fallbackClientId: env.VITE_CLIENT_ID,
-  // Advanced Edit configuration (with legacy env var fallback)
-  advancedEditUrl: env.VITE_ADVANCED_EDIT_URL || env.VITE_COLLABORA_URL || "http://localhost:9980",
-  useAdvancedEdit: env.VITE_USE_ADVANCED_EDIT === "true" || env.VITE_USE_COLLABORA === "true",
+
   maxFileSizeForUpload: env.VITE_MAX_FILE_SIZE_FOR_UPLOAD || 100,
   appEnv: env.VITE_APP_ENV || "DEV",
   appIsTestReady: env.VITE_APP_IS_TEST_READY,
@@ -61,6 +55,5 @@ export const envConfig = {
   productVersion: env.VITE_PRODUCT_VERSION || "v1.0.0",
   releaseVersion: env.VITE_RELEASE_VERSION || "26.03.25",
   impactedLetterTypeApproval: env.VITE_IMPACTED_LETTER_TYPE_APPROVAL || "false",
-  umRelease: env.VITE_UM_RELEASE || "false"
-  
+  umRelease: env.VITE_UM_RELEASE || "false",
 };
