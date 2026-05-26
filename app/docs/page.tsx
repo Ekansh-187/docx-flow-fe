@@ -15,15 +15,15 @@ export default function DocsPage() {
     <div className="flex flex-1 min-h-screen justify-center px-6 py-16">
       <div className="w-full max-w-3xl">
         <section id="introduction" className="scroll-mt-24">
-        <h1 className="text-3xl font-bold tracking-tight text-heading">
-          API Documentation
-        </h1>
-        <p className="mt-3 text-secondary">
-          Everything you need to integrate ILoveDox into your application. Our
-          RESTful document conversion API lets you programmatically convert DOCX, DOC,
-          and other office files to PDF with enterprise-grade reliability, low latency,
-          and scalable cloud infrastructure.
-        </p></section>
+          <h1 className="text-3xl font-bold tracking-tight text-heading">
+            API Documentation
+          </h1>
+          <p className="mt-3 text-secondary">
+            Everything you need to integrate ILoveDox into your application. Our
+            RESTful document conversion API lets you programmatically convert DOCX, DOC,
+            and other office files to PDF with enterprise-grade reliability, low latency,
+            and scalable cloud infrastructure.
+          </p></section>
 
         {/* Base URL */}
         <section className="mt-12 scroll-mt-24" id="base-url">
@@ -674,7 +674,7 @@ int main() {
           </p>
         </section>
 
-{/* Rate Limits */}
+        {/* Rate Limits */}
         <section className="mt-12 scroll-mt-24" id="rate-limits">
           <h2 className="text-xl font-semibold text-heading">Rate Limits</h2>
           <div className="mt-4 overflow-x-auto rounded-xl border border-border">
@@ -689,12 +689,12 @@ int main() {
               <tbody className="divide-y divide-border bg-surface">
                 <tr>
                   <td className="px-4 py-3 text-foreground">Free</td>
-                  <td className="px-4 py-3 text-secondary">50</td>
+                  <td className="px-4 py-3 text-secondary">1000</td>
                   <td className="px-4 py-3 text-secondary">10 MB</td>
                 </tr>
                 <tr>
                   <td className="px-4 py-3 text-muted">Pro (coming soon)</td>
-                  <td className="px-4 py-3 text-muted">5,000</td>
+                  <td className="px-4 py-3 text-muted">100,000</td>
                   <td className="px-4 py-3 text-muted">50 MB</td>
                 </tr>
               </tbody>
