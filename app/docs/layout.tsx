@@ -13,7 +13,7 @@ const docsSections: SidebarSection[] = [
     title: "Endpoints",
     items: [
       { title: "Convert DOCX to PDF", href: "/docs#convert" },
-      {title: "Compress File", href: "/docs#compress-endpoint" },
+      { title: "Compress File", href: "/docs#compress-endpoint" },
       { title: "PDF to DOCX", href: "/docs/pdf-to-docx", disabled: true },
       { title: "Image to PDF", href: "/docs/image-to-pdf", disabled: true },
     ],
@@ -52,7 +52,7 @@ export default function DocsLayout({
   return (
     <div className="flex w-full flex-col md:flex-row relative">
       <Sidebar sections={docsSections} />
-      <div className="flex-1 min-w-0 bg-zinc-950">
+      <div className="flex-1 min-w-0 ">
         {children}
       </div>
     </div>

@@ -265,7 +265,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       <div className="w-full max-w-3xl">
         <Link
           href="/blog"
-          className="inline-flex items-center gap-2 text-sm font-medium text-zinc-400 hover:text-white transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-medium text-secondary hover:text-heading transition-colors"
         >
           <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -274,11 +274,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         </Link>
 
         <header className="mt-10">
-          <h1 className="text-3xl font-bold tracking-tight text-white sm:text-5xl">
+          <h1 className="text-3xl font-bold tracking-tight text-heading sm:text-5xl">
             {blog.title}
           </h1>
-          <div className="mt-6 flex items-center gap-4 text-sm text-zinc-500">
-            <span className="font-medium text-zinc-300">{blog.author}</span>
+          <div className="mt-6 flex items-center gap-4 text-sm text-muted">
+            <span className="font-medium text-secondary">{blog.author}</span>
             <span>&bull;</span>
             <time dateTime={blog.date}>{blog.date}</time>
             <span>&bull;</span>
@@ -290,11 +290,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           <div className="mt-10 max-w-none">
             <BlogRenderer content={blog.content} />
           </div>
-          <div className="mt-12 rounded-lg border border-zinc-800 bg-zinc-900/50 p-6 text-center">
-            <p className="text-sm text-zinc-500">
+          {/* <div className="mt-12 rounded-lg border border-border bg-surface p-6 text-center">
+            <p className="text-sm text-muted">
               This is a static blog post demonstration. In the future, this content can be managed and loaded from a headless CMS.
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </article>

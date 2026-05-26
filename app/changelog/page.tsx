@@ -23,22 +23,30 @@ const entries = [
 
 export default function ChangelogPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-6 py-20">
-      <div className="w-full max-w-4xl">
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-20">
+      <div className="w-full max-w-2xl">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">Changelog</h1>
-          <p className="mt-4 text-lg text-zinc-400">Release notes, updates, and important changes.</p>
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Updates</p>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-heading md:text-4xl">
+            Changelog
+          </h1>
+          <p className="mt-4 text-secondary">Release notes, updates, and important changes.</p>
         </div>
 
-        <div className="mt-12 space-y-8">
+        <div className="mt-12 space-y-4">
           {entries.map((e) => (
-            <article key={e.id} className="rounded-2xl border border-zinc-800 bg-zinc-900 p-6">
-              <div className="flex items-start justify-between gap-4">
+            <article
+              key={e.id}
+              className="rounded-xl border border-border bg-card p-6"
+            >
+              <div className="flex flex-wrap items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <h2 className="text-xl font-semibold text-white">{e.title}</h2>
-                  <p className="mt-3 text-sm text-zinc-400">{e.notes}</p>
+                  <h2 className="text-base font-semibold text-heading">{e.title}</h2>
+                  <p className="mt-2 text-sm text-secondary">{e.notes}</p>
                 </div>
-                <time className="shrink-0 text-sm text-zinc-500">{e.date}</time>
+                <time className="shrink-0 rounded-full bg-surface px-3 py-1 text-xs text-muted">
+                  {e.date}
+                </time>
               </div>
             </article>
           ))}

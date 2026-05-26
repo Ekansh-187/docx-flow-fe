@@ -18,7 +18,7 @@ const initialForm: ContactFormState = {
 };
 
 const inputClass =
-  "mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10";
+  "mt-1.5 w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover";
 
 export default function ContactForm() {
   const [form, setForm] = useState<ContactFormState>(initialForm);
@@ -53,29 +53,30 @@ export default function ContactForm() {
 
   if (isSuccess) {
     return (
-      <div className="rounded-xl border border-white/8 bg-white/[0.02] p-8 text-center">
-        <svg
-          className="mx-auto h-10 w-10 text-accent"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M5 13l4 4L19 7"
-          />
-        </svg>
-        <h2 className="mt-4 text-lg font-semibold text-white">Message Sent!</h2>
-        <p className="mt-2 text-sm text-zinc-500">
+      <div className="rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] p-8 text-center">
+        <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-[#DCFCE7]">
+          <svg
+            className="h-6 w-6 text-[#15803D]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M5 13l4 4L19 7"
+            />
+          </svg>
+        </div>
+        <h2 className="mt-4 text-base font-semibold text-[#15803D]">Message Sent!</h2>
+        <p className="mt-2 text-sm text-[#166534]">
           Thanks for reaching out. We&apos;ll get back to you within 24 hours.
         </p>
         <button
           type="button"
           onClick={handleReset}
-          className="mt-6 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all"
-          style={{ background: "var(--accent)", color: "var(--accent-fg)" }}
+          className="mt-6 rounded-xl bg-accent px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-[#E03E10] disabled:opacity-50"
         >
           Send Another Message
         </button>
@@ -86,10 +87,10 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 rounded-xl border border-white/8 bg-white/[0.02] p-8"
+      className="space-y-5 rounded-xl border border-border bg-card p-6"
     >
       <div>
-        <label className="block text-sm font-medium text-zinc-300">Name</label>
+        <label className="block text-sm font-medium text-foreground">Name</label>
         <input
           name="name"
           value={form.name}
@@ -101,7 +102,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-300">Email</label>
+        <label className="block text-sm font-medium text-foreground">Email</label>
         <input
           name="email"
           type="email"
@@ -114,7 +115,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-300">
+        <label className="block text-sm font-medium text-foreground">
           Subject
         </label>
         <select
@@ -137,7 +138,7 @@ export default function ContactForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-medium text-zinc-300">
+        <label className="block text-sm font-medium text-foreground">
           Message
         </label>
         <textarea
@@ -152,20 +153,15 @@ export default function ContactForm() {
       </div>
 
       {isError && (
-        <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
-          <p className="text-sm text-red-400">Something went wrong. Please try again.</p>
+        <div className="rounded-lg border border-red-300 bg-red-50 px-4 py-3">
+          <p className="text-sm text-red-600">Something went wrong. Please try again.</p>
         </div>
       )}
 
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition-all disabled:opacity-50"
-        style={{
-          background: "var(--accent)",
-          color: "var(--accent-fg)",
-          boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
-        }}
+        className="w-full rounded-xl bg-accent px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-[#E03E10] disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {isLoading ? "Sending…" : "Send Message"}
       </button>

@@ -123,12 +123,12 @@ export default function Sidebar({ sections }: SidebarProps) {
   return (
     <aside
       style={{ width: sidebarWidth }}
-      className="hidden md:block shrink-0 md:border-r border-zinc-800 bg-zinc-950/50 backdrop-blur-md px-6 py-8 md:sticky md:top-0 md:max-h-screen md:overflow-y-auto z-10 relative"
+      className="hidden md:block shrink-0 md:border-r border-border bg-card backdrop-blur-md px-6 py-8 md:sticky md:top-0 md:max-h-screen md:overflow-y-auto z-10 relative"
     >
       <nav className="flex flex-col gap-8">
         {sections.map((section, idx) => (
           <div key={idx} className="flex flex-col gap-3">
-            <h4 className="text-xs font-bold uppercase tracking-wider text-zinc-500">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-muted">
               {section.title}
             </h4>
             <div className="flex flex-col gap-1.5">
@@ -149,10 +149,10 @@ export default function Sidebar({ sections }: SidebarProps) {
                   return (
                     <span
                       key={item.href}
-                      className="group flex cursor-not-allowed items-center justify-between rounded-md px-3 py-2 text-sm text-zinc-600"
+                      className="group flex cursor-not-allowed items-center justify-between rounded-md px-3 py-2 text-sm text-muted"
                     >
                       <span>{item.title}</span>
-                      <span className="rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-zinc-500">
+                      <span className="rounded bg-surface px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-muted border border-border">
                         Soon
                       </span>
                     </span>
@@ -167,13 +167,13 @@ export default function Sidebar({ sections }: SidebarProps) {
                     onClick={() => handleClick(isHashLink ? hash : undefined)}
                     className={`group flex items-center justify-between rounded-md px-3 py-2 text-sm transition-all duration-200 ${
                       isActive
-                        ? "bg-emerald-500/10 text-emerald-400 font-medium ring-1 ring-emerald-500/20"
-                        : "text-zinc-400 hover:bg-zinc-800/50 hover:text-zinc-200"
+                        ? "bg-emerald-50 dark:bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-medium ring-1 ring-emerald-200 dark:ring-emerald-500/20"
+                        : "text-secondary hover:bg-surface hover:text-heading"
                     }`}
                   >
                     <span>{item.title}</span>
                     {item.isNew && (
-                      <span className="rounded bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-400">
+                      <span className="rounded bg-emerald-100 dark:bg-emerald-500/20 px-1.5 py-0.5 text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400">
                         New
                       </span>
                     )}

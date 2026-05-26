@@ -140,12 +140,12 @@ export default function CompressPage() {
     <div className="flex flex-1 min-h-screen flex-col items-center justify-center px-6 py-20 relative">
       {/* Main Content */}
       <div className="w-full max-w-xl text-center">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent mb-4">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent-border bg-accent-soft px-3 py-1 text-xs font-medium text-accent mb-4">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           Free &middot; No sign-up required
         </div>
-        <h1 className="text-3xl font-bold tracking-tight text-white">Compress File</h1>
-        <p className="mt-3 text-zinc-500">
+        <h1 className="text-3xl font-bold tracking-tight text-heading">Compress File</h1>
+        <p className="mt-3 text-muted">
           Upload an image, PDF, or DOCX file to reduce its size while keeping quality.
         </p>
 
@@ -159,12 +159,12 @@ export default function CompressPage() {
             file ? "hidden" : "flex"
           } ${
             dragActive
-              ? "border-accent/50 bg-accent/5"
-              : "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
+              ? "border-accent-border bg-accent-soft"
+              : "border-border bg-surface hover:border-border-hover hover:bg-card"
           }`}
         >
           <svg
-            className="mb-4 h-10 w-10 text-zinc-500"
+            className="mb-4 h-10 w-10 text-muted"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -176,10 +176,10 @@ export default function CompressPage() {
               d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"
             />
           </svg>
-          <p className="text-sm text-zinc-400">
-            <span className="font-semibold text-white">Click to upload</span> or drag and drop
+          <p className="text-sm text-secondary">
+            <span className="font-semibold text-heading">Click to upload</span> or drag and drop
           </p>
-          <p className="mt-1.5 text-xs text-zinc-600">Images, PDF, or DOCX</p>
+          <p className="mt-1.5 text-xs text-muted">Images, PDF, or DOCX</p>
           <input
             ref={inputRef}
             type="file"
@@ -190,10 +190,10 @@ export default function CompressPage() {
         </div>
 
         {file && (
-          <div className="mt-6 flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-5 py-4">
+          <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-surface px-5 py-4">
             <div className="flex items-center gap-3 text-left">
               <svg
-                className="h-8 w-8 shrink-0 text-zinc-500"
+                className="h-8 w-8 shrink-0 text-muted"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -206,13 +206,13 @@ export default function CompressPage() {
                 />
               </svg>
               <div>
-                <p className="text-sm font-medium text-zinc-200 truncate max-w-[260px]">{file.name}</p>
-                <p className="text-xs text-zinc-500">{formatSize(file.size)}</p>
+                <p className="text-sm font-medium text-foreground truncate max-w-[260px]">{file.name}</p>
+                <p className="text-xs text-muted">{formatSize(file.size)}</p>
               </div>
             </div>
             <button
               onClick={removeFile}
-              className="ml-4 text-zinc-600 hover:text-zinc-300 transition-colors"
+              className="ml-4 text-muted hover:text-foreground transition-colors"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -224,7 +224,7 @@ export default function CompressPage() {
         {/* Inline compression controls */}
         {file && state !== "done" && (
           <div className="mt-6 text-left">
-            <p className="text-xs text-zinc-500 font-medium uppercase tracking-wide mb-3">Compression Level</p>
+            <p className="text-xs text-muted font-medium uppercase tracking-wide mb-3">Compression Level</p>
             <div className="space-y-2">
               {(['low', 'medium', 'high'] as const).map((level) => (
                 <button
@@ -232,20 +232,20 @@ export default function CompressPage() {
                   onClick={() => setCompressionLevel(level)}
                   className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium capitalize ${
                     compressionLevel === level
-                      ? "border-accent/40 bg-accent/8 text-accent"
-                      : "border-white/8 bg-white/[0.02] text-zinc-300 hover:border-white/15 hover:bg-white/[0.04]"
+                      ? "border-accent-border bg-accent-soft text-accent"
+                      : "border-border bg-surface text-foreground hover:border-border-hover hover:bg-card"
                   }`}
                 >
                   <div className="flex items-center justify-between">
                     <span>{level}</span>
-                    {level === 'low' && <span className="text-xs text-zinc-600">Smallest</span>}
-                    {level === 'medium' && <span className="text-xs text-zinc-600">Balanced</span>}
-                    {level === 'high' && <span className="text-xs text-zinc-600">Best Quality</span>}
+                    {level === 'low' && <span className="text-xs text-muted">Smallest</span>}
+                    {level === 'medium' && <span className="text-xs text-muted">Balanced</span>}
+                    {level === 'high' && <span className="text-xs text-muted">Best Quality</span>}
                   </div>
                 </button>
               ))}
             </div>
-            <p className="text-xs text-zinc-600 mt-2">
+            <p className="text-xs text-muted mt-2">
               {compressionLevel === 'low' && 'Maximum size reduction, lower quality'}
               {compressionLevel === 'medium' && 'Balanced compression and quality'}
               {compressionLevel === 'high' && 'Minimal size reduction, maximum quality'}
@@ -280,7 +280,7 @@ export default function CompressPage() {
               <button
                 disabled={state === "compressing"}
                 onClick={removeFile}
-                className="flex-1 rounded-xl border border-white/8 px-6 py-3.5 text-sm font-semibold text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-40"
+                className="flex-1 rounded-xl border border-border px-6 py-3.5 text-sm font-semibold text-muted transition-colors hover:border-border-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
               >
                 Clear Selection
               </button>
@@ -291,13 +291,13 @@ export default function CompressPage() {
         {state === "done" && downloadUrl && file ? (
           <div className="mt-6 space-y-3">
             {stats && (
-              <div className="rounded-xl border border-white/8 bg-white/[0.03] p-4">
+              <div className="rounded-xl border border-border bg-surface p-4">
                 <div className="space-y-2 text-left">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-zinc-400">Size Reduction</span>
+                    <span className="text-sm text-secondary">Size Reduction</span>
                     <span className="text-lg font-bold text-accent">{stats.space_saved_percent.toFixed(2)}%</span>
                   </div>
-                  <div className="flex items-center justify-between text-xs text-zinc-600">
+                  <div className="flex items-center justify-between text-xs text-muted">
                     <span>{formatSize(stats.original_size_bytes)} → {formatSize(stats.compressed_size_bytes)}</span>
                     <span>Saved: {formatSize(stats.space_saved_bytes)}</span>
                   </div>
@@ -335,8 +335,8 @@ export default function CompressPage() {
         )}
 
         {errorMessage && (
-          <div className="mt-4 rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3 text-left">
-            <p className="text-sm text-red-400">{errorMessage}</p>
+          <div className="mt-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-left">
+            <p className="text-sm text-red-600">{errorMessage}</p>
           </div>
         )}
       </div>

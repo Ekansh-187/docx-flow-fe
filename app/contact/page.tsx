@@ -11,7 +11,7 @@ const contactReasons = [
   {
     icon: (
       <svg
-        className="h-5 w-5 text-zinc-400"
+        className="h-5 w-5 text-accent-text"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -31,7 +31,7 @@ const contactReasons = [
   {
     icon: (
       <svg
-        className="h-5 w-5 text-zinc-400"
+        className="h-5 w-5 text-accent-text"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -51,7 +51,7 @@ const contactReasons = [
   {
     icon: (
       <svg
-        className="h-5 w-5 text-zinc-400"
+        className="h-5 w-5 text-accent-text"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -71,7 +71,7 @@ const contactReasons = [
   {
     icon: (
       <svg
-        className="h-5 w-5 text-zinc-400"
+        className="h-5 w-5 text-accent-text"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"
@@ -115,115 +115,116 @@ const faqs = [
 
 export default function ContactPage() {
   return (
-    <div className="mx-auto max-w-5xl px-6 py-20">
-      {/* Hero */}
-      <div className="text-center">
-        <h1 className="text-4xl font-bold tracking-tight text-white">
-          Contact Us
-        </h1>
-        <p className="mt-4 text-lg text-zinc-500 max-w-2xl mx-auto">
-          Have a question, found a bug, or want to explore what DocxFlow can do
-          for your team? We&apos;re a small team and we read every message.
-        </p>
-      </div>
-
-      {/* Info cards */}
-      <div className="mt-16 grid grid-cols-1 gap-4 sm:grid-cols-2">
-        {contactReasons.map((item) => (
-          <div
-            key={item.title}
-            className="flex gap-4 rounded-xl border border-white/8 bg-white/[0.02] p-5"
-          >
-            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03]">
-              {item.icon}
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-white">{item.title}</p>
-              <p className="mt-1 text-sm text-zinc-500">{item.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Response time callout */}
-      <div className="mt-8 flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] px-5 py-4">
-        <svg
-          className="h-4 w-4 shrink-0 text-emerald-400"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
-            clipRule="evenodd"
-          />
-        </svg>
-        <p className="text-sm text-zinc-400">
-          <span className="text-zinc-200 font-medium">
-            Typical response time: under 24 hours.
-          </span>{" "}
-          We&apos;re a focused team — no ticket queues, no bots.
-        </p>
-      </div>
-
-      {/* Main two-column layout */}
-      <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
-        {/* Form — client component */}
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Send us a message
-          </h2>
-          <ContactForm />
+    <div className="bg-background">
+      <div className="mx-auto max-w-5xl px-6 py-20">
+        {/* Hero */}
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Get in touch</p>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-heading">
+            Contact Us
+          </h1>
+          <p className="mt-4 text-secondary max-w-2xl mx-auto">
+            Have a question, found a bug, or want to explore what DocxFlow can do
+            for your team? We&apos;re a small team and we read every message.
+          </p>
         </div>
 
-        {/* FAQ */}
-        <div>
-          <h2 className="text-xl font-semibold text-white mb-6">
-            Frequently asked questions
-          </h2>
-          <div className="space-y-6">
-            {faqs.map((faq) => (
-              <div key={faq.question}>
-                <p className="text-sm font-semibold text-white">
-                  {faq.question}
-                </p>
-                <p className="mt-1.5 text-sm text-zinc-500">{faq.answer}</p>
+        {/* Info cards */}
+        <div className="mt-14 grid grid-cols-1 gap-4 sm:grid-cols-2">
+          {contactReasons.map((item) => (
+            <div
+              key={item.title}
+              className="flex gap-4 rounded-xl border border-border bg-card p-5"
+            >
+              <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface">
+                {item.icon}
               </div>
-            ))}
+              <div>
+                <p className="text-sm font-semibold text-heading">{item.title}</p>
+                <p className="mt-1 text-sm text-secondary">{item.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Response time callout */}
+        <div className="mt-6 flex items-center gap-3 rounded-xl border border-[#BBF7D0] bg-[#F0FDF4] px-5 py-4">
+          <svg
+            className="h-4 w-4 shrink-0 text-[#166534]"
+            fill="currentColor"
+            viewBox="0 0 20 20"
+          >
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+              clipRule="evenodd"
+            />
+          </svg>
+          <p className="text-sm text-[#166534]">
+            <span className="font-semibold">Typical response time: under 24 hours.</span>{" "}
+            We&apos;re a focused team — no ticket queues, no bots.
+          </p>
+        </div>
+
+        {/* Main two-column layout */}
+        <div className="mt-16 grid grid-cols-1 gap-12 lg:grid-cols-2">
+          {/* Form — client component */}
+          <div>
+            <h2 className="text-xl font-extrabold tracking-tight text-heading mb-6">
+              Send us a message
+            </h2>
+            <ContactForm />
           </div>
 
-          {/* Direct email */}
-          <div className="mt-10 rounded-xl border border-white/8 bg-white/[0.02] p-6">
-            <p className="text-sm font-semibold text-white">
-              Prefer email directly?
-            </p>
-            <p className="mt-1 text-sm text-zinc-400">
-              Drop us a line at{" "}
-              <a
-                href="mailto:support@docxflow.com"
-                className="text-zinc-200 underline underline-offset-2 hover:text-white"
-              >
-                support@docxflow.com
-              </a>
-              . Same team, same response time.
-            </p>
-          </div>
+          {/* FAQ */}
+          <div>
+            <h2 className="text-xl font-extrabold tracking-tight text-heading mb-6">
+              Frequently asked questions
+            </h2>
+            <div className="divide-y divide-border">
+              {faqs.map((faq) => (
+                <div key={faq.question} className="py-5 first:pt-0">
+                  <p className="text-sm font-semibold text-heading">
+                    {faq.question}
+                  </p>
+                  <p className="mt-2 text-sm text-secondary">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
 
-          {/* Docs link */}
-          <div className="mt-4 rounded-xl border border-white/8 bg-white/[0.02] p-6">
-            <p className="text-sm font-semibold text-white">
-              Looking for docs or API reference?
-            </p>
-            <p className="mt-1 text-sm text-zinc-400">
-              Check our{" "}
-              <a
-                href="/docs"
-                className="text-zinc-200 underline underline-offset-2 hover:text-white"
-              >
-                documentation
-              </a>{" "}
-              — most integration questions are answered there with code examples.
-            </p>
+            {/* Direct email */}
+            <div className="mt-8 rounded-xl border border-border bg-card p-6">
+              <p className="text-sm font-semibold text-heading">
+                Prefer email directly?
+              </p>
+              <p className="mt-1.5 text-sm text-secondary">
+                Drop us a line at{" "}
+                <a
+                  href="mailto:support@docxflow.com"
+                  className="text-accent underline underline-offset-2 hover:text-accent-text transition-colors"
+                >
+                  support@docxflow.com
+                </a>
+                . Same team, same response time.
+              </p>
+            </div>
+
+            {/* Docs link */}
+            <div className="mt-4 rounded-xl border border-border bg-card p-6">
+              <p className="text-sm font-semibold text-heading">
+                Looking for docs or API reference?
+              </p>
+              <p className="mt-1.5 text-sm text-secondary">
+                Check our{" "}
+                <a
+                  href="/docs"
+                  className="text-accent underline underline-offset-2 hover:text-accent-text transition-colors"
+                >
+                  documentation
+                </a>{" "}
+                — most integration questions are answered there with code examples.
+              </p>
+            </div>
           </div>
         </div>
       </div>

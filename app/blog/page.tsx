@@ -20,7 +20,7 @@ const blogs = [
     id: "3",
     slug: "delete-page-in-word-without-formatting-issues",
     title: "How to Delete a Page in Word (Without the Formatting Headache)",
-    excerpt: "Deleting a page in Microsoft Word sounds simple—until it isn’t. Learn how to remove unwanted pages without breaking your document’s layout.",
+    excerpt: "Deleting a page in Microsoft Word sounds simple—until it isn't. Learn how to remove unwanted pages without breaking your document's layout.",
     date: "May 4, 2026",
     readTime: "5 min read",
     category: "Tutorial",
@@ -29,46 +29,57 @@ const blogs = [
 
 export default function BlogPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center px-6 py-20">
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-20">
       <div className="w-full max-w-4xl">
         <div className="text-center">
-          <h1 className="text-4xl font-bold tracking-tight text-white md:text-5xl">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">Blog</p>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-heading md:text-4xl">
             Our Blog
           </h1>
-          <p className="mt-4 text-lg text-zinc-400">
+          <p className="mt-4 text-secondary">
             Latest news, tutorials, and insights from the ILoveDox team.
           </p>
         </div>
 
-        <div className="mt-16 grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {blogs.map((blog) => (
             <Link
               key={blog.id}
               href={`/blog/${blog.slug}`}
-              className="group flex flex-col justify-between rounded-2xl border border-zinc-800 bg-zinc-900 p-6 transition-all hover:border-zinc-700 hover:bg-zinc-800/80"
+              className="group flex flex-col justify-between rounded-xl border border-border bg-card p-6 transition-all hover:border-border-hover hover:shadow-sm"
             >
               <div>
-                <div className="flex items-center gap-3 text-xs text-zinc-500">
-                  <span className="rounded-full bg-emerald-500/10 px-2.5 py-1 font-medium text-emerald-400 ring-1 ring-inset ring-emerald-500/20">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full border border-accent-border bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent-text">
                     {blog.category}
                   </span>
-                  <time dateTime={blog.date}>{blog.date}</time>
+                  <time dateTime={blog.date} className="text-xs text-muted">
+                    {blog.date}
+                  </time>
+                  <span className="text-xs text-muted">&middot; {blog.readTime}</span>
                 </div>
-                <h2 className="mt-4 text-xl font-semibold text-white group-hover:text-emerald-400 transition-colors">
+                <h2 className="mt-4 text-base font-semibold text-heading transition-colors group-hover:text-accent">
                   {blog.title}
                 </h2>
-                <p className="mt-3 text-sm text-zinc-400 line-clamp-3">
+                <p className="mt-3 text-sm text-secondary line-clamp-3">
                   {blog.excerpt}
                 </p>
               </div>
-              <div className="mt-6 flex items-center justify-between text-xs font-medium text-zinc-500">
-                <span>{blog.readTime}</span>
-                <span className="flex items-center gap-1 group-hover:text-emerald-400 transition-colors">
-                  Read more
-                  <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
-                </span>
+              <div className="mt-6 flex items-center gap-1 text-xs font-medium text-accent">
+                Read more
+                <svg
+                  className="h-4 w-4 transition-transform group-hover:translate-x-1"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
               </div>
             </Link>
           ))}

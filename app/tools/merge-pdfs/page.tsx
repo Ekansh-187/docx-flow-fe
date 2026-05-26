@@ -260,13 +260,13 @@ export default function MergePdfsPage() {
       <div className="w-full max-w-2xl text-center">
 
         {/* Badge */}
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent mb-5">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent-border bg-accent-soft px-3 py-1 text-xs font-medium text-accent mb-5">
           <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           Free &middot; No sign-up required
         </div>
 
-        <h1 className="text-4xl font-bold tracking-tight text-white">Merge PDFs</h1>
-        <p className="mt-3 text-[15px] text-zinc-500 max-w-sm mx-auto leading-relaxed">
+        <h1 className="text-4xl font-bold tracking-tight text-heading">Merge PDFs</h1>
+        <p className="mt-3 text-[15px] text-muted max-w-sm mx-auto leading-relaxed">
           Upload multiple PDFs, drag to arrange, then combine into one file.
         </p>
 
@@ -280,15 +280,15 @@ export default function MergePdfsPage() {
             onClick={() => inputRef.current?.click()}
             className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 py-14 transition-all duration-200 ${
               dropzoneActive
-                ? "border-accent/50 bg-accent/5"
-                : "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
+                ? "border-accent-border bg-accent-soft"
+                : "border-border bg-surface hover:border-border-hover hover:bg-card"
             }`}
           >
             <div className="mb-5 flex items-end justify-center gap-2">
               {["-6deg", "-2deg", "0deg"].map((rot, i) => (
                 <div
                   key={i}
-                  className="flex h-11 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5"
+                  className="flex h-11 w-9 items-center justify-center rounded-lg border border-border bg-white/5"
                   style={{ transform: `rotate(${rot})`, opacity: i === 2 ? 1 : i === 1 ? 0.55 : 0.25 }}
                 >
                   <svg
@@ -302,10 +302,10 @@ export default function MergePdfsPage() {
                 </div>
               ))}
             </div>
-            <p className="text-sm text-zinc-400">
-              <span className="font-semibold text-white">Click to upload</span> or drag and drop
+            <p className="text-sm text-secondary">
+              <span className="font-semibold text-heading">Click to upload</span> or drag and drop
             </p>
-            <p className="mt-1.5 text-xs text-zinc-600">
+            <p className="mt-1.5 text-xs text-muted">
               PDF only &middot; max {MAX_FILES} files &middot; 20 MB combined
             </p>
             <input
@@ -324,17 +324,17 @@ export default function MergePdfsPage() {
           <div className="mt-8 text-left">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-zinc-500">
-                <span className="font-semibold text-white">{pdfs.length}</span>{" "}
+              <span className="text-sm text-muted">
+                <span className="font-semibold text-heading">{pdfs.length}</span>{" "}
                 PDF{pdfs.length !== 1 ? "s" : ""}{" "}
-                <span className="text-zinc-700">&middot;</span>{" "}
-                <span className={totalBytes > MAX_BYTES ? "text-red-400 font-medium" : "text-zinc-600"}>
+                <span className="text-muted">&middot;</span>{" "}
+                <span className={totalBytes > MAX_BYTES ? "text-red-600 font-medium" : "text-muted"}>
                   {formatSize(totalBytes)} / 20 MB
                 </span>
               </span>
               <button
                 onClick={clearAll}
-                className="text-xs text-zinc-600 transition-colors hover:text-zinc-300"
+                className="text-xs text-muted transition-colors hover:text-foreground"
               >
                 Clear all
               </button>
@@ -355,7 +355,7 @@ export default function MergePdfsPage() {
                       ? "scale-[1.04] shadow-lg"
                       : dragSrcIndex === index
                       ? "border-white/5 opacity-35 scale-95"
-                      : "border-white/8 bg-white/[0.03] hover:border-white/15 hover:bg-white/[0.05] hover:scale-[1.02]"
+                      : "border-border bg-surface hover:border-border-hover hover:bg-card hover:scale-[1.02]"
                   }`}
                   style={
                     dragOverIndex === index && dragSrcIndex !== index
@@ -375,7 +375,7 @@ export default function MergePdfsPage() {
                   <button
                     onClick={(e) => { e.stopPropagation(); removePdf(entry.id); }}
                     title="Remove"
-                    className="absolute top-1.5 right-1.5 z-10 flex h-[18px] w-[18px] items-center justify-center rounded bg-zinc-900/80 text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 hover:text-red-400 backdrop-blur-sm"
+                    className="absolute top-1.5 right-1.5 z-10 flex h-[18px] w-[18px] items-center justify-center rounded bg-black/60 text-muted opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 hover:text-red-600 backdrop-blur-sm"
                   >
                     <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
@@ -383,7 +383,7 @@ export default function MergePdfsPage() {
                   </button>
 
                   {/* Thumbnail */}
-                  <div className="relative w-full rounded-t-xl overflow-hidden bg-zinc-900" style={{ aspectRatio: "3/4" }}>
+                  <div className="relative w-full rounded-t-xl overflow-hidden bg-surface" style={{ aspectRatio: "3/4" }}>
                     {entry.thumbnail ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -403,8 +403,8 @@ export default function MergePdfsPage() {
 
                   {/* Info strip */}
                   <div className="px-2 pt-1.5 pb-2">
-                    <p className="text-[11px] font-medium text-zinc-300 truncate leading-tight">{entry.file.name}</p>
-                    <p className="mt-0.5 text-[10px] text-zinc-600 tabular-nums">
+                    <p className="text-[11px] font-medium text-foreground truncate leading-tight">{entry.file.name}</p>
+                    <p className="mt-0.5 text-[10px] text-muted tabular-nums">
                       {entry.pageCount !== null
                         ? `${entry.pageCount}p · ${formatSize(entry.file.size)}`
                         : formatSize(entry.file.size)}
@@ -417,7 +417,7 @@ export default function MergePdfsPage() {
               {pdfs.length < MAX_FILES && (
                 <button
                   onClick={() => inputRef.current?.click()}
-                  className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/8 text-zinc-700 transition-all hover:text-zinc-400"
+                  className="flex flex-col items-center justify-center rounded-xl border border-dashed border-border text-muted transition-all hover:text-secondary"
                   style={{ aspectRatio: "3/4" }}
                   onMouseEnter={(e) => {
                     e.currentTarget.style.borderColor = "color-mix(in srgb, var(--accent) 35%, transparent)";
@@ -440,7 +440,7 @@ export default function MergePdfsPage() {
 
         {/* Hint */}
         {pdfs.length === 1 && mergeState !== "done" && (
-          <p className="mt-3 text-xs text-zinc-600 text-center">
+          <p className="mt-3 text-xs text-muted text-center">
             Add at least one more PDF to enable merging.
           </p>
         )}
@@ -465,7 +465,7 @@ export default function MergePdfsPage() {
             </a>
             <button
               onClick={clearAll}
-              className="w-full rounded-xl border border-white/8 px-6 py-3 text-sm font-medium text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300"
+              className="w-full rounded-xl border border-border px-6 py-3 text-sm font-medium text-muted transition-colors hover:border-border-hover hover:text-foreground"
             >
               Merge more PDFs
             </button>
@@ -510,7 +510,7 @@ export default function MergePdfsPage() {
             <button
               disabled={mergeState === "merging"}
               onClick={clearAll}
-              className="flex-1 rounded-xl border border-white/8 px-6 py-3.5 text-sm font-semibold text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-40"
+              className="flex-1 rounded-xl border border-border px-6 py-3.5 text-sm font-semibold text-muted transition-colors hover:border-border-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
             >
               Clear All
             </button>
@@ -519,8 +519,8 @@ export default function MergePdfsPage() {
 
         {/* Error */}
         {mergeState === "error" && errorMessage && (
-          <div className="mt-4 rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3 text-left">
-            <p className="text-sm text-red-400">{errorMessage}</p>
+          <div className="mt-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-left">
+            <p className="text-sm text-red-600">{errorMessage}</p>
             {signupUrl && (
               <a
                 href={signupUrl}

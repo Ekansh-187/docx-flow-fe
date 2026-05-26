@@ -1,18 +1,23 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Plus_Jakarta_Sans, Fira_Code } from "next/font/google";
 import "./globals.css";
 import Navbar from "./components/Navbar";
 import StoreProvider from "./components/StoreProvider";
 import FooterRenderer from "./components/FooterRenderer";
+import ThemeProvider from "./components/ThemeProvider";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const plusJakarta = Plus_Jakarta_Sans({
+  variable: "--font-plus-jakarta",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const firaCode = Fira_Code({
+  variable: "--font-fira-code",
   subsets: ["latin"],
+  weight: ["400", "500"],
+  display: "swap",
 });
 
 const SITE_URL = "https://www.ilovedox.com";
@@ -68,9 +73,7 @@ export const metadata: Metadata = {
       "Convert DOCX files to PDF for free. 1000 conversions/month, no credit card. REST API built for developers.",
     images: ["/og-image.png"],
   },
-  // icons intentionally omitted — App Router auto-generates from app/favicon.ico,
-  // app/icon.png, app/icon.svg, app/apple-icon.png convention files
-  themeColor: "#0b0a09",
+  themeColor: "#FAFAF9",
   robots: {
     index: true,
     follow: true,
@@ -85,15 +88,26 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${plusJakarta.variable} ${firaCode.variable} h-full antialiased`}
+      suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col bg-background text-zinc-50">
+      <head>
+        {/* Prevent theme flash — default is light */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var t=localStorage.getItem('theme');var html=document.documentElement;if(t==='light'){html.classList.remove('dark');}else{html.classList.add('dark');}})();`,
+          }}
+        />
+      </head>
+      <body className="min-h-full flex flex-col bg-background text-foreground">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-white text-black p-2 z-50">Skip to main content</a>
+        <ThemeProvider>
           <StoreProvider>
             <Navbar />
             {children}
             <FooterRenderer />
           </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

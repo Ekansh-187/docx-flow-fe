@@ -6,6 +6,9 @@ import { useRouter } from "next/navigation";
 import { useSignupMutation, useLoginMutation, useVerifyEmailMutation, useCreateApiTokenMutation } from "@/rtk-query";
 import { useAuth, loginWithTokens } from "@/utils/useAuth";
 
+const inputClass =
+  "mt-1.5 w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover";
+
 export default function SignInPage() {
   const [mode, setMode] = useState<"signin" | "register">("signin");
   const [email, setEmail] = useState("");
@@ -87,165 +90,168 @@ export default function SignInPage() {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center px-6 py-20">
+    <div className="flex min-h-screen items-center justify-center bg-background px-6 py-20">
       <div className="w-full max-w-sm">
-        <h1 className="text-2xl font-bold tracking-tight text-white text-center">
-          {mode === "signin" ? "Sign in to ILoveDox" : "Create an account"}
-        </h1>
-        <p className="mt-2 text-center text-sm text-zinc-500">
-          {mode === "signin"
-            ? "Enter your credentials to access your API keys."
-            : "Sign up to get your free API key."}
-        </p>
-
-        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-          {mode === "register" && (
-            <>
-              <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-zinc-300"
-                >
-                  Name
-                </label>
-                <input
-                  id="name"
-                  type="text"
-                  autoComplete="name"
-                  required
-                  value={fullName}
-                  onChange={(e) => setFullName(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
-                  placeholder="Jane Doe"
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor="org"
-                  className="block text-sm font-medium text-zinc-300"
-                >
-                  Organization
-                </label>
-                <input
-                  id="org"
-                  type="text"
-                  autoComplete="organization"
-                  value={organizationName}
-                  onChange={(e) => setOrganizationName(e.target.value)}
-                  className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
-                  placeholder="Acme Inc."
-                />
-              </div>
-            </>
-          )}
-
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-zinc-300"
-            >
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              autoComplete="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
-              placeholder="you@example.com"
-            />
+        {/* Card */}
+        <div className="rounded-2xl border border-border bg-card p-8">
+          <div className="text-center">
+            <h1 className="text-2xl font-extrabold tracking-tight text-heading">
+              {mode === "signin" ? "Sign in to ILoveDox" : "Create an account"}
+            </h1>
+            <p className="mt-2 text-sm text-secondary">
+              {mode === "signin"
+                ? "Enter your credentials to access your API keys."
+                : "Sign up to get your free API key."}
+            </p>
           </div>
 
-          <div>
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-zinc-300"
-            >
-              Password
-            </label>
-            <input
-              id="password"
-              type="password"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
-              required
-              minLength={8}
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
-              placeholder="••••••••"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="mt-7 space-y-4">
+            {mode === "register" && (
+              <>
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-sm font-medium text-foreground"
+                  >
+                    Name
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    autoComplete="name"
+                    required
+                    value={fullName}
+                    onChange={(e) => setFullName(e.target.value)}
+                    className={inputClass}
+                    placeholder="Jane Doe"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="org"
+                    className="block text-sm font-medium text-foreground"
+                  >
+                    Organization
+                  </label>
+                  <input
+                    id="org"
+                    type="text"
+                    autoComplete="organization"
+                    value={organizationName}
+                    onChange={(e) => setOrganizationName(e.target.value)}
+                    className={inputClass}
+                    placeholder="Acme Inc."
+                  />
+                </div>
+              </>
+            )}
 
-          {error && (
-            <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
-              <p className="text-sm text-red-400">{error}</p>
+            <div>
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground"
+              >
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                autoComplete="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className={inputClass}
+                placeholder="you@example.com"
+              />
             </div>
-          )}
 
-          <button
-            type="submit"
-            disabled={isSigningUp || isLoggingIn}
-            className="mt-2 w-full rounded-xl px-6 py-3 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-            style={{
-              background: "var(--accent)",
-              color: "var(--accent-fg)",
-              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
-            }}
-          >
-            {isSigningUp
-              ? "Creating account…"
-              : mode === "signin"
+            <div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-foreground"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                type="password"
+                autoComplete={mode === "signin" ? "current-password" : "new-password"}
+                required
+                minLength={8}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className={inputClass}
+                placeholder="••••••••"
+              />
+            </div>
+
+            {error && (
+              <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                <p className="text-sm text-red-600">{error}</p>
+              </div>
+            )}
+
+            <button
+              type="submit"
+              disabled={isSigningUp || isLoggingIn}
+              className="mt-1 w-full rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#E03E10] disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {isSigningUp
+                ? "Creating account…"
+                : isLoggingIn
+                ? "Signing in…"
+                : mode === "signin"
                 ? "Sign In"
                 : "Create Account"}
-          </button>
-        </form>
+            </button>
+          </form>
 
-        <p className="mt-6 text-center text-sm text-zinc-500">
-          {mode === "signin" ? (
-            <>
-              Don&apos;t have an account?{" "}
-              <button
-                onClick={() => { setMode("register"); setError(null); }}
-                className="font-medium text-zinc-300 underline underline-offset-4 transition-colors hover:text-white"
-              >
-                Register
-              </button>
-            </>
-          ) : (
-            <>
-              Already have an account?{" "}
-              <button
-                onClick={() => { setMode("signin"); setError(null); }}
-                className="font-medium text-zinc-300 underline underline-offset-4 transition-colors hover:text-white"
-              >
-                Sign in
-              </button>
-            </>
-          )}
-        </p>
+          <p className="mt-5 text-center text-sm text-secondary">
+            {mode === "signin" ? (
+              <>
+                Don&apos;t have an account?{" "}
+                <button
+                  onClick={() => { setMode("register"); setError(null); }}
+                  className="text-accent underline underline-offset-4 transition-colors hover:text-accent-text font-medium"
+                >
+                  Register
+                </button>
+              </>
+            ) : (
+              <>
+                Already have an account?{" "}
+                <button
+                  onClick={() => { setMode("signin"); setError(null); }}
+                  className="text-accent underline underline-offset-4 transition-colors hover:text-accent-text font-medium"
+                >
+                  Sign in
+                </button>
+              </>
+            )}
+          </p>
+        </div>
 
-        <p className="mt-8 text-center text-xs text-zinc-600">
-          <Link href="/" className="hover:text-zinc-400 transition-colors">
+        <p className="mt-6 text-center text-xs text-muted">
+          <Link href="/" className="hover:text-secondary transition-colors">
             &larr; Back to home
           </Link>
         </p>
       </div>
 
+      {/* OTP Modal */}
       {showOtpDialog && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
-            <h2 className="text-lg font-semibold text-white text-center">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4">
+          <div className="w-full max-w-sm rounded-2xl border border-border bg-card p-6 shadow-xl">
+            <h2 className="text-lg font-extrabold tracking-tight text-heading text-center">
               Verify your email
             </h2>
-            <p className="mt-2 text-center text-sm text-zinc-400">
+            <p className="mt-2 text-center text-sm text-secondary">
               {otpMessage}
             </p>
 
-            <form onSubmit={handleOtpSubmit} className="mt-6 space-y-4">
+            <form onSubmit={handleOtpSubmit} className="mt-6 space-y-5">
               <div>
-                <label className="block text-sm font-medium text-zinc-300 mb-3 text-center">
+                <label className="block text-sm font-medium text-foreground mb-3 text-center">
                   6-digit OTP
                 </label>
                 <div className="flex justify-center gap-2">
@@ -286,27 +292,22 @@ export default function SignInPage() {
                         const focusIdx = Math.min(pasted.length, 5);
                         otpRefs.current[focusIdx]?.focus();
                       }}
-                      className="w-11 h-13 rounded-xl border border-white/8 bg-white/[0.03] text-center text-xl font-semibold text-zinc-100 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
+                      className="h-12 w-11 rounded-lg border border-border bg-card text-center text-xl font-semibold text-heading outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover"
                     />
                   ))}
                 </div>
               </div>
 
               {otpError && (
-                <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
-                  <p className="text-sm text-red-400">{otpError}</p>
+                <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
+                  <p className="text-sm text-red-600">{otpError}</p>
                 </div>
               )}
 
               <button
                 type="submit"
                 disabled={isVerifying || otp.length !== 6}
-                className="w-full rounded-xl px-6 py-3 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                style={{
-                  background: "var(--accent)",
-                  color: "var(--accent-fg)",
-                  boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
-                }}
+                className="w-full rounded-xl bg-accent px-6 py-2.5 text-sm font-semibold text-white transition hover:bg-[#E03E10] disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isVerifying ? "Verifying…" : "Verify & Continue"}
               </button>
@@ -314,7 +315,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 onClick={() => setShowOtpDialog(false)}
-                className="w-full rounded-xl border border-white/8 px-6 py-2.5 text-sm text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300"
+                className="w-full rounded-xl border border-border bg-card px-6 py-2.5 text-sm font-medium text-heading transition hover:bg-surface hover:border-border-hover"
               >
                 Cancel
               </button>

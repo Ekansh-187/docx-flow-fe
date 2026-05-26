@@ -1,7 +1,6 @@
 /**
  * Centralized Tailwind class configuration.
- * One source of truth for all UI styles.
- * Uses CSS variable utilities (text-accent, bg-accent, etc.) from globals.css.
+ * Uses CSS variable utilities from globals.css — adapts to dark/light theme.
  *
  * Usage:
  *   import { theme } from "@/styles/theme"
@@ -12,139 +11,125 @@ export const theme = {
   // ── Colors ────────────────────────────────────────────────────────────────
   color: {
     accent: "text-accent",
-    accentHover: "text-accent-hover",
-    accentDim: "text-accent-dim",
-    muted: "text-zinc-400",
-    subtle: "text-zinc-500",
-    faint: "text-zinc-600",
-    base: "text-zinc-200",
-    strong: "text-white",
-    danger: "text-red-400",
-    success: "text-emerald-400",
-    warning: "text-amber-400",
-    info: "text-blue-400",
+    accentText: "text-accent-text",
+    muted: "text-muted",
+    secondary: "text-secondary",
+    body: "text-foreground",
+    heading: "text-heading",
+    danger: "text-red-600",
+    success: "text-success",
+    warning: "text-amber-600",
+    info: "text-blue-600",
   },
 
   // ── Typography ────────────────────────────────────────────────────────────
   text: {
-    h1: "text-3xl font-bold tracking-tight text-white",
-    h2: "text-2xl font-semibold tracking-tight text-white",
-    h3: "text-xl font-semibold text-white",
-    h4: "text-base font-semibold text-zinc-200",
-    body: "text-sm text-zinc-400",
-    bodyStrong: "text-sm font-medium text-zinc-200",
-    caption: "text-xs text-zinc-500",
-    label: "text-xs font-medium uppercase tracking-wide text-zinc-400",
-    code: "font-mono text-sm text-zinc-300 bg-zinc-800 px-1.5 py-0.5 rounded",
+    h1: "text-3xl font-extrabold tracking-tight text-heading leading-tight",
+    h2: "text-2xl font-extrabold tracking-tight text-heading",
+    h3: "text-xl font-semibold text-heading",
+    h4: "text-base font-semibold text-foreground",
+    body: "text-sm text-secondary",
+    bodyStrong: "text-sm font-medium text-foreground",
+    caption: "text-xs text-muted",
+    label: "text-xs font-semibold uppercase tracking-widest text-muted",
+    code: "font-mono text-sm text-foreground bg-surface px-1.5 py-0.5 rounded",
   },
 
   // ── Buttons ───────────────────────────────────────────────────────────────
   button: {
-    // Primary — white on dark bg (action buttons)
     primary:
-      "rounded-lg bg-white px-6 py-3.5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 active:bg-zinc-300 disabled:cursor-not-allowed disabled:opacity-50",
-    // Accent — champagne gold
+      "rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#E03E10] active:bg-[#C13207] disabled:cursor-not-allowed disabled:opacity-50",
     accent:
-      "rounded-lg px-6 py-3.5 text-sm font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50",
-    // Outline — bordered ghost
+      "rounded-xl bg-accent px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#E03E10] disabled:cursor-not-allowed disabled:opacity-50",
     outline:
-      "rounded-lg border border-zinc-700 bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50",
-    // Ghost — no background
+      "rounded-xl border border-border bg-card px-6 py-3 text-sm font-semibold text-heading transition-colors hover:bg-surface hover:border-border-hover disabled:cursor-not-allowed disabled:opacity-50",
     ghost:
-      "rounded-lg px-4 py-2 text-sm font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200 disabled:cursor-not-allowed disabled:opacity-50",
-    // Danger
+      "rounded-lg px-4 py-2 text-sm font-medium text-secondary transition-colors hover:bg-surface hover:text-heading disabled:cursor-not-allowed disabled:opacity-50",
     danger:
-      "rounded-lg bg-red-500/10 px-4 py-2 text-sm font-medium text-red-400 ring-1 ring-red-500/30 transition-colors hover:bg-red-500/20 disabled:cursor-not-allowed disabled:opacity-50",
-    // Download / success action (uses accent tokens)
+      "rounded-xl bg-red-50 px-4 py-2 text-sm font-medium text-red-600 ring-1 ring-red-200 transition-colors hover:bg-red-100 disabled:cursor-not-allowed disabled:opacity-50",
     download:
-      "flex w-full items-center justify-center gap-2 rounded-lg bg-accent/15 px-6 py-3.5 text-sm font-semibold text-accent ring-1 ring-accent/30 transition-colors hover:bg-accent/20 active:bg-accent/25",
-    // Indigo — sign-in / auth
+      "flex w-full items-center justify-center gap-2 rounded-xl bg-accent-soft px-6 py-3 text-sm font-semibold text-accent-text ring-1 ring-accent-border transition-colors hover:bg-[#FFE8DE]",
     indigo:
-      "rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400",
-    // Loading / disabled processing state
+      "rounded-xl bg-indigo-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-500",
     loading:
-      "rounded-lg bg-zinc-800 px-6 py-3.5 text-sm font-semibold text-white cursor-not-allowed",
-    // Sizes (compose with button variants)
+      "rounded-xl bg-surface px-6 py-3 text-sm font-semibold text-muted cursor-not-allowed",
     size: {
       sm: "px-3 py-1.5 text-xs",
-      md: "px-6 py-3.5 text-sm",
-      lg: "px-8 py-4 text-base",
+      md: "px-6 py-3 text-sm",
+      lg: "px-8 py-3.5 text-base",
     },
   },
 
   // ── Inputs ────────────────────────────────────────────────────────────────
   input: {
-    base: "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 outline-none transition-colors",
-    focused: "focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500",
-    error: "border-red-500/60 focus:border-red-500 focus:ring-red-500/40",
+    base: "w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors",
+    focused: "focus:border-border-hover focus:ring-1 focus:ring-border-hover",
+    error: "border-red-300 focus:border-red-400 focus:ring-red-300",
     disabled: "cursor-not-allowed opacity-50",
-    // Convenience composites
     default:
-      "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500",
+      "w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover",
     invalid:
-      "w-full rounded-lg border border-red-500/60 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 outline-none transition-colors focus:border-red-500 focus:ring-1 focus:ring-red-500/40",
+      "w-full rounded-lg border border-red-300 bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-red-400 focus:ring-1 focus:ring-red-300",
   },
 
   select: {
     default:
-      "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500",
+      "w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover",
   },
 
   textarea: {
     default:
-      "w-full rounded-lg border border-zinc-700 bg-zinc-900 px-4 py-2.5 text-sm text-zinc-200 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500 resize-none",
+      "w-full rounded-lg border border-border bg-card px-4 py-2.5 text-sm text-foreground placeholder:text-muted outline-none transition-colors focus:border-border-hover focus:ring-1 focus:ring-border-hover resize-none",
   },
 
   // ── Cards ─────────────────────────────────────────────────────────────────
   card: {
-    base: "rounded-xl bg-zinc-900 p-5",
-    bordered:
-      "rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-colors",
+    base: "rounded-xl bg-card p-5",
+    bordered: "rounded-xl border border-border bg-card p-5 transition-colors",
     hoverable:
-      "rounded-xl border border-zinc-800 bg-zinc-900 p-5 transition-colors hover:border-zinc-700 hover:bg-zinc-800/60 cursor-pointer",
-    shadowed:
-      "rounded-xl border border-zinc-800 bg-zinc-900 p-5 shadow-lg shadow-black/30",
+      "rounded-xl border border-border bg-card p-5 transition-colors hover:border-border-hover hover:shadow-sm cursor-pointer",
+    shadowed: "rounded-xl border border-border bg-card p-5 shadow-sm",
     accent:
-      "rounded-xl border border-accent/20 bg-accent/5 p-5 transition-colors",
-    stat: "rounded-lg bg-zinc-800/50 border border-zinc-700 p-4",
+      "rounded-xl border border-accent-border bg-accent-soft p-5 transition-colors",
+    stat: "rounded-xl border border-border bg-card p-4",
   },
 
   // ── Badges / Tags ─────────────────────────────────────────────────────────
   badge: {
     accent:
-      "inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent",
-    info: "inline-flex items-center gap-1.5 rounded-full border border-blue-500/25 bg-blue-500/10 px-3 py-1 text-xs font-medium text-blue-400",
+      "inline-flex items-center gap-1.5 rounded-full border border-accent-border bg-accent-soft px-3 py-1 text-xs font-medium text-accent-text",
+    info: "inline-flex items-center gap-1.5 rounded-full border border-blue-200 bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700",
     success:
-      "inline-flex items-center gap-1.5 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-3 py-1 text-xs font-medium text-emerald-400",
+      "inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700",
     warning:
-      "inline-flex items-center gap-1.5 rounded-full border border-amber-500/25 bg-amber-500/10 px-3 py-1 text-xs font-medium text-amber-400",
+      "inline-flex items-center gap-1.5 rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700",
     error:
-      "inline-flex items-center gap-1.5 rounded-full border border-red-500/25 bg-red-500/10 px-3 py-1 text-xs font-medium text-red-400",
+      "inline-flex items-center gap-1.5 rounded-full border border-red-200 bg-red-50 px-3 py-1 text-xs font-medium text-red-600",
     neutral:
-      "inline-flex items-center gap-1.5 rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-400",
-    soon: "rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500",
+      "inline-flex items-center gap-1.5 rounded-full border border-border bg-surface px-3 py-1 text-xs font-medium text-muted",
+    soon: "rounded-full border border-border bg-surface px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted",
   },
 
   // ── Dropzone ──────────────────────────────────────────────────────────────
   dropzone: {
     base: "cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-16 transition-colors",
-    idle: "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/40",
-    active: "border-zinc-400 bg-zinc-800/60",
+    idle: "border-border bg-background hover:border-border-hover hover:bg-surface",
+    active: "border-accent-border bg-accent-soft",
   },
 
   // ── Borders ───────────────────────────────────────────────────────────────
   border: {
-    soft: "border border-zinc-800",
-    medium: "border border-zinc-700",
-    strong: "border border-zinc-600",
-    accent: "border border-accent/30",
-    danger: "border border-red-500/40",
+    soft: "border border-border",
+    medium: "border border-border-hover",
+    strong: "border border-[#CCCCCC]",
+    accent: "border border-accent-border",
+    danger: "border border-red-200",
   },
 
   // ── Dividers ──────────────────────────────────────────────────────────────
   divider: {
-    soft: "border-t border-zinc-800",
-    medium: "border-t border-zinc-700",
+    soft: "border-t border-border",
+    medium: "border-t border-border-hover",
   },
 
   // ── Spacing / Layout ──────────────────────────────────────────────────────
@@ -152,8 +137,9 @@ export const theme = {
     page: "flex flex-1 min-h-screen flex-col items-center justify-center px-6 py-20",
     pageNarrow: "w-full max-w-xl",
     pageWide: "w-full max-w-4xl",
-    section: "mt-10",
-    sectionSmall: "mt-6",
+    container: "mx-auto w-full max-w-[1060px] px-6",
+    section: "mt-16",
+    sectionSmall: "mt-8",
     stack: "flex flex-col gap-4",
     stackTight: "flex flex-col gap-2",
     row: "flex items-center gap-3",
@@ -165,6 +151,7 @@ export const theme = {
     sm: "rounded",
     md: "rounded-lg",
     lg: "rounded-xl",
+    xl: "rounded-2xl",
     full: "rounded-full",
   },
 
@@ -173,12 +160,12 @@ export const theme = {
 
   // ── Nav ───────────────────────────────────────────────────────────────────
   nav: {
-    link: "text-sm font-medium text-zinc-400 transition-colors hover:text-zinc-200",
-    linkActive: "text-sm font-medium text-white",
+    link: "text-sm font-medium text-secondary transition-colors hover:text-heading hover:bg-surface px-3 py-1.5 rounded-lg",
+    linkActive: "text-sm font-medium text-heading bg-surface px-3 py-1.5 rounded-lg",
     dropdown:
-      "absolute z-50 mt-2 rounded-lg border border-zinc-800 bg-zinc-950 py-1 shadow-xl",
+      "absolute z-50 mt-1.5 rounded-xl border border-border bg-card shadow-lg",
     dropdownItem:
-      "flex items-center justify-between px-4 py-2 text-sm text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white",
+      "flex items-center justify-between px-4 py-2 text-sm text-foreground transition-colors hover:bg-surface hover:text-heading",
   },
 } as const;
 

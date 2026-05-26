@@ -73,39 +73,45 @@ const tools = [
 
 export default function ToolsPage() {
   return (
-    <div className="flex flex-1 flex-col items-center px-6 py-20">
+    <div className="flex flex-1 flex-col items-center bg-background px-6 py-20">
       <div className="w-full max-w-4xl">
-        <h1 className="text-3xl font-bold tracking-tight text-white text-center">
-          Conversion Tools
-        </h1>
-        <p className="mt-3 text-center text-zinc-500">
-          Pick a tool below to convert your files online — free and instant.
-        </p>
+        <div className="text-center">
+          <p className="text-xs font-semibold uppercase tracking-widest text-muted">All Tools</p>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-heading">
+            Conversion Tools
+          </h1>
+          <p className="mt-3 text-secondary">
+            Pick a tool below to convert your files online — free and instant.
+          </p>
+        </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {tools.map((tool) => (
             <Link
               key={tool.title}
               href={tool.href}
-              className={`group relative rounded-xl border p-6 transition-all duration-200 ${tool.active
-                ? "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
-                : "border-white/5 bg-transparent hover:border-white/8 hover:bg-white/[0.02]"
-                }`}
+              className={`group relative rounded-xl border p-6 transition-all duration-200 ${
+                tool.active
+                  ? "border-border bg-card hover:border-border-hover hover:shadow-sm"
+                  : "border-border-2 bg-surface opacity-75"
+              }`}
             >
               {!tool.active && (
-                <span className="absolute top-3 right-3 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+                <span className="absolute top-3 right-3 rounded-full border border-border-2 bg-surface px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-muted">
                   Soon
                 </span>
               )}
               <h2
-                className={`text-base font-semibold ${tool.active ? "text-white" : "text-zinc-600"
-                  }`}
+                className={`text-base font-semibold ${
+                  tool.active ? "text-heading" : "text-muted"
+                }`}
               >
                 {tool.title}
               </h2>
               <p
-                className={`mt-2 text-sm ${tool.active ? "text-zinc-500" : "text-zinc-700"
-                  }`}
+                className={`mt-2 text-sm ${
+                  tool.active ? "text-secondary" : "text-muted"
+                }`}
               >
                 {tool.description}
               </p>
