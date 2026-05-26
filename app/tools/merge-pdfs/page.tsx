@@ -272,13 +272,14 @@ export default function MergePdfsPage() {
       <div className="w-full max-w-2xl text-center">
 
         {/* Badge */}
-        <div className="inline-flex items-center rounded-full border border-emerald-800 bg-emerald-950 px-3 py-1 text-xs font-medium text-emerald-400 mb-4">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent mb-5">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           Free &middot; No sign-up required
         </div>
 
-        <h1 className="text-3xl font-bold tracking-tight text-white">Merge PDFs</h1>
-        <p className="mt-3 text-zinc-400">
-          Upload multiple PDFs, drag to arrange them in order, then combine into one file.
+        <h1 className="text-4xl font-bold tracking-tight text-white">Merge PDFs</h1>
+        <p className="mt-3 text-[15px] text-zinc-500 max-w-sm mx-auto leading-relaxed">
+          Upload multiple PDFs, drag to arrange, then combine into one file.
         </p>
 
         {/* Drop zone */}
@@ -289,30 +290,35 @@ export default function MergePdfsPage() {
             onDragLeave={handleDropzoneDrag}
             onDrop={handleDropzoneDrop}
             onClick={() => inputRef.current?.click()}
-            className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-12 transition-colors ${
+            className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 py-14 transition-all duration-200 ${
               dropzoneActive
-                ? "border-zinc-400 bg-zinc-800/60"
-                : "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/40"
+                ? "border-accent/50 bg-accent/5"
+                : "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
             }`}
           >
-            <div className="mb-4 flex items-end justify-center gap-1.5">
-              {["−6deg", "−2deg", "0deg"].map((rot, i) => (
+            <div className="mb-5 flex items-end justify-center gap-2">
+              {["-6deg", "-2deg", "0deg"].map((rot, i) => (
                 <div
                   key={i}
-                  className="flex h-10 w-8 items-center justify-center rounded border border-zinc-700 bg-zinc-800"
-                  style={{ transform: `rotate(${rot})`, opacity: i === 2 ? 1 : i === 1 ? 0.6 : 0.35 }}
+                  className="flex h-11 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5"
+                  style={{ transform: `rotate(${rot})`, opacity: i === 2 ? 1 : i === 1 ? 0.55 : 0.25 }}
                 >
-                  <svg className="h-4 w-4 text-red-400" fill="currentColor" viewBox="0 0 24 24">
+                  <svg
+                    className="h-4 w-4"
+                    style={{ color: i === 2 ? "var(--accent)" : undefined }}
+                    fill="currentColor"
+                    viewBox="0 0 24 24"
+                  >
                     <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z" />
                   </svg>
                 </div>
               ))}
             </div>
             <p className="text-sm text-zinc-400">
-              <span className="font-medium text-zinc-200">Click to upload</span> or drag and drop
+              <span className="font-semibold text-white">Click to upload</span> or drag and drop
             </p>
-            <p className="mt-1 text-xs text-zinc-500">
-              PDF files only &middot; up to {MAX_FILES} files &middot; 20 MB combined
+            <p className="mt-1.5 text-xs text-zinc-600">
+              PDF only &middot; max {MAX_FILES} files &middot; 20 MB combined
             </p>
             <input
               ref={inputRef}
@@ -327,26 +333,26 @@ export default function MergePdfsPage() {
 
         {/* Tile grid */}
         {pdfs.length > 0 && (
-          <div className="mt-6 text-left">
+          <div className="mt-8 text-left">
             {/* Header */}
             <div className="flex items-center justify-between mb-4">
-              <span className="text-sm text-zinc-400">
-                <span className="font-medium text-zinc-200">{pdfs.length}</span>{" "}
+              <span className="text-sm text-zinc-500">
+                <span className="font-semibold text-white">{pdfs.length}</span>{" "}
                 PDF{pdfs.length !== 1 ? "s" : ""}{" "}
-                <span className="text-zinc-600">&middot;</span>{" "}
-                <span className={totalBytes > MAX_BYTES ? "text-red-400 font-medium" : "text-zinc-500"}>
+                <span className="text-zinc-700">&middot;</span>{" "}
+                <span className={totalBytes > MAX_BYTES ? "text-red-400 font-medium" : "text-zinc-600"}>
                   {formatSize(totalBytes)} / 20 MB
                 </span>
               </span>
               <button
                 onClick={clearAll}
-                className="text-xs text-zinc-500 transition-colors hover:text-zinc-300"
+                className="text-xs text-zinc-600 transition-colors hover:text-zinc-300"
               >
                 Clear all
               </button>
             </div>
 
-            {/* Grid of tiles */}
+            {/* Grid */}
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 gap-3">
               {pdfs.map((entry, index) => (
                 <div
@@ -356,32 +362,40 @@ export default function MergePdfsPage() {
                   onDragOver={(e) => handleItemDragOver(e, index)}
                   onDrop={(e) => handleItemDrop(e, index)}
                   onDragEnd={handleItemDragEnd}
-                  className={`group relative flex flex-col rounded-xl border cursor-grab active:cursor-grabbing transition-all ${
+                  className={`group relative flex flex-col rounded-xl border cursor-grab active:cursor-grabbing transition-all duration-150 ${
                     dragOverIndex === index && dragSrcIndex !== index
-                      ? "border-zinc-300 bg-zinc-800/80 scale-105"
+                      ? "scale-[1.04] shadow-lg"
                       : dragSrcIndex === index
-                      ? "border-zinc-600 bg-zinc-800/30 opacity-40 scale-95"
-                      : "border-zinc-800 bg-zinc-900/60 hover:border-zinc-600 hover:bg-zinc-800/50"
+                      ? "border-white/5 opacity-35 scale-95"
+                      : "border-white/8 bg-white/[0.03] hover:border-white/15 hover:bg-white/[0.05] hover:scale-[1.02]"
                   }`}
+                  style={
+                    dragOverIndex === index && dragSrcIndex !== index
+                      ? { borderColor: "var(--accent)", boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 15%, transparent)" }
+                      : undefined
+                  }
                 >
-                  {/* Order badge */}
-                  <span className="absolute top-1.5 left-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-md bg-zinc-950/80 text-[10px] font-bold text-zinc-300 tabular-nums backdrop-blur-sm">
+                  {/* Order badge — accent color */}
+                  <span
+                    className="absolute top-1.5 left-1.5 z-10 flex h-[18px] min-w-[18px] px-1 items-center justify-center rounded text-[9px] font-bold tabular-nums backdrop-blur-sm"
+                    style={{ background: "var(--accent)", color: "var(--accent-fg)" }}
+                  >
                     {index + 1}
                   </span>
 
-                  {/* Remove button */}
+                  {/* Remove */}
                   <button
                     onClick={(e) => { e.stopPropagation(); removePdf(entry.id); }}
                     title="Remove"
-                    className="absolute top-1.5 right-1.5 z-10 flex h-5 w-5 items-center justify-center rounded-md bg-zinc-950/80 text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 hover:text-red-400 backdrop-blur-sm"
+                    className="absolute top-1.5 right-1.5 z-10 flex h-[18px] w-[18px] items-center justify-center rounded bg-zinc-900/80 text-zinc-500 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-red-500/20 hover:text-red-400 backdrop-blur-sm"
                   >
-                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+                    <svg className="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
                     </svg>
                   </button>
 
-                  {/* Thumbnail area */}
-                  <div className="relative w-full rounded-t-xl overflow-hidden bg-zinc-800" style={{ aspectRatio: "3/4" }}>
+                  {/* Thumbnail */}
+                  <div className="relative w-full rounded-t-xl overflow-hidden bg-zinc-900" style={{ aspectRatio: "3/4" }}>
                     {entry.thumbnail ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img
@@ -392,7 +406,7 @@ export default function MergePdfsPage() {
                       />
                     ) : (
                       <div className="flex h-full w-full items-center justify-center">
-                        <svg className="h-8 w-8 text-red-500/50 animate-pulse" fill="currentColor" viewBox="0 0 24 24">
+                        <svg className="h-7 w-7 animate-pulse" style={{ color: "color-mix(in srgb, var(--accent) 35%, transparent)" }} fill="currentColor" viewBox="0 0 24 24">
                           <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5z" />
                         </svg>
                       </div>
@@ -400,7 +414,7 @@ export default function MergePdfsPage() {
                   </div>
 
                   {/* Info strip */}
-                  <div className="px-2 py-2">
+                  <div className="px-2 pt-1.5 pb-2">
                     <p className="text-[11px] font-medium text-zinc-300 truncate leading-tight">{entry.file.name}</p>
                     <p className="mt-0.5 text-[10px] text-zinc-600 tabular-nums">
                       {entry.pageCount !== null
@@ -411,14 +425,22 @@ export default function MergePdfsPage() {
                 </div>
               ))}
 
-              {/* "Add more" tile */}
+              {/* Add more tile */}
               {pdfs.length < MAX_FILES && (
                 <button
                   onClick={() => inputRef.current?.click()}
-                  className="flex flex-col items-center justify-center rounded-xl border-2 border-dashed border-zinc-700 text-zinc-600 transition-colors hover:border-zinc-500 hover:text-zinc-400"
+                  className="flex flex-col items-center justify-center rounded-xl border border-dashed border-white/8 text-zinc-700 transition-all hover:text-zinc-400"
                   style={{ aspectRatio: "3/4" }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "color-mix(in srgb, var(--accent) 35%, transparent)";
+                    e.currentTarget.style.color = "color-mix(in srgb, var(--accent) 70%, transparent)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.borderColor = "";
+                    e.currentTarget.style.color = "";
+                  }}
                 >
-                  <svg className="h-6 w-6 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="h-5 w-5 mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
                   </svg>
                   <span className="text-[11px]">Add PDF</span>
@@ -430,7 +452,7 @@ export default function MergePdfsPage() {
 
         {/* Hint */}
         {pdfs.length === 1 && mergeState !== "done" && (
-          <p className="mt-3 text-xs text-zinc-500 text-center">
+          <p className="mt-3 text-xs text-zinc-600 text-center">
             Add at least one more PDF to enable merging.
           </p>
         )}
@@ -441,7 +463,12 @@ export default function MergePdfsPage() {
             <a
               href={downloadUrl}
               download="merged.pdf"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-emerald-500/20 px-6 py-3.5 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-500/40 transition-colors hover:bg-emerald-500/30 active:bg-emerald-500/40"
+              className="flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all"
+              style={{
+                background: "color-mix(in srgb, var(--accent) 12%, transparent)",
+                color: "var(--accent)",
+                boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent)",
+              }}
             >
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
@@ -450,7 +477,7 @@ export default function MergePdfsPage() {
             </a>
             <button
               onClick={clearAll}
-              className="w-full rounded-xl border border-zinc-700 bg-zinc-900 px-6 py-3 text-sm font-medium text-zinc-400 transition-colors hover:bg-zinc-800 hover:text-zinc-200"
+              className="w-full rounded-xl border border-white/8 px-6 py-3 text-sm font-medium text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300"
             >
               Merge more PDFs
             </button>
@@ -458,7 +485,12 @@ export default function MergePdfsPage() {
         ) : pdfs.length === 0 ? (
           <button
             onClick={() => inputRef.current?.click()}
-            className="mt-10 w-full rounded-xl bg-white px-6 py-3.5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+            className="mt-10 w-full rounded-xl px-6 py-3.5 text-sm font-semibold transition-all"
+            style={{
+              background: "var(--accent)",
+              color: "var(--accent-fg)",
+              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+            }}
           >
             Upload PDFs
           </button>
@@ -467,13 +499,15 @@ export default function MergePdfsPage() {
             <button
               disabled={!canMerge}
               onClick={handleMerge}
-              className={`relative flex-1 overflow-hidden rounded-xl px-6 py-3.5 text-sm font-semibold transition-all ${
-                mergeState === "merging"
-                  ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-                  : !canMerge
-                  ? "cursor-not-allowed bg-zinc-800 text-zinc-600"
-                  : "bg-white text-zinc-900 hover:bg-zinc-200 active:bg-zinc-300"
-              }`}
+              className="relative flex-1 overflow-hidden rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed"
+              style={canMerge ? {
+                background: "var(--accent)",
+                color: "var(--accent-fg)",
+                boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+              } : {
+                background: "rgba(255,255,255,0.05)",
+                color: "rgba(255,255,255,0.25)",
+              }}
             >
               <span className="flex items-center justify-center gap-2">
                 {mergeState === "merging" && (
@@ -488,7 +522,7 @@ export default function MergePdfsPage() {
             <button
               disabled={mergeState === "merging"}
               onClick={clearAll}
-              className="flex-1 rounded-xl border border-zinc-700 bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 rounded-xl border border-white/8 px-6 py-3.5 text-sm font-semibold text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Clear All
             </button>
@@ -497,12 +531,13 @@ export default function MergePdfsPage() {
 
         {/* Error */}
         {mergeState === "error" && errorMessage && (
-          <div className="mt-4 rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-3 text-left">
+          <div className="mt-4 rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3 text-left">
             <p className="text-sm text-red-400">{errorMessage}</p>
             {signupUrl && (
               <a
                 href={signupUrl}
-                className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-emerald-400 underline hover:text-emerald-300"
+                className="mt-2 inline-flex items-center gap-1 text-xs font-medium hover:opacity-80"
+                style={{ color: "var(--accent)" }}
               >
                 Sign up for more conversions
                 <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -70,7 +70,7 @@ export const metadata: Metadata = {
   },
   // icons intentionally omitted — App Router auto-generates from app/favicon.ico,
   // app/icon.png, app/icon.svg, app/apple-icon.png convention files
-  themeColor: "#09090b",
+  themeColor: "#0b0a09",
   robots: {
     index: true,
     follow: true,
@@ -87,7 +87,7 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col bg-zinc-950 text-zinc-50">
+      <body className="min-h-full flex flex-col bg-background text-zinc-50">
         <a href="#main" className="sr-only focus:not-sr-only focus:absolute focus:top-0 focus:left-0 bg-white text-black p-2 z-50">Skip to main content</a>
           <StoreProvider>
             <Navbar />

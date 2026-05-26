@@ -193,13 +193,14 @@ export default function ImageToPdfPage() {
   return (
     <div className="flex flex-1 flex-col min-h-screen items-center justify-center px-6 py-20">
       <div className="w-full max-w-xl text-center">
-        <div className="inline-flex items-center rounded-full border border-emerald-800 bg-emerald-950 px-3 py-1 text-xs font-medium text-emerald-400 mb-4">
+        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent mb-4">
+          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
           Free &middot; No sign-up required
         </div>
         <h1 className="text-center text-3xl font-bold tracking-tight text-white">
           Images to PDF
         </h1>
-        <p className="mt-3 text-center text-zinc-400">
+        <p className="mt-3 text-center text-zinc-500">
           Upload multiple images, reorder and rotate them, then convert to a
           single PDF.
         </p>
@@ -211,10 +212,10 @@ export default function ImageToPdfPage() {
           onDragLeave={handleDrag}
           onDrop={handleDrop}
           onClick={() => inputRef.current?.click()}
-          className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed px-6 py-16 transition-colors ${
+          className={`mt-10 flex cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 py-16 transition-all duration-200 ${
             dragActive
-              ? "border-zinc-400 bg-zinc-800/60"
-              : "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/40"
+              ? "border-accent/50 bg-accent/5"
+              : "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
           }`}
         >
           <svg
@@ -231,10 +232,10 @@ export default function ImageToPdfPage() {
             />
           </svg>
           <p className="text-sm text-zinc-400">
-            <span className="font-medium text-zinc-200">Click to upload</span>{" "}
+            <span className="font-semibold text-white">Click to upload</span>{" "}
             or drag and drop
           </p>
-          <p className="mt-1 text-xs text-zinc-500">
+          <p className="mt-1.5 text-xs text-zinc-600">
             JPG, PNG, WebP — multiple files supported
           </p>
           <input
@@ -284,7 +285,7 @@ export default function ImageToPdfPage() {
               </button>
             </div>
 
-            <div className="border border-zinc-800 rounded-lg p-2">
+            <div className="border border-white/8 rounded-xl p-2">
               <div
                 className="grid transition-[grid-template-rows,opacity] duration-300 ease-out"
                 style={{
@@ -301,7 +302,7 @@ export default function ImageToPdfPage() {
                 <button
                   type="button"
                   onClick={() => setCollapsed(false)}
-                  className="group flex w-full items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/50 p-2 text-left transition-colors hover:bg-zinc-800/30"
+                  className="group flex w-full items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] p-2 text-left transition-colors hover:border-white/15 hover:bg-white/[0.04]"
                 >
                   <div className="flex-shrink-0 w-12 h-12 relative">
                     {images[2] && (
@@ -310,7 +311,7 @@ export default function ImageToPdfPage() {
                         src={images[2].previewUrl}
                         alt=""
                         aria-hidden
-                        className="absolute inset-0 h-full w-full rounded-md border border-zinc-700 bg-zinc-800 object-cover shadow-sm"
+                        className="absolute inset-0 h-full w-full rounded-md border border-white/10 bg-zinc-800 object-cover shadow-sm"
                         style={{
                           transform: `translate(-6px, -4px) rotate(10deg)`,
                         }}
@@ -322,13 +323,13 @@ export default function ImageToPdfPage() {
                         src={images[1].previewUrl}
                         alt=""
                         aria-hidden
-                        className="absolute inset-0 h-full w-full rounded-md border border-zinc-700 bg-zinc-800 object-cover shadow-sm"
+                        className="absolute inset-0 h-full w-full rounded-md border border-white/10 bg-zinc-800 object-cover shadow-sm"
                         style={{
                           transform: `translate(-3px, -2px) rotate(5deg)`,
                         }}
                       />
                     )}
-                    <div className="relative h-full w-full rounded-md overflow-hidden border border-zinc-700 bg-zinc-800 shadow-md">
+                    <div className="relative h-full w-full rounded-md overflow-hidden border border-white/10 bg-zinc-800 shadow-md">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         src={images[0].previewUrl}
@@ -392,10 +393,10 @@ export default function ImageToPdfPage() {
                   onDragOver={(e) => handleItemDragOver(e, index)}
                   onDrop={(e) => handleItemDrop(e, index)}
                   onDragEnd={handleItemDragEnd}
-                  className={`group flex items-center gap-3 rounded-lg border p-2 transition-colors ${
+                  className={`group flex items-center gap-3 rounded-xl border p-2 transition-colors ${
                     dragOverIndex === index && dragSrcIndex !== index
-                      ? "border-zinc-400 bg-zinc-800/50"
-                      : "border-zinc-800 bg-zinc-900/50 hover:bg-zinc-800/30"
+                      ? "border-accent/40 bg-accent/5"
+                      : "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
                   }`}
                   style={{ listStyle: "none" }}
                 >
@@ -407,7 +408,7 @@ export default function ImageToPdfPage() {
                   </div>
 
                   {/* Thumbnail */}
-                  <div className="flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border border-zinc-700 bg-zinc-800">
+                  <div className="flex-shrink-0 w-12 h-12 rounded-md overflow-hidden border border-white/10 bg-zinc-800">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={img.previewUrl}
@@ -488,7 +489,7 @@ export default function ImageToPdfPage() {
             {/* Add more button */}
             <button
               onClick={() => inputRef.current?.click()}
-              className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-dashed border-zinc-700 py-3 text-sm text-zinc-500 transition-colors hover:border-zinc-500 hover:text-zinc-300"
+              className="mt-3 w-full flex items-center justify-center gap-2 rounded-xl border border-dashed border-white/8 py-3 text-sm text-zinc-600 transition-colors hover:border-white/15 hover:text-zinc-300"
             >
               <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
@@ -503,7 +504,12 @@ export default function ImageToPdfPage() {
           <a
             href={downloadUrl}
             download="images.pdf"
-            className="mt-6 flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-500/20 px-6 py-3.5 text-sm font-semibold text-emerald-400 ring-1 ring-emerald-500/40 transition-colors hover:bg-emerald-500/30 active:bg-emerald-500/40"
+            className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all"
+            style={{
+              background: "color-mix(in srgb, var(--accent) 12%, transparent)",
+              color: "var(--accent)",
+              boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent)",
+            }}
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
@@ -513,7 +519,12 @@ export default function ImageToPdfPage() {
         ) : !images.length ? (
           <button
             onClick={() => inputRef.current?.click()}
-            className="relative mt-6 w-full overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all bg-white text-zinc-900 hover:bg-zinc-200"
+            className="mt-10 w-full rounded-xl px-6 py-3.5 text-sm font-semibold transition-all"
+            style={{
+              background: "var(--accent)",
+              color: "var(--accent-fg)",
+              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+            }}
           >
             Upload Images
           </button>
@@ -522,11 +533,15 @@ export default function ImageToPdfPage() {
             <button
               disabled={convertState === "converting"}
               onClick={handleConvert}
-              className={`relative flex-1 overflow-hidden rounded-lg px-6 py-3.5 text-sm font-semibold transition-all ${
-                convertState === "converting"
-                  ? "cursor-not-allowed bg-zinc-800 text-zinc-500"
-                  : "bg-white text-zinc-900 hover:bg-zinc-200"
-              }`}
+              className="relative flex-1 overflow-hidden rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed"
+              style={convertState === "converting" ? {
+                background: "rgba(255,255,255,0.05)",
+                color: "rgba(255,255,255,0.25)",
+              } : {
+                background: "var(--accent)",
+                color: "var(--accent-fg)",
+                boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+              }}
             >
               <span className="relative z-10 flex items-center justify-center gap-2">
                 {convertState === "converting" && (
@@ -543,7 +558,7 @@ export default function ImageToPdfPage() {
             <button
               disabled={convertState === "converting"}
               onClick={clearAll}
-              className="flex-1 rounded-lg border border-zinc-700 bg-zinc-900 px-6 py-3.5 text-sm font-semibold text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex-1 rounded-xl border border-white/8 px-6 py-3.5 text-sm font-semibold text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300 disabled:cursor-not-allowed disabled:opacity-40"
             >
               Clear Selection
             </button>
@@ -552,7 +567,9 @@ export default function ImageToPdfPage() {
 
         {/* Error */}
         {convertState === "error" && errorMessage && (
-          <p className="mt-3 text-sm text-red-400">{errorMessage}</p>
+          <div className="mt-4 rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3 text-left">
+            <p className="text-sm text-red-400">{errorMessage}</p>
+          </div>
         )}
       </div>
     </div>

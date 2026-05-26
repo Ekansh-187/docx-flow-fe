@@ -17,7 +17,7 @@ const columns = [
       { title: "All Tools", href: "/tools" },
       { title: "DOCX to PDF", href: "/tools/docx-to-pdf" },
       { title: "Image to PDF", href: "/tools/image-to-pdf" },
-      {title: "Compress File", href: "/tools/compress"},
+      { title: "Compress File", href: "/tools/compress" },
     ],
   },
   {
@@ -38,7 +38,7 @@ export default function Footer() {
           {/* Brand */}
           <div className="max-md:col-span-2">
             <p className="mb-2 flex items-center gap-2 text-lg font-semibold tracking-tight text-zinc-50">
-              <span className="inline-block h-2 w-2 rounded-full bg-blue-500" />
+              <span className="inline-block h-2 w-2 rounded-full bg-accent" />
               iLoveDox
             </p>
             <p className="font-mono text-xs leading-relaxed text-zinc-500">

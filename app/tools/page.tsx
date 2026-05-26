@@ -78,7 +78,7 @@ export default function ToolsPage() {
         <h1 className="text-3xl font-bold tracking-tight text-white text-center">
           Conversion Tools
         </h1>
-        <p className="mt-3 text-center text-zinc-400">
+        <p className="mt-3 text-center text-zinc-500">
           Pick a tool below to convert your files online — free and instant.
         </p>
 
@@ -87,24 +87,24 @@ export default function ToolsPage() {
             <Link
               key={tool.title}
               href={tool.href}
-              className={`group relative rounded-xl border p-6 transition-colors ${tool.active
-                ? "border-zinc-700 bg-zinc-900 hover:border-zinc-500 hover:bg-zinc-800/60"
-                : "border-zinc-800 bg-zinc-900/50 hover:border-zinc-700 hover:bg-zinc-800/40"
+              className={`group relative rounded-xl border p-6 transition-all duration-200 ${tool.active
+                ? "border-white/8 bg-white/[0.02] hover:border-white/15 hover:bg-white/[0.04]"
+                : "border-white/5 bg-transparent hover:border-white/8 hover:bg-white/[0.02]"
                 }`}
             >
               {!tool.active && (
-                <span className="absolute top-3 right-3 rounded-full bg-zinc-800 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
+                <span className="absolute top-3 right-3 rounded bg-zinc-800 px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wider text-zinc-500">
                   Soon
                 </span>
               )}
               <h2
-                className={`text-lg font-semibold ${tool.active ? "text-white" : "text-zinc-500"
+                className={`text-base font-semibold ${tool.active ? "text-white" : "text-zinc-600"
                   }`}
               >
                 {tool.title}
               </h2>
               <p
-                className={`mt-2 text-sm ${tool.active ? "text-zinc-400" : "text-zinc-600"
+                className={`mt-2 text-sm ${tool.active ? "text-zinc-500" : "text-zinc-700"
                   }`}
               >
                 {tool.description}

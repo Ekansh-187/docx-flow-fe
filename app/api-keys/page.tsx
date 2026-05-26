@@ -41,7 +41,7 @@ function ScopeDropdown({
       <button
         type="button"
         onClick={() => setOpen((o) => !o)}
-        className="flex w-full items-center justify-between rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-left transition-colors focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500 hover:border-zinc-600"
+        className="flex w-full items-center justify-between rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2 text-sm text-left transition-colors focus:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/10 hover:border-white/15"
       >
         <span className={selected.length === 0 ? "text-zinc-500" : "text-white"}>{label}</span>
         <svg
@@ -53,7 +53,7 @@ function ScopeDropdown({
       </button>
 
       {open && (
-        <div className="absolute z-10 mt-1 w-full rounded-lg border border-zinc-700 bg-zinc-800 shadow-xl overflow-hidden">
+        <div className="absolute z-10 mt-1 w-full rounded-xl border border-white/10 bg-zinc-950 shadow-xl overflow-hidden">
           <ul className="max-h-48 overflow-y-auto py-1">
             {scopes.map((scope) => {
               const checked = selected.includes(scope);
@@ -62,7 +62,7 @@ function ScopeDropdown({
                   <button
                     type="button"
                     onClick={() => onToggle(scope)}
-                    className="flex w-full items-center px-3 py-2 text-sm transition-colors hover:bg-zinc-700"
+                    className="flex w-full items-center px-3 py-2 text-sm transition-colors hover:bg-white/[0.06]"
                   >
                     <span className={`flex-1 text-left ${checked ? "text-white" : "text-zinc-300"}`}>{scope.name}</span>
                     <span className="w-5 flex-shrink-0 flex justify-end">
@@ -78,7 +78,7 @@ function ScopeDropdown({
             })}
           </ul>
           {selected.length > 0 && (
-            <div className="border-t border-zinc-700 px-3 py-2">
+            <div className="border-t border-white/8 px-3 py-2">
               <button
                 type="button"
                 onClick={() => selected.forEach(onToggle)}
@@ -96,7 +96,7 @@ function ScopeDropdown({
           {selected.map((s) => (
             <span
               key={s.scope}
-              className="inline-flex items-center gap-1 rounded-full border border-zinc-600 bg-zinc-700 px-2 py-0.5 text-xs text-zinc-200"
+              className="inline-flex items-center gap-1 rounded-full border border-white/10 bg-white/[0.06] px-2 py-0.5 text-xs text-zinc-200"
             >
               {s.name}
               <button
@@ -132,7 +132,7 @@ function Modal({ onClose, children }: { onClose: () => void; children: React.Rea
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm px-4"
       onClick={(e) => { if (e.target === overlayRef.current) onClose(); }}
     >
-      <div className="w-full max-w-md rounded-2xl border border-zinc-700 bg-zinc-900 shadow-2xl">
+      <div className="w-full max-w-md rounded-2xl border border-white/10 bg-zinc-950 shadow-2xl">
         {children}
       </div>
     </div>
@@ -225,30 +225,32 @@ export default function ApiKeysPage() {
     <div className="flex flex-1 flex-col items-center px-6 py-20">
       <div className="w-full max-w-3xl">
         <h1 className="text-3xl font-bold tracking-tight text-white">API Keys</h1>
-        <p className="mt-3 text-zinc-400">Manage your API keys for document conversion.</p>
+        <p className="mt-3 text-zinc-500">Manage your API keys for document conversion.</p>
 
         {/* Create Token Section */}
-        <div className="mt-10 rounded-xl border border-zinc-800 bg-zinc-900 p-6">
+        <div className="mt-10 rounded-xl border border-white/8 bg-white/[0.03] p-6">
           <h2 className="text-lg font-semibold text-white">Create API Key</h2>
-          <p className="mt-2 text-sm text-zinc-400">
+          <p className="mt-2 text-sm text-zinc-500">
             Generate a new API key for the Free Tier plan. Currently there are no usage limits.
           </p>
 
-          <div className="mt-4 inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300">
+          <div className="mt-4 inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" />
             Free Tier — Unlimited
           </div>
 
           <div className="mt-6">
             <button
               onClick={openModal}
-              className="rounded-lg bg-white px-5 py-2.5 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 focus:outline-none focus:ring-2 focus:ring-white"
+              className="rounded-xl px-5 py-2.5 text-sm font-semibold transition-all focus:outline-none"
+              style={{ background: "var(--accent)", color: "var(--accent-fg)", boxShadow: "0 4px 16px color-mix(in srgb, var(--accent) 20%, transparent)" }}
             >
               Generate API Key
             </button>
           </div>
 
           {createdToken && (
-            <div className="mt-4 rounded-lg border border-emerald-800 bg-emerald-950 p-4">
+            <div className="mt-4 rounded-xl border border-emerald-800/40 bg-emerald-950/30 p-4">
               <p className="text-sm font-medium text-emerald-400">
                 API key created! Copy it now — it won&apos;t be shown again.
               </p>
@@ -295,7 +297,7 @@ export default function ApiKeysPage() {
               {tokens.map((token) => (
                 <div
                   key={token.token_id}
-                  className="flex items-center justify-between rounded-lg border border-zinc-800 bg-zinc-900 px-5 py-4"
+                  className="flex items-center justify-between rounded-xl border border-white/8 bg-white/[0.02] px-5 py-4"
                 >
                   <div className="min-w-0">
                     <div className="flex items-center gap-3">
@@ -324,7 +326,7 @@ export default function ApiKeysPage() {
       {/* Modal */}
       {showModal && (
         <Modal onClose={closeModal}>
-          <div className="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
+          <div className="flex items-center justify-between border-b border-white/8 px-6 py-4">
             <h3 className="text-base font-semibold text-white">New API Key</h3>
             <button
               onClick={closeModal}
@@ -348,7 +350,7 @@ export default function ApiKeysPage() {
                 value={keyName}
                 onChange={(e) => setKeyName(e.target.value)}
                 placeholder="e.g. Production Key"
-                className="w-full rounded-lg border border-zinc-700 bg-zinc-800 px-3 py-2 text-sm text-white placeholder-zinc-500 transition-colors focus:border-zinc-500 focus:outline-none focus:ring-1 focus:ring-zinc-500"
+                className="w-full rounded-xl border border-white/8 bg-white/[0.03] px-3 py-2 text-sm text-white placeholder-zinc-600 transition-colors focus:border-white/20 focus:outline-none focus:ring-1 focus:ring-white/10"
               />
             </div>
 
@@ -378,17 +380,18 @@ export default function ApiKeysPage() {
             )}
           </div>
 
-          <div className="flex justify-end gap-3 border-t border-zinc-800 px-6 py-4">
+          <div className="flex justify-end gap-3 border-t border-white/8 px-6 py-4">
             <button
               onClick={closeModal}
-              className="rounded-lg border border-zinc-700 bg-transparent px-4 py-2 text-sm font-medium text-zinc-300 transition-colors hover:bg-zinc-800 hover:text-white focus:outline-none"
+              className="rounded-xl border border-white/8 bg-transparent px-4 py-2 text-sm font-medium text-zinc-400 transition-colors hover:border-white/15 hover:text-zinc-200 focus:outline-none"
             >
               Cancel
             </button>
             <button
               onClick={handleSubmit}
               disabled={isCreating}
-              className="rounded-lg bg-white px-5 py-2 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-white"
+              className="rounded-xl px-5 py-2 text-sm font-semibold transition-all disabled:opacity-50 focus:outline-none"
+              style={{ background: "var(--accent)", color: "var(--accent-fg)" }}
             >
               {isCreating ? "Creating…" : "Create Key"}
             </button>

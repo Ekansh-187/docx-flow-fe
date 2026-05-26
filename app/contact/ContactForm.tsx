@@ -17,6 +17,9 @@ const initialForm: ContactFormState = {
   message: "",
 };
 
+const inputClass =
+  "mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-4 py-2.5 text-sm text-white placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10";
+
 export default function ContactForm() {
   const [form, setForm] = useState<ContactFormState>(initialForm);
   const [sendContactQuery, { isLoading, isSuccess, isError, reset }] =
@@ -50,9 +53,9 @@ export default function ContactForm() {
 
   if (isSuccess) {
     return (
-      <div className="rounded-xl border border-emerald-800 bg-emerald-950/40 p-8 text-center">
+      <div className="rounded-xl border border-white/8 bg-white/[0.02] p-8 text-center">
         <svg
-          className="mx-auto h-10 w-10 text-emerald-400"
+          className="mx-auto h-10 w-10 text-accent"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -65,13 +68,14 @@ export default function ContactForm() {
           />
         </svg>
         <h2 className="mt-4 text-lg font-semibold text-white">Message Sent!</h2>
-        <p className="mt-2 text-sm text-zinc-400">
+        <p className="mt-2 text-sm text-zinc-500">
           Thanks for reaching out. We&apos;ll get back to you within 24 hours.
         </p>
         <button
           type="button"
           onClick={handleReset}
-          className="mt-6 rounded-lg bg-indigo-500 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400"
+          className="mt-6 rounded-xl px-5 py-2.5 text-sm font-semibold transition-all"
+          style={{ background: "var(--accent)", color: "var(--accent-fg)" }}
         >
           Send Another Message
         </button>
@@ -82,7 +86,7 @@ export default function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="space-y-6 rounded-xl border border-zinc-800 bg-zinc-900 p-8"
+      className="space-y-6 rounded-xl border border-white/8 bg-white/[0.02] p-8"
     >
       <div>
         <label className="block text-sm font-medium text-zinc-300">Name</label>
@@ -92,7 +96,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Your name"
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+          className={inputClass}
         />
       </div>
 
@@ -105,7 +109,7 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="you@example.com"
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+          className={inputClass}
         />
       </div>
 
@@ -118,7 +122,7 @@ export default function ContactForm() {
           value={form.subject}
           onChange={handleChange}
           required
-          className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+          className={inputClass}
         >
           <option value="" disabled>
             Select a topic
@@ -143,20 +147,25 @@ export default function ContactForm() {
           onChange={handleChange}
           required
           placeholder="Tell us what's on your mind…"
-          className="mt-1.5 w-full resize-none rounded-lg border border-zinc-700 bg-zinc-800 px-4 py-2.5 text-sm text-white outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500"
+          className={`${inputClass} resize-none`}
         />
       </div>
 
       {isError && (
-        <p className="text-sm text-red-400">
-          Something went wrong. Please try again.
-        </p>
+        <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
+          <p className="text-sm text-red-400">Something went wrong. Please try again.</p>
+        </div>
       )}
 
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full rounded-lg bg-indigo-500 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 disabled:opacity-50"
+        className="w-full rounded-xl px-4 py-2.5 text-sm font-semibold transition-all disabled:opacity-50"
+        style={{
+          background: "var(--accent)",
+          color: "var(--accent-fg)",
+          boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+        }}
       >
         {isLoading ? "Sending…" : "Send Message"}
       </button>

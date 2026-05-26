@@ -92,7 +92,7 @@ export default function SignInPage() {
         <h1 className="text-2xl font-bold tracking-tight text-white text-center">
           {mode === "signin" ? "Sign in to ILoveDox" : "Create an account"}
         </h1>
-        <p className="mt-2 text-center text-sm text-zinc-400">
+        <p className="mt-2 text-center text-sm text-zinc-500">
           {mode === "signin"
             ? "Enter your credentials to access your API keys."
             : "Sign up to get your free API key."}
@@ -115,7 +115,7 @@ export default function SignInPage() {
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
                   placeholder="Jane Doe"
                 />
               </div>
@@ -132,7 +132,7 @@ export default function SignInPage() {
                   autoComplete="organization"
                   value={organizationName}
                   onChange={(e) => setOrganizationName(e.target.value)}
-                  className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+                  className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
                   placeholder="Acme Inc."
                 />
               </div>
@@ -153,7 +153,7 @@ export default function SignInPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+              className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
               placeholder="you@example.com"
             />
           </div>
@@ -173,19 +173,26 @@ export default function SignInPage() {
               minLength={8}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1.5 w-full rounded-lg border border-zinc-700 bg-zinc-900 px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-500 outline-none transition-colors focus:border-zinc-500 focus:ring-1 focus:ring-zinc-500"
+              className="mt-1.5 w-full rounded-xl border border-white/8 bg-white/[0.03] px-3.5 py-2.5 text-sm text-zinc-100 placeholder-zinc-600 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
               placeholder="••••••••"
             />
           </div>
 
           {error && (
-            <p className="text-sm text-red-400">{error}</p>
+            <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
+              <p className="text-sm text-red-400">{error}</p>
+            </div>
           )}
 
           <button
             type="submit"
             disabled={isSigningUp || isLoggingIn}
-            className="mt-2 w-full rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            className="mt-2 w-full rounded-xl px-6 py-3 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            style={{
+              background: "var(--accent)",
+              color: "var(--accent-fg)",
+              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+            }}
           >
             {isSigningUp
               ? "Creating account…"
@@ -228,7 +235,7 @@ export default function SignInPage() {
 
       {showOtpDialog && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
-          <div className="w-full max-w-sm rounded-xl border border-zinc-700 bg-zinc-900 p-6 shadow-2xl">
+          <div className="w-full max-w-sm rounded-2xl border border-white/10 bg-zinc-950 p-6 shadow-2xl">
             <h2 className="text-lg font-semibold text-white text-center">
               Verify your email
             </h2>
@@ -279,20 +286,27 @@ export default function SignInPage() {
                         const focusIdx = Math.min(pasted.length, 5);
                         otpRefs.current[focusIdx]?.focus();
                       }}
-                      className="w-11 h-13 rounded-lg border border-zinc-700 bg-zinc-800 text-center text-xl font-semibold text-zinc-100 outline-none transition-colors focus:border-zinc-400 focus:ring-1 focus:ring-zinc-400"
+                      className="w-11 h-13 rounded-xl border border-white/8 bg-white/[0.03] text-center text-xl font-semibold text-zinc-100 outline-none transition-colors focus:border-white/20 focus:ring-1 focus:ring-white/10"
                     />
                   ))}
                 </div>
               </div>
 
               {otpError && (
-                <p className="text-sm text-red-400">{otpError}</p>
+                <div className="rounded-xl border border-red-500/15 bg-red-500/5 px-4 py-3">
+                  <p className="text-sm text-red-400">{otpError}</p>
+                </div>
               )}
 
               <button
                 type="submit"
                 disabled={isVerifying || otp.length !== 6}
-                className="w-full rounded-lg bg-white px-6 py-3 text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full rounded-xl px-6 py-3 text-sm font-semibold transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                style={{
+                  background: "var(--accent)",
+                  color: "var(--accent-fg)",
+                  boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+                }}
               >
                 {isVerifying ? "Verifying…" : "Verify & Continue"}
               </button>
@@ -300,7 +314,7 @@ export default function SignInPage() {
               <button
                 type="button"
                 onClick={() => setShowOtpDialog(false)}
-                className="w-full rounded-lg border border-zinc-700 px-6 py-2.5 text-sm text-zinc-400 transition-colors hover:border-zinc-500 hover:text-zinc-200"
+                className="w-full rounded-xl border border-white/8 px-6 py-2.5 text-sm text-zinc-500 transition-colors hover:border-white/15 hover:text-zinc-300"
               >
                 Cancel
               </button>

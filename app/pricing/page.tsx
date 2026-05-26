@@ -24,7 +24,7 @@ function CheckIcon() {
 
 function PlanCardSkeleton() {
   return (
-    <div className="mx-auto mt-12 max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-8 animate-pulse">
+    <div className="mx-auto mt-12 max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-8 animate-pulse">
       {/* Badge */}
       <div className="h-6 w-28 rounded-full bg-zinc-800" />
 
@@ -116,8 +116,9 @@ function PlanCard({ plan }: { plan: IPlanResponse }) {
   ];
 
   return (
-    <div className="mx-auto mt-12 max-w-md rounded-xl border border-zinc-800 bg-zinc-900 p-8">
-      <div className="inline-flex items-center rounded-full border border-zinc-700 bg-zinc-800 px-3 py-1 text-xs font-medium text-zinc-300">
+    <div className="mx-auto mt-12 max-w-md rounded-xl border border-white/8 bg-white/[0.03] p-8">
+      <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/25 bg-accent/8 px-3 py-1 text-xs font-medium text-accent">
+        <span className="h-1.5 w-1.5 rounded-full bg-accent" />
         Current Plan
       </div>
 
@@ -145,7 +146,12 @@ function PlanCard({ plan }: { plan: IPlanResponse }) {
 
       <Link
         href="/api-keys"
-        className="mt-8 block w-full rounded-lg bg-white px-6 py-3 text-center text-sm font-semibold text-zinc-900 transition-colors hover:bg-zinc-200"
+        className="mt-8 block w-full rounded-xl px-6 py-3 text-center text-sm font-semibold transition-all"
+        style={{
+          background: "var(--accent)",
+          color: "var(--accent-fg)",
+          boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
+        }}
       >
         Get Started — It&apos;s Free
       </Link>
@@ -163,7 +169,7 @@ export default function PricingPage() {
         <h1 className="text-3xl font-bold tracking-tight text-white">
           API Pricing
         </h1>
-        <p className="mt-3 text-zinc-400">
+        <p className="mt-3 text-zinc-500">
           Integrate document conversion into your apps with our API.
         </p>
 

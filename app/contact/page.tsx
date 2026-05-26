@@ -121,7 +121,7 @@ export default function ContactPage() {
         <h1 className="text-4xl font-bold tracking-tight text-white">
           Contact Us
         </h1>
-        <p className="mt-4 text-lg text-zinc-400 max-w-2xl mx-auto">
+        <p className="mt-4 text-lg text-zinc-500 max-w-2xl mx-auto">
           Have a question, found a bug, or want to explore what DocxFlow can do
           for your team? We&apos;re a small team and we read every message.
         </p>
@@ -132,21 +132,21 @@ export default function ContactPage() {
         {contactReasons.map((item) => (
           <div
             key={item.title}
-            className="flex gap-4 rounded-xl border border-zinc-800 bg-zinc-900/50 p-5"
+            className="flex gap-4 rounded-xl border border-white/8 bg-white/[0.02] p-5"
           >
-            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-zinc-700 bg-zinc-800">
+            <div className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.03]">
               {item.icon}
             </div>
             <div>
               <p className="text-sm font-semibold text-white">{item.title}</p>
-              <p className="mt-1 text-sm text-zinc-400">{item.description}</p>
+              <p className="mt-1 text-sm text-zinc-500">{item.description}</p>
             </div>
           </div>
         ))}
       </div>
 
       {/* Response time callout */}
-      <div className="mt-8 flex items-center gap-3 rounded-lg border border-zinc-800 bg-zinc-900/30 px-5 py-4">
+      <div className="mt-8 flex items-center gap-3 rounded-xl border border-white/8 bg-white/[0.02] px-5 py-4">
         <svg
           className="h-4 w-4 shrink-0 text-emerald-400"
           fill="currentColor"
@@ -187,13 +187,13 @@ export default function ContactPage() {
                 <p className="text-sm font-semibold text-white">
                   {faq.question}
                 </p>
-                <p className="mt-1.5 text-sm text-zinc-400">{faq.answer}</p>
+                <p className="mt-1.5 text-sm text-zinc-500">{faq.answer}</p>
               </div>
             ))}
           </div>
 
           {/* Direct email */}
-          <div className="mt-10 rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+          <div className="mt-10 rounded-xl border border-white/8 bg-white/[0.02] p-6">
             <p className="text-sm font-semibold text-white">
               Prefer email directly?
             </p>
@@ -210,7 +210,7 @@ export default function ContactPage() {
           </div>
 
           {/* Docs link */}
-          <div className="mt-4 rounded-xl border border-zinc-800 bg-zinc-900/50 p-6">
+          <div className="mt-4 rounded-xl border border-white/8 bg-white/[0.02] p-6">
             <p className="text-sm font-semibold text-white">
               Looking for docs or API reference?
             </p>

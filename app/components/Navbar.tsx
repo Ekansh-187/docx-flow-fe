@@ -52,14 +52,13 @@ export default function Navbar() {
   };
 
   const linkClass = (href: string) =>
-    `text-sm font-medium transition-colors ${
-      pathname === href || pathname.startsWith(href + "/")
-        ? "text-white"
-        : "text-zinc-400 hover:text-zinc-200"
+    `text-sm font-medium transition-colors ${pathname === href || pathname.startsWith(href + "/")
+      ? "text-white"
+      : "text-zinc-400 hover:text-zinc-200"
     }`;
 
   return (
-    <nav className="border-b border-zinc-800 bg-zinc-950">
+    <nav className="border-b bg-background" style={{ borderColor: "var(--border-soft)" }}>
       <div className="flex h-16 items-center justify-between px-6 md:flex">
         {/* Mobile: 3-column layout */}
         <div className="flex items-center md:hidden">
@@ -80,7 +79,7 @@ export default function Navbar() {
           </button>
         </div>
 
-        <Link href="/" className="text-lg font-semibold tracking-tight text-white focus:outline-none focus:ring-2 focus:ring-white md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
+        <Link href="/" className="text-lg font-semibold tracking-tight text-white md:flex-none absolute left-1/2 -translate-x-1/2 md:static md:translate-x-0">
           iLoveDox
         </Link>
 
@@ -137,11 +136,10 @@ export default function Navbar() {
           <div ref={toolsRef} className="relative">
             <button
               onClick={() => setToolsOpen((prev) => !prev)}
-              className={`flex items-center gap-1 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${
-                pathname.startsWith("/tools")
-                  ? "text-white"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }`}
+              className={`flex items-center gap-1 text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${pathname.startsWith("/tools")
+                ? "text-white"
+                : "text-zinc-400 hover:text-zinc-200"
+                }`}
             >
               Tools
               <svg className={`h-3.5 w-3.5 transition-transform ${toolsOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -155,11 +153,10 @@ export default function Navbar() {
                     key={tool.title}
                     href={tool.href}
                     onClick={() => setToolsOpen(false)}
-                    className={`flex items-center justify-between px-4 py-2 text-sm transition-colors ${
-                      tool.active
-                        ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
-                        : "text-zinc-600 hover:bg-zinc-800/50 hover:text-zinc-500"
-                    }`}
+                    className={`flex items-center justify-between px-4 py-2 text-sm transition-colors ${tool.active
+                      ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                      : "text-zinc-600 hover:bg-zinc-800/50 hover:text-zinc-500"
+                      }`}
                   >
                     {tool.title}
                     {!tool.active && (
@@ -215,7 +212,7 @@ export default function Navbar() {
           ) : (
             <Link
               href="/signin"
-              className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-indigo-400 focus:outline-none focus:ring-2 focus:ring-indigo-400"
+              className="rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-accent-fg transition-colors hover:bg-accent-hover focus:outline-none focus:ring-2 focus:ring-indigo-400"
             >
               Sign In
             </Link>
@@ -233,11 +230,10 @@ export default function Navbar() {
           <div>
             <button
               onClick={() => setMobileToolsOpen((prev) => !prev)}
-              className={`flex w-full items-center justify-between text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${
-                pathname.startsWith("/tools")
-                  ? "text-white"
-                  : "text-zinc-400 hover:text-zinc-200"
-              }`}
+              className={`flex w-full items-center justify-between text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-white ${pathname.startsWith("/tools")
+                ? "text-white"
+                : "text-zinc-400 hover:text-zinc-200"
+                }`}
             >
               Tools
               <svg className={`h-3.5 w-3.5 transition-transform ${mobileToolsOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -251,11 +247,10 @@ export default function Navbar() {
                     key={tool.title}
                     href={tool.href}
                     onClick={() => { setMenuOpen(false); setMobileToolsOpen(false); }}
-                    className={`flex items-center justify-between rounded px-3 py-1.5 text-sm transition-colors ${
-                      tool.active
-                        ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
-                        : "text-zinc-600 hover:bg-zinc-800/50 hover:text-zinc-500"
-                    }`}
+                    className={`flex items-center justify-between rounded px-3 py-1.5 text-sm transition-colors ${tool.active
+                      ? "text-zinc-300 hover:bg-zinc-800 hover:text-white"
+                      : "text-zinc-600 hover:bg-zinc-800/50 hover:text-zinc-500"
+                      }`}
                   >
                     {tool.title}
                     {!tool.active && (
