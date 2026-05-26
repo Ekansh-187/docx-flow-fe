@@ -37,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.85,
     },
     {
+      url: `${baseUrl}/tools/merge-pdfs`,
+      lastModified,
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/tools/image-to-pdf`,
       lastModified,
       changeFrequency: "monthly",

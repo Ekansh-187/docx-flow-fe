@@ -9,6 +9,7 @@ const tools = [
   { title: "DOCX to PDF", href: "/tools/docx-to-pdf", active: true },
   { title: "Image to PDF", href: "/tools/image-to-pdf", active: true },
   { title: "Compress File", href: "/tools/compress", active: true },
+  { title: "Merge PDFs", href: "/tools/merge-pdfs", active: true },
   { title: "PDF to DOCX", href: "/tools/coming-soon", active: false },
   { title: "PDF to JPG", href: "/tools/coming-soon", active: false },
   { title: "Excel to PDF", href: "/tools/coming-soon", active: false },

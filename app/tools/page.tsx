@@ -33,6 +33,12 @@ const tools = [
     href: "/tools/compress",
     active: true,
   },
+  {
+    title: "Merge PDFs",
+    description: "Combine multiple PDF files into a single document.",
+    href: "/tools/merge-pdfs",
+    active: true,
+  },
   // {
   //   title: "PNG to PDF",
   //   description: "Convert PNG images to PDF documents.",
