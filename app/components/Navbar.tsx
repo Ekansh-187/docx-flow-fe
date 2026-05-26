@@ -70,7 +70,7 @@ export default function Navbar() {
   return (
     <nav className="bg-card border-b border-border sticky top-0 z-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6">
-        <div className="flex h-14 items-center justify-between">
+        <div className="relative flex h-14 items-center justify-between">
           {/* Mobile: hamburger on left */}
           <div className="flex items-center md:hidden">
             <button
@@ -100,7 +100,7 @@ export default function Navbar() {
           </Link>
 
           {/* Desktop center nav */}
-          <div className="hidden items-center gap-0.5 md:flex">
+          <div className="hidden items-center gap-0.5 md:flex md:absolute md:left-1/2 md:-translate-x-1/2">
             <Link href="/" className={navLinkClass("/")}>Home</Link>
             <Link href="/docs" className={navLinkClass("/docs")}>Docs</Link>
             <Link href="/pricing" className={navLinkClass("/pricing")}>Pricing</Link>
