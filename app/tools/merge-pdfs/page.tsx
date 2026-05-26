@@ -42,9 +42,7 @@ async function renderThumbnail(file: File): Promise<{ thumbnail: string; pageCou
   const canvas = document.createElement("canvas");
   canvas.width = Math.floor(scaled.width);
   canvas.height = Math.floor(scaled.height);
-  const ctx = canvas.getContext("2d")!;
-
-  await page.render({ canvasContext: ctx, viewport: scaled }).promise;
+  await page.render({ canvas, viewport: scaled }).promise;
   return { thumbnail: canvas.toDataURL("image/jpeg", 0.85), pageCount: pdf.numPages };
 }
 
