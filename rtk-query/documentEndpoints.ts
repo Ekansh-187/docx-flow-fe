@@ -65,6 +65,17 @@ const documentApi = iLoveDoxApiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Document"],
     }),
+
+    mergePdfs: builder.mutation<Blob, FormData>({
+      query: (body) => ({
+        url: "web/merge-pdfs",
+        method: "POST",
+        body,
+        responseHandler: async (response) =>
+          response.ok ? response.blob() : response.json().catch(() => response.text()),
+      }),
+      invalidatesTags: ["Document"],
+    }),
   }),
 });
 
@@ -77,4 +88,5 @@ export const {
   useDeleteDocumentMutation,
   useConvertImagesToPdfMutation,
   useCompressFileMutation,
+  useMergePdfsMutation,
 } = documentApi;

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect, DragEvent } from "react";
+import { useMergePdfsMutation } from "@/rtk-query/documentEndpoints";
 
 type MergeState = "idle" | "merging" | "done" | "error";
 
@@ -56,6 +57,7 @@ function makeEntry(file: File): PdfEntry {
 }
 
 export default function MergePdfsPage() {
+  const [mergePdfs] = useMergePdfsMutation();
   const [pdfs, setPdfs] = useState<PdfEntry[]>([]);
   const [mergeState, setMergeState] = useState<MergeState>("idle");
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
@@ -214,54 +216,40 @@ export default function MergePdfsPage() {
       const formData = new FormData();
       pdfs.forEach((e) => formData.append("files", e.file));
 
-      const apiBaseUrl = process.env.NEXT_PUBLIC_DOCX_CONVERTOR_BASE_URL ?? "";
-      const res = await fetch(`${apiBaseUrl}/web/merge-pdfs`, {
-        method: "POST",
-        body: formData,
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        let detail: string | undefined;
-        let su: string | undefined;
-        let code: string | undefined;
-        try {
-          const json = await res.json();
-          if (typeof json.detail === "string") detail = json.detail;
-          else if (json.detail && typeof json.detail === "object") {
-            detail = json.detail.message;
-            su = json.detail.signup_url;
-            code = json.detail.code;
-          }
-        } catch { /* non-JSON body */ }
-
-        if (res.status === 503) {
-          const after = res.headers.get("Retry-After");
-          setMergeState("error");
-          setErrorMessage(after ? `Server busy. Retry in ${after}s.` : "Server busy. Please try again.");
-        } else if (res.status === 413 || code === "file_too_large") {
-          setMergeState("error");
-          setErrorMessage("Combined file size exceeds 20 MB. Sign up for a higher limit.");
-          if (su) setSignupUrl(su);
-        } else if (res.status === 429 || code === "rate_limited") {
-          setMergeState("error");
-          setErrorMessage("Rate limit reached on free tier.");
-          if (su) setSignupUrl(su);
-        } else {
-          setMergeState("error");
-          setErrorMessage(detail ?? "Merge failed. Please try again.");
-        }
-        return;
-      }
-
-      const blob = await res.blob();
+      const blob = await mergePdfs(formData).unwrap();
       setDownloadUrl(URL.createObjectURL(blob));
       setMergeState("done");
-    } catch {
+    } catch (err: unknown) {
+      const rtkErr = err as { status?: number; data?: { detail?: string | { message?: string; signup_url?: string; code?: string } } };
+      const status = rtkErr?.status;
+      const detail = rtkErr?.data?.detail;
+
+      let message: string | undefined;
+      let su: string | undefined;
+      let code: string | undefined;
+
+      if (typeof detail === "string") {
+        message = detail;
+      } else if (detail && typeof detail === "object") {
+        message = detail.message;
+        su = detail.signup_url;
+        code = detail.code;
+      }
+
+      if (status === 503) {
+        setErrorMessage("Server busy. Please try again.");
+      } else if (status === 413 || code === "file_too_large") {
+        setErrorMessage("Combined file size exceeds 20 MB. Sign up for a higher limit.");
+        if (su) setSignupUrl(su);
+      } else if (status === 429 || code === "rate_limited") {
+        setErrorMessage("Rate limit reached on free tier.");
+        if (su) setSignupUrl(su);
+      } else {
+        setErrorMessage(message ?? "Merge failed. Please try again.");
+      }
       setMergeState("error");
-      setErrorMessage("Network error. Check your connection and try again.");
     }
-  }, [pdfs, mergeState, downloadUrl, totalBytes]);
+  }, [pdfs, mergeState, downloadUrl, totalBytes, mergePdfs]);
 
   const canMerge = pdfs.length >= 2 && mergeState !== "merging";
 
