@@ -1,345 +1,108 @@
-"use client";
+import CompressWidget from "./CompressWidget";
 
-import { useState, useRef, useCallback } from "react";
-import { useCompressFileMutation } from "@/rtk-query";
-import { ICompressionStats } from "@/interfaces/document";
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name: "File Compressor — Compress Images, PDF & DOCX",
+    applicationCategory: "WebApplication",
+    operatingSystem: "Any",
+    url: "https://www.ilovedox.com/tools/compress",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    description:
+      "Compress images, PDFs, or DOCX files online for free. Choose low, medium, or high compression. No sign-up required.",
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Compress a File Online",
+    step: [
+      { "@type": "HowToStep", name: "Upload", text: "Click or drag your image (JPG, PNG, WebP, GIF, BMP, TIFF), PDF, or DOCX file into the upload area." },
+      { "@type": "HowToStep", name: "Choose level", text: "Select a compression level: Low for maximum size reduction, Medium for balanced output, or High to preserve the most quality." },
+      { "@type": "HowToStep", name: "Download", text: "Click Compress File and download your smaller file instantly." },
+    ],
+  },
+];
 
-type ConvertState = "idle" | "compressing" | "done" | "error";
-type CompressionLevel = "low" | "medium" | "high";
+const steps = [
+  { title: "Upload your file", desc: "Drop in an image (JPG, PNG, WebP, GIF, BMP, TIFF), a PDF, or a DOCX document." },
+  { title: "Choose compression level", desc: "Low gives the smallest file. Medium balances size and quality. High preserves the most detail." },
+  { title: "Download compressed file", desc: "See exactly how many bytes were saved, then download the compressed result." },
+];
 
-const ACCEPTED_MIMES = [
-  "image/jpeg",
-  "image/jpg",
-  "image/png",
-  "image/webp",
-  "image/gif",
-  "image/bmp",
-  "image/tiff",
-  "image/tif",
-  "application/pdf",
+const features = [
+  { title: "Multiple file types", desc: "Compress JPG, PNG, WebP, GIF, BMP, TIFF images as well as PDF and DOCX documents." },
+  { title: "Three compression levels", desc: "Low, medium, and high — pick the balance between file size and visual quality that fits your needs." },
+  { title: "Instant results with stats", desc: "See the exact size reduction percentage and bytes saved right after compression." },
+  { title: "Free, no account needed", desc: "Compress files at no cost without creating an account or sharing personal information." },
+];
+
+const faqs = [
+  { q: "What file types can I compress?", a: "Images: JPG, PNG, WebP, GIF, BMP, and TIFF. Documents: PDF and DOCX. More formats coming soon." },
+  { q: "Will compression reduce quality?", a: "It depends on the level. Low compression maximizes size reduction at the cost of some quality. High compression keeps the best quality with minimal size reduction. Medium is the balanced default." },
+  { q: "Is there a file size limit?", a: "Free tier supports files up to 10 MB. Sign up for higher limits." },
+  { q: "Is it free to use?", a: "Yes, completely free with no sign-up required. Powered by the ILoveDox API." },
 ];
 
 export default function CompressPage() {
-  const [file, setFile] = useState<File | null>(null);
-  const [dragActive, setDragActive] = useState(false);
-  const [state, setState] = useState<ConvertState>("idle");
-  const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [compressionLevel, setCompressionLevel] = useState<CompressionLevel>("medium");
-  const [stats, setStats] = useState<ICompressionStats | null>(null);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const [compressFile] = useCompressFileMutation();
-
-  function getFileType(file: File) {
-    if (file.type.startsWith("image/")) {
-      return "image";
-    }
-
-    if (file.type === "application/pdf" || /\.pdf$/i.test(file.name)) {
-      return "pdf";
-    }
-
-    if (/\.docx?$/i.test(file.name) || file.type === "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
-      return "docx";
-    }
-
-    return "unsupported";
-  }
-
-  function isAllowed(f: File) {
-    return getFileType(f) !== "unsupported";
-  }
-
-  function handleDrag(e: React.DragEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    if (e.type === "dragenter" || e.type === "dragover") setDragActive(true);
-    else if (e.type === "dragleave") setDragActive(false);
-  }
-
-  function handleDrop(e: React.DragEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-    setDragActive(false);
-    const dropped = e.dataTransfer.files?.[0];
-    if (!dropped) {
-      return;
-    }
-
-    if (isAllowed(dropped)) {
-      setFile(dropped);
-      setState("idle");
-      setErrorMessage(null);
-    } else {
-      setErrorMessage(
-        "Unsupported file type. Upload a JPG, PNG, WebP, GIF, BMP, TIFF, PDF, or DOCX file."
-      );
-    }
-  }
-
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const selected = e.target.files?.[0];
-    if (!selected) {
-      return;
-    }
-
-    if (isAllowed(selected)) {
-      setFile(selected);
-      setState("idle");
-      setErrorMessage(null);
-    } else {
-      setErrorMessage(
-        "Unsupported file type. Upload a JPG, PNG, WebP, GIF, BMP, TIFF, PDF, or DOCX file."
-      );
-    }
-  }
-
-  function formatSize(bytes: number) {
-    if (bytes < 1024) return bytes + " B";
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
-  }
-
-  function removeFile() {
-    if (downloadUrl) URL.revokeObjectURL(downloadUrl);
-    setDownloadUrl(null);
-    setFile(null);
-    setState("idle");
-    setErrorMessage(null);
-    setStats(null);
-    if (inputRef.current) inputRef.current.value = "";
-  }
-
-  const handleCompress = useCallback(async () => {
-    if (!file || state === "compressing") return;
-    setState("compressing");
-    setErrorMessage(null);
-
-    try {
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("file_type", getFileType(file));
-      formData.append("quality", compressionLevel);
-
-      const { blob, statsHeader } = await compressFile(formData).unwrap();
-
-      if (statsHeader) {
-        setStats(JSON.parse(statsHeader));
-      }
-
-      const url = URL.createObjectURL(blob);
-      setDownloadUrl(url);
-      setState("done");
-    } catch (e) {
-      setState("error");
-      setErrorMessage("Compression failed. Please try again.");
-    }
-  }, [file, state, compressionLevel, compressFile]);
-
   return (
-    <div className="flex flex-1 min-h-screen flex-col items-center justify-center px-6 py-20 relative">
-      {/* Main Content */}
-      <div className="w-full max-w-xl text-center">
-        <div className="inline-flex items-center gap-1.5 rounded-full border border-accent-border bg-accent-soft px-3 py-1 text-xs font-medium text-accent mb-4">
-          <span className="h-1.5 w-1.5 rounded-full bg-accent" />
-          Free &middot; No sign-up required
-        </div>
-        <h1 className="text-3xl font-bold tracking-tight text-heading">Compress File</h1>
-        <p className="mt-3 text-muted">
-          Upload an image, PDF, or DOCX file to reduce its size while keeping quality.
-        </p>
-
-        <div
-          onDragEnter={handleDrag}
-          onDragOver={handleDrag}
-          onDragLeave={handleDrag}
-          onDrop={handleDrop}
-          onClick={() => inputRef.current?.click()}
-          className={`mt-10 cursor-pointer flex-col items-center justify-center rounded-2xl border border-dashed px-6 py-16 transition-all duration-200 ${
-            file ? "hidden" : "flex"
-          } ${
-            dragActive
-              ? "border-accent-border bg-accent-soft"
-              : "border-border bg-surface hover:border-border-hover hover:bg-card"
-          }`}
-        >
-          <svg
-            className="mb-4 h-10 w-10 text-muted"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={1.5}
-              d="M12 16V4m0 0l-4 4m4-4l4 4M4 20h16"
-            />
-          </svg>
-          <p className="text-sm text-secondary">
-            <span className="font-semibold text-heading">Click to upload</span> or drag and drop
-          </p>
-          <p className="mt-1.5 text-xs text-muted">Images, PDF, or DOCX</p>
-          <input
-            ref={inputRef}
-            type="file"
-            accept=".pdf,.docx,image/jpeg,image/jpg,image/png,image/webp,image/gif,image/bmp,image/tiff,image/tif"
-            className="hidden"
-            onChange={handleChange}
-          />
-        </div>
-
-        {file && (
-          <div className="mt-6 flex items-center justify-between rounded-xl border border-border bg-surface px-5 py-4">
-            <div className="flex items-center gap-3 text-left">
-              <svg
-                className="h-8 w-8 shrink-0 text-muted"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={1.5}
-                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
-                />
-              </svg>
-              <div>
-                <p className="text-sm font-medium text-foreground truncate max-w-[260px]">{file.name}</p>
-                <p className="text-xs text-muted">{formatSize(file.size)}</p>
-              </div>
-            </div>
-            <button
-              onClick={removeFile}
-              className="ml-4 text-muted hover:text-foreground transition-colors"
-            >
-              <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-          </div>
-        )}
-
-        {/* Inline compression controls */}
-        {file && state !== "done" && (
-          <div className="mt-6 text-left">
-            <p className="text-xs text-muted font-medium uppercase tracking-wide mb-3">Compression Level</p>
-            <div className="space-y-2">
-              {(['low', 'medium', 'high'] as const).map((level) => (
-                <button
-                  key={level}
-                  onClick={() => setCompressionLevel(level)}
-                  className={`w-full px-4 py-3 rounded-xl border transition-all text-sm font-medium capitalize ${
-                    compressionLevel === level
-                      ? "border-accent-border bg-accent-soft text-accent"
-                      : "border-border bg-surface text-foreground hover:border-border-hover hover:bg-card"
-                  }`}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <CompressWidget />
+      <div className="w-full max-w-2xl mx-auto px-6 pb-24 space-y-20">
+        <section aria-labelledby="how-it-works-heading">
+          <h2 id="how-it-works-heading" className="text-lg font-bold text-heading text-center mb-8">
+            How it works
+          </h2>
+          <ol className="space-y-5">
+            {steps.map((step, i) => (
+              <li key={i} className="flex gap-4 items-start">
+                <span
+                  className="flex-shrink-0 flex h-8 w-8 items-center justify-center rounded-full text-sm font-bold"
+                  style={{ background: "var(--accent)", color: "var(--accent-fg)" }}
                 >
-                  <div className="flex items-center justify-between">
-                    <span>{level}</span>
-                    {level === 'low' && <span className="text-xs text-muted">Smallest</span>}
-                    {level === 'medium' && <span className="text-xs text-muted">Balanced</span>}
-                    {level === 'high' && <span className="text-xs text-muted">Best Quality</span>}
-                  </div>
-                </button>
-              ))}
-            </div>
-            <p className="text-xs text-muted mt-2">
-              {compressionLevel === 'low' && 'Maximum size reduction, lower quality'}
-              {compressionLevel === 'medium' && 'Balanced compression and quality'}
-              {compressionLevel === 'high' && 'Minimal size reduction, maximum quality'}
-            </p>
-
-            <div className="mt-6 flex gap-3">
-              <button
-                disabled={state === "compressing"}
-                onClick={handleCompress}
-                className="relative flex-1 overflow-hidden rounded-xl px-6 py-3.5 text-sm font-semibold transition-all disabled:cursor-not-allowed"
-                style={state === "compressing" ? {
-                  background: "rgba(255,255,255,0.05)",
-                  color: "rgba(255,255,255,0.25)",
-                } : {
-                  background: "var(--accent)",
-                  color: "var(--accent-fg)",
-                  boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
-                }}
-              >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  {state === "compressing" && (
-                    <svg className="h-4 w-4 animate-spin" viewBox="0 0 24 24" fill="none">
-                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z" />
-                    </svg>
-                  )}
-                  {state === "idle" && "Compress File"}
-                  {state === "compressing" && "Compressing…"}
-                  {state === "error" && "Retry Compression"}
+                  {i + 1}
                 </span>
-              </button>
-              <button
-                disabled={state === "compressing"}
-                onClick={removeFile}
-                className="flex-1 rounded-xl border border-border px-6 py-3.5 text-sm font-semibold text-muted transition-colors hover:border-border-hover hover:text-foreground disabled:cursor-not-allowed disabled:opacity-40"
-              >
-                Clear Selection
-              </button>
-            </div>
-          </div>
-        )}
-
-        {state === "done" && downloadUrl && file ? (
-          <div className="mt-6 space-y-3">
-            {stats && (
-              <div className="rounded-xl border border-border bg-surface p-4">
-                <div className="space-y-2 text-left">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-secondary">Size Reduction</span>
-                    <span className="text-lg font-bold text-accent">{stats.space_saved_percent.toFixed(2)}%</span>
-                  </div>
-                  <div className="flex items-center justify-between text-xs text-muted">
-                    <span>{formatSize(stats.original_size_bytes)} → {formatSize(stats.compressed_size_bytes)}</span>
-                    <span>Saved: {formatSize(stats.space_saved_bytes)}</span>
-                  </div>
+                <div>
+                  <p className="font-semibold text-heading">{step.title}</p>
+                  <p className="text-sm text-muted mt-0.5">{step.desc}</p>
                 </div>
-              </div>
-            )}
-            <a
-              href={downloadUrl}
-              download={file.name}
-              className="flex w-full items-center justify-center gap-2 rounded-xl px-6 py-3.5 text-sm font-semibold transition-all"
-              style={{
-                background: "color-mix(in srgb, var(--accent) 12%, transparent)",
-                color: "var(--accent)",
-                boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--accent) 30%, transparent)",
-              }}
-            >
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 4v12m0 0l-4-4m4 4l4-4" />
-              </svg>
-              Download File
-            </a>
-          </div>
-        ) : (
-          <button
-            onClick={() => inputRef.current?.click()}
-            className={`mt-10 w-full rounded-xl px-6 py-3.5 text-sm font-semibold transition-all ${file ? "hidden" : ""}`}
-            style={{
-              background: "var(--accent)",
-              color: "var(--accent-fg)",
-              boxShadow: "0 8px 24px color-mix(in srgb, var(--accent) 25%, transparent)",
-            }}
-          >
-            Upload File
-          </button>
-        )}
+              </li>
+            ))}
+          </ol>
+        </section>
 
-        {errorMessage && (
-          <div className="mt-4 rounded-xl border border-red-300 bg-red-50 px-4 py-3 text-left">
-            <p className="text-sm text-red-600">{errorMessage}</p>
+        <section aria-labelledby="features-heading">
+          <h2 id="features-heading" className="text-lg font-bold text-heading text-center mb-8">
+            Why ILoveDox
+          </h2>
+          <div className="grid sm:grid-cols-2 gap-4">
+            {features.map((f, i) => (
+              <div key={i} className="rounded-xl border border-border bg-surface p-5">
+                <p className="font-semibold text-heading">{f.title}</p>
+                <p className="text-sm text-muted mt-1">{f.desc}</p>
+              </div>
+            ))}
           </div>
-        )}
+        </section>
+
+        <section aria-labelledby="faq-heading">
+          <h2 id="faq-heading" className="text-lg font-bold text-heading text-center mb-8">
+            Frequently asked questions
+          </h2>
+          <div className="space-y-4">
+            {faqs.map((faq, i) => (
+              <div key={i} className="rounded-xl border border-border bg-surface p-5">
+                <p className="font-semibold text-heading">{faq.q}</p>
+                <p className="text-sm text-muted mt-2">{faq.a}</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
-    </div>
+    </>
   );
 }

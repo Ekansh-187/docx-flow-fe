@@ -1,6 +1,19 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "Free Online Document Conversion Tools",
+  url: "https://www.ilovedox.com/tools",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "DOCX to PDF Converter", url: "https://www.ilovedox.com/tools/docx-to-pdf" },
+    { "@type": "ListItem", position: 2, name: "Image to PDF Converter", url: "https://www.ilovedox.com/tools/image-to-pdf" },
+    { "@type": "ListItem", position: 3, name: "Compress File Online", url: "https://www.ilovedox.com/tools/compress" },
+    { "@type": "ListItem", position: 4, name: "Merge PDFs Online", url: "https://www.ilovedox.com/tools/merge-pdfs" },
+  ],
+};
+
 export const metadata: Metadata = {
   title: "Free Online Document Conversion Tools | ILoveDox",
   description:
@@ -74,6 +87,10 @@ const tools = [
 export default function ToolsPage() {
   return (
     <div className="flex flex-1 flex-col items-center bg-background px-6 py-20">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <div className="w-full max-w-4xl">
         <div className="text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted">All Tools</p>
