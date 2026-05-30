@@ -118,11 +118,11 @@ export default function Home() {
               Get Free API Key
             </Link>
             <Link
-              href="/tools/docx-to-pdf"
+              href="#tools"
               role="button"
               className="rounded-xl border border-border bg-card px-6 py-3 text-sm font-semibold text-heading transition-colors hover:bg-surface hover:border-border-hover focus:outline-none"
             >
-              Try it Free Online
+              More Tools
             </Link>
           </div>
 
@@ -288,6 +288,68 @@ export default function Home() {
               <p className="text-3xl font-bold text-accent">{value}</p>
               <p className="mt-1 text-sm text-muted">{label}</p>
             </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Free Tools ── */}
+      <section id="tools" className="mx-auto w-full max-w-[1060px] px-6 py-14">
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-muted">
+          Free Online Tools
+        </p>
+        <h2 className="mt-3 text-center text-2xl font-extrabold tracking-tight text-heading">
+          No API Key Needed — Use It Right Now
+        </h2>
+        <p className="mx-auto mt-3 max-w-xl text-center text-base text-secondary">
+          Prefer a browser UI over an API? All tools are free, instant, and require no account.
+        </p>
+
+        <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {[
+            {
+              href: "/tools/docx-to-pdf",
+              icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
+              title: "DOCX to PDF",
+              desc: "Convert Word documents to PDF. Tables, fonts, and images preserved.",
+            },
+            {
+              href: "/tools/compress",
+              icon: "M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12",
+              title: "Compress File",
+              desc: "Shrink images, PDFs, or DOCX files. Choose low, medium, or high compression.",
+            },
+            {
+              href: "/tools/merge-pdfs",
+              icon: "M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z",
+              title: "Merge PDFs",
+              desc: "Combine multiple PDF files into one. Drag to reorder before merging.",
+            },
+            {
+              href: "/tools/image-to-pdf",
+              icon: "M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z",
+              title: "Image to PDF",
+              desc: "Convert JPG, PNG, or WebP images into a single PDF. Rotate and reorder freely.",
+            },
+          ].map(({ href, icon, title, desc }) => (
+            <Link
+              key={href}
+              href={href}
+              className="group flex flex-col rounded-xl border border-border bg-card p-6 transition-all hover:border-border-hover hover:shadow-sm"
+            >
+              <div className="inline-flex h-10 w-10 items-center justify-center rounded-lg bg-accent-soft">
+                <svg className="h-5 w-5 text-accent-text" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d={icon} />
+                </svg>
+              </div>
+              <h3 className="mt-4 text-sm font-semibold text-heading">{title}</h3>
+              <p className="mt-2 text-sm text-secondary flex-1">{desc}</p>
+              <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-accent group-hover:gap-2 transition-all">
+                Try free
+                <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </span>
+            </Link>
           ))}
         </div>
       </section>
